@@ -1,997 +1,1408 @@
-# BIPỌ̀N39-Rust — Agent Master Checklist & Implementation Bible
+# BIPỌ̀N39-Rust — Master Agent Checklist & Build Specification
 
-> **Àṣẹ. This document is the single source of truth for all agents, sessions, and contributors working on BIPỌ̀N39-Rust.**
->
-> If you are an agent beginning work on this repository, read this entire document before touching a single file.
-> Check off tasks as you complete them. Push this updated file with every commit so the next agent picks up exactly where you left off.
+> **READ THIS FILE IN FULL BEFORE WRITING A SINGLE LINE OF CODE.**
+> Check off every item as you complete it. Update the Session Log at the bottom before every push.
+> This document is the authoritative handoff between all agents, sessions, and platforms.
+> If something in this file conflicts with a comment in the source code, this file wins.
 
----
-
-## 0. Quick-Reference Identity Card
-
-| Field | Value |
-|---|---|
-| **Target Repo** | `https://github.com/Bino-Elgua/Bipon39-Rust` |
-| **Reference Repo (TypeScript)** | `https://github.com/Bino-Elgua/bipon39` |
-| **Language** | Rust (2021 edition) |
-| **Wordlist Authority** | Files inside `Bipon39-Rust` repo only — see Section 2 |
-| **Total Tokens** | 256 (exactly, no more, no less) |
-| **Macros (Orisha groups)** | 7 |
-| **Token Distribution** | ÈṢÙ: 88 · ṢÀNGÓ: 20 · Ọ̀ṢUN: 28 · YEMỌJA: 28 · ỌYA: 32 · ÒGÚN: 32 · ỌBÀTÁLÁ: 28 |
-| **Primary Author** | Bínò ÈL Guà (Ọmọ Kọ́dà) |
-| **Development Environment** | Termux on Android — all shell commands run manually by the author |
-| **Last Updated** | May 5, 2026 |
+**Build Target:** `https://github.com/Bino-Elgua/Bipon39-Rust`
+**Architecture Reference (code patterns only — NOT its wordlist):** `https://github.com/Bino-Elgua/bipon39`
 
 ---
 
-## 1. Foundational Laws — Read Before Anything Else
+## TABLE OF CONTENTS
 
-These laws are inviolable. No phase, no shortcut, no clever optimization overrides them. Every line of code you write must be measured against this list.
-
-### Law 1 — Wordlist is Sacred and Frozen
-The 256 tokens are defined exclusively in three files in the `Bipon39-Rust` repository:
-- `Canonical JSON` — master metadata, flat index, macro groupings, canonical ↔ encoding pairs
-- `Canonical layer` — full Yorùbá with diacritics, one token per line
-- `Encoded layer` — plain ASCII, hyphenated, lowercase, one token per line
-
-You must **never** invent, modify, reorder, add, remove, or rename any token. If you believe there is an error in the wordlist, stop and flag it to the author. Do not self-correct.
-
-### Law 2 — Perfect 1:1 Mapping at All Times
-Every canonical token has exactly one encoding counterpart, by position and by index. The `flat_index` array in `Canonical JSON` is the authoritative mapping. Index 1 is the first token; index 256 is the last. No gaps. No swaps.
-
-### Law 3 — Determinism is Non-Negotiable
-Given the same entropy bytes, the same mnemonic must always be produced, regardless of platform, OS, or time. Given the same mnemonic, the same seed must always be derived. Any function that introduces non-determinism (thread-local randomness leaking into encoding logic, platform-dependent sorting, etc.) is a bug.
-
-### Law 4 — The Reference Repo is Inspiration, Not Code
-`https://github.com/Bino-Elgua/bipon39` (TypeScript) is your architectural reference. Study its API shape (`entropyToMnemonic`, `mnemonicToEntropy`, `mnemonicToSeed`, `oduPrimaryIndex`, `elementalSignature`, `masterFromSeed`), its derivation paths, its PBKDF2 parameters, its Merkle tree strategy, and its test vector structure. **Do not copy TypeScript code into Rust.** Do not carry over its old 16-root × 16-affix wordlist structure — that was the prior version. The new wordlist is the 7-macro Orisha structure in `Bipon39-Rust`. Adapt architecture patterns; discard data.
-
-### Law 5 — Cryptographic Grade, Not Prototype Grade
-This library is the trust root for downstream systems (`Ifascript`, `Ori Kọ́dà`, `Omo-koda`). Treat it as you would a published cryptographic crate. Use `zeroize` on all secret buffers. Use constant-time comparison for secret data. Annotate all `unsafe` blocks (there should be none without ironclad justification). Document every public function with doc comments.
-
-### Law 6 — The Encoded Layer is the Cryptographic Layer
-When generating mnemonics, hashing, building Merkle trees, or deriving seeds, always operate on **encoded tokens** (plain ASCII). The canonical layer is for display, documentation, and cultural context only. Never mix them in a single cryptographic operation.
-
-### Law 7 — The Merkle Root Must Be Stable and Pinned
-After the wordlist is loaded and verified, compute a SHA-256 Merkle tree over the 256 encoded tokens in index order. The resulting root must be pinned as a constant in `constants.rs`. Any test run that produces a different root is a hard failure.
-
-### Law 8 — Update This Document With Every Commit
-When you complete a checklist item, mark it `[x]`. When you push code, update the `Last Updated` field and add a one-line entry to the Session Log (Section 10). The next agent must be able to read this file and know exactly where work stands.
+1. [Wordlist Authority — Read First](#1-wordlist-authority--read-first)
+2. [Inviolable Laws](#2-inviolable-laws)
+3. [Repository Layout](#3-repository-layout)
+4. [Cargo.toml — Locked Dependencies](#4-cargotoml--locked-dependencies)
+5. [Module Specifications](#5-module-specifications)
+   - 5.1 [error.rs](#51-errorrs)
+   - 5.2 [constants.rs](#52-constantsrs)
+   - 5.3 [wordlist.rs](#53-wordlistrs)
+   - 5.4 [crypto.rs](#54-cryptors)
+   - 5.5 [mnemonic.rs](#55-mnemonicrs)
+   - 5.6 [seed.rs](#56-seedrs)
+   - 5.7 [derivation.rs](#57-derivationrs)
+   - 5.8 [ifascript.rs](#58-ifascriptrs)
+   - 5.9 [display.rs](#59-displayrs)
+   - 5.10 [lib.rs](#510-librs)
+6. [Cryptographic Parameter Reference](#6-cryptographic-parameter-reference)
+7. [Bit-Stream Encoding — Worked Example](#7-bit-stream-encoding--worked-example)
+8. [Test Specifications](#8-test-specifications)
+9. [Pinned Test Vector Schema](#9-pinned-test-vector-schema)
+10. [Phased Build Checklist](#10-phased-build-checklist)
+11. [Acceptance Gate Criteria](#11-acceptance-gate-criteria)
+12. [What to Take from the Reference Repo](#12-what-to-take-from-the-reference-repo)
+13. [Critical Anti-Patterns](#13-critical-anti-patterns)
+14. [CI Configuration](#14-ci-configuration)
+15. [Session Log](#15-session-log)
 
 ---
 
-## 2. Wordlist Source Files — How to Read Them
+## 1. WORDLIST AUTHORITY — READ FIRST
 
-### 2.1 Canonical JSON
-**Path in repo:** `Canonical JSON` (root level, no extension)
-**URL:** `https://github.com/Bino-Elgua/Bipon39-Rust/blob/main/Canonical%20JSON`
+The wordlist lives in **three files** in the target repo. You must fetch and read all three before writing any code that touches tokens, indices, or mappings.
 
-Structure summary:
-```
-{
-  "metadata": { ... },         // name, version, total_tokens, rules
-  "macros": {
-    "ÈṢÙ": {
-      "count": 88,
-      "range": "1-88",
-      "canonical": [ ... ],    // 88 Yorùbá strings
-      "encoding": [ ... ]      // 88 ASCII strings, same order
-    },
-    // ... 6 more macros
-  },
-  "flat_index": [              // 256 objects, index 1–256
-    {
-      "index": 1,
-      "macro": "ÈṢÙ",
-      "macro_local": 1,
-      "canonical": "èṣù-elegbára",
-      "encoding": "esu-elegbara"
-    },
-    // ...
-  ]
-}
-```
+| File in repo | Local copy path | Role |
+|---|---|---|
+| `Canonical JSON` | `data/canonical.json` | Master metadata + `flat_index` array — **the single source of truth** |
+| `Canonical layer` | `data/canonical_layer.txt` | Full Yorùbá with diacritics — 256 lines — display and documentation **only** |
+| `Encoded layer` | `data/encoded_layer.txt` | Plain ASCII — 256 lines, numbered `001.`–`256.` — used for **all** cryptographic operations |
 
-**Agent instruction:** Parse this file at build time or embed the encoding layer statically. The `flat_index` array is your single source of truth for the ordered list. `index` field is 1-based. Internally, map to 0-based for array indexing (token at `flat_index[0]` has global index 1, bit value 0x00).
+The token at `flat_index[N]` in `Canonical JSON` maps to line N in both layer files. This 1:1 correspondence is **permanent and immutable**. Any divergence is a critical data integrity failure.
 
-### 2.2 Canonical Layer
-**Path:** `Canonical layer`
-**URL:** `https://github.com/Bino-Elgua/Bipon39-Rust/blob/main/Canonical%20layer`
+### 1.1 Macro Distribution — Locked
 
-Plain text file, one token per line, 256 lines total, in index order. Used for display functions and verification. Do not use these strings for any hash, Merkle, or seed derivation operation.
+| Macro | flat_index Range (1-based, inclusive) | Token Count |
+|---|---|---|
+| ÈṢÙ | 1 – 88 | 88 |
+| ṢÀNGÓ | 89 – 108 | 20 |
+| Ọ̀ṢUN | 109 – 136 | 28 |
+| YEMỌJA | 137 – 164 | 28 |
+| ỌYA | 165 – 196 | 32 |
+| ÒGÚN | 197 – 228 | 32 |
+| ỌBÀTÁLÁ | 229 – 256 | 28 |
+| **TOTAL** | | **256** |
 
-### 2.3 Encoded Layer
-**Path:** `Encoded layer`
-**URL:** `https://github.com/Bino-Elgua/Bipon39-Rust/blob/main/Encoded%20layer`
+These counts are locked. They are verified against the actual `Canonical JSON` file. Do not adjust them.
 
-Plain text file, one ASCII token per line, 256 lines total, in index order. This is the cryptographic wordlist. All mnemonic generation, parsing, Merkle computation, and PBKDF2 input use tokens from this layer only.
+### 1.2 Verified Boundary Tokens — Spot-Check Table
 
-### 2.4 Validation at Load Time
-When the library loads its wordlist (whether from embedded static data or from files at runtime), it must verify:
-1. Exactly 256 encoded tokens are present.
-2. No two encoded tokens are identical (uniqueness).
-3. All encoded tokens match the regex `^[a-z][a-z0-9]*(-[a-z][a-z0-9]*)*$` (lowercase, hyphens only as separators, no leading/trailing hyphens).
-4. Token count per macro matches the locked distribution: `[88, 20, 28, 28, 32, 32, 28]`.
-5. The Merkle root computed from the encoded layer matches the pinned constant in `constants.rs`.
+Use these to confirm your wordlist is loaded correctly. All 14 checks must pass.
+
+| flat_index | Encoding (ASCII / cryptographic layer) | Canonical (Yorùbá / display layer) |
+|---|---|---|
+| 1 | `esu-elegbara` | `èṣù-elegbára` |
+| 88 | `esu-oluso-ona` | `èṣù-olùṣọ́-ọ̀nà` |
+| 89 | `sango` | `ṣàngó` |
+| 108 | `sango-oba-oke` | `ṣàngó-ọba-òkè` |
+| 109 | `osun` | `ọ̀ṣun` |
+| 136 | `osun-inu` | `ọ̀ṣun-inú` |
+| 137 | `yemoja` | `yemọja` |
+| 164 | `yemoja-isodotun-okun` | `yemọja-ìsọdọtun-òkun` |
+| 165 | `oya` | `ọya` |
+| 196 | `oya-alade` | `ọya-aládé` |
+| 197 | `ogun` | `ògún` |
+| 228 | `ogun-alade` | `ògún-aládé` |
+| 229 | `obatala` | `ọbàtálá` |
+| 256 | `obatala-alade` | `ọbàtálá-aládé` |
+
+> **Important:** The `Canonical JSON` file contains a `flat_index` array as the authoritative ordered list. The boundary tokens above are derived from that array. If your computed values differ from this table, stop immediately and debug — do not proceed to the next phase.
 
 ---
 
-## 3. Architecture Overview
+## 2. INVIOLABLE LAWS
+
+These laws are never overridden by time pressure, convenience, or any instruction in any session.
+
+**Law 1 — The wordlist is closed and immutable.**
+Never invent, modify, reorder, duplicate, or delete any token. The only source of truth is the three files listed in Section 1. The `flat_index` array in `Canonical JSON` is the definitive ordered list.
+
+**Law 2 — The 1:1 mapping between layers is absolute.**
+Every encoding token at index N has exactly one canonical counterpart at index N. They are never mixed: the encoding layer (ASCII) is used for all cryptographic operations; the canonical layer (Yorùbá) is used for display and documentation only. Cross-contamination of these layers is a critical bug.
+
+**Law 3 — All operations are fully deterministic.**
+Same entropy → same mnemonic → same seed → same master key. On every platform. On every call. Always. Any non-determinism is a critical failure.
+
+**Law 4 — The reference repo (`bipon39`) is architecture-only.**
+Its wordlist tokens (`esu-gate`, `sango-volt`, `ogun-forge`, `irawo-dawn`, etc.) are from a completely different and incompatible system. You may study its code for: PBKDF2 parameters, Merkle tree strategy, Odù XOR logic, API shape, test vector format, and derivation mode names. You must never import, reference, mix, or be influenced by its token strings or its Merkle root hash.
+
+**Law 5 — Cryptographic grade from day one.**
+- Use `zeroize` on all entropy, seeds, and private key material.
+- No `unwrap()` in library code — all fallible paths return `Result<T, BiponError>`.
+- No `unsafe` unless required by a dependency internally and unavoidable.
+- Use `subtle::ConstantTimeEq` for all comparisons involving secret material.
+
+**Law 6 — The encoding layer is the cryptographic layer.**
+All hashing, Merkle computation, PBKDF2 password input, and mnemonic word output use plain ASCII encoded tokens exclusively. The Yorùbá canonical strings never enter a hash function.
+
+**Law 7 — Update this file before every push.**
+Every session ends with a new entry at the top of the Session Log (Section 15). The next agent reads that entry first.
+
+**Law 8 — The MERKLE_ROOT constant must be pinned in Phase 2 and never left empty after that.**
+Leaving `MERKLE_ROOT = ""` silently disables integrity verification in all subsequent builds.
+
+---
+
+## 3. REPOSITORY LAYOUT
 
 ```
 Bipon39-Rust/
-├── Cargo.toml                  # Workspace manifest
-├── Cargo.lock                  # Committed (library crate)
-├── README.md                   # User-facing documentation
-├── AGENT_CHECKLIST.md          # THIS FILE — updated per session
-├── SPEC.md                     # Technical specification (separate from checklist)
+├── Cargo.toml
+├── Cargo.lock
+├── README.md
+├── AGENT_CHECKLIST.md          ← this file (keep it in the repo, update every session)
+├── SPEC.md                     ← formal technical specification (write in Phase 7)
+├── .gitignore
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
 ├── src/
-│   ├── lib.rs                  # Crate root, public API surface
-│   ├── error.rs                # BiponError enum, thiserror-derived
-│   ├── constants.rs            # WORD_COUNT, MACRO_DISTRIBUTION, MERKLE_ROOT, PBKDF2 params
-│   ├── wordlist.rs             # WORDLIST static, WordlistEntry, macro index, load & verify
-│   ├── mnemonic.rs             # entropy_to_mnemonic, mnemonic_to_entropy, validate_mnemonic
-│   ├── crypto.rs               # sha256, pbkdf2_hmac_sha512, hmac_sha512, merkle_root, zeroize wrappers
-│   ├── seed.rs                 # mnemonic_to_seed (PBKDF2 with salt/passphrase logic)
-│   ├── derivation.rs           # master_from_seed, BIP-32 path constants
-│   ├── ifascript.rs            # macro_of_index, macro_local_index, odu_primary_index, elemental_metadata
-│   └── display.rs              # canonical_of_index, canonical_of_encoding, format helpers
+│   ├── lib.rs                  ← module declarations + complete public API re-exports
+│   ├── error.rs                ← BiponError enum (thiserror)
+│   ├── constants.rs            ← WORDLIST_SIZE, MERKLE_ROOT, PBKDF2 params, word count table
+│   ├── wordlist.rs             ← WordlistEntry, WORDLIST static, all lookup functions
+│   ├── mnemonic.rs             ← entropy_to_mnemonic, mnemonic_to_entropy, validate_mnemonic
+│   ├── crypto.rs               ← sha256, hmac_sha512, sha256_merkle_root, ct_eq
+│   ├── seed.rs                 ← mnemonic_to_seed (PBKDF2-HMAC-SHA512 + NFKD)
+│   ├── derivation.rs           ← MasterKey, master_from_seed, DerivationMode
+│   ├── ifascript.rs            ← Macro enum, odu_primary_index, macro_distribution
+│   └── display.rs              ← canonical↔encoding conversion, format helpers
+│
 ├── tests/
-│   ├── wordlist_integrity.rs   # Law 2, 4, 5, 7 — structural validation, Merkle, uniqueness
-│   ├── mnemonic_vectors.rs     # Pinned entropy → mnemonic → seed → master key round-trips
-│   ├── roundtrip.rs            # Fuzz-style round-trips across all entropy lengths
-│   └── ifascript.rs            # Macro metadata, Odù index, elemental signature tests
+│   ├── wordlist_integrity.rs
+│   ├── mnemonic_roundtrip.rs
+│   ├── mnemonic_vectors.rs
+│   ├── seed_derivation.rs
+│   ├── derivation.rs
+│   └── ifascript.rs
+│
 ├── benches/
-│   └── throughput.rs           # Criterion benchmarks for entropy→mnemonic, seed derivation
+│   └── throughput.rs
+│
 ├── data/
-│   ├── canonical.json          # Copied from repo root "Canonical JSON" — do not edit manually
-│   ├── canonical_layer.txt     # Copied from "Canonical layer" — do not edit manually
-│   └── encoded_layer.txt       # Copied from "Encoded layer" — do not edit manually
+│   ├── canonical.json          ← verbatim copy of repo's `Canonical JSON`
+│   ├── canonical_layer.txt     ← verbatim copy of repo's `Canonical layer`
+│   └── encoded_layer.txt       ← verbatim copy of repo's `Encoded layer`
+│
 └── vectors/
-    └── test_vectors.json       # Pinned test vectors (entropy hex → mnemonic → seed hex → master key hex)
+    └── test_vectors.json       ← pinned test vectors (populated in Phases 3–5)
 ```
+
+**Notes on data files:**
+- Copy the three source files verbatim — byte-for-byte. Do not strip whitespace, reformat JSON, or alter line endings.
+- `canonical.json` is embedded at compile time via `include_str!()` in `wordlist.rs`.
+- The `.txt` files are for human reference and cross-validation only; all runtime data comes from the JSON.
 
 ---
 
-## 4. Cargo.toml Specification
+## 4. CARGO.TOML — LOCKED DEPENDENCIES
 
 ```toml
 [package]
-name = "bipon39"
-version = "0.1.0"
-edition = "2021"
-authors = ["Bínò ÈL Guà <omo-koda>"]
-description = "BIPỌ̀N39 — Orisha-rooted Base-256 mnemonic standard for the Ọmọ Kọ́dà sovereign agent ecosystem"
-license = "MIT"
-repository = "https://github.com/Bino-Elgua/Bipon39-Rust"
-keywords = ["mnemonic", "bip39", "crypto", "yoruba", "orisha"]
-categories = ["cryptography", "encoding"]
+name        = "bipon39"
+version     = "0.1.0"
+edition     = "2021"
+description = "BIPỌ̀N39 — Sovereign Base-256 mnemonic library for the Ọmọ Kọ́dà ecosystem"
+license     = "MIT"
+repository  = "https://github.com/Bino-Elgua/Bipon39-Rust"
 
 [dependencies]
-sha2 = "0.10"
-hmac = "0.12"
-pbkdf2 = { version = "0.12", default-features = false, features = ["hmac"] }
-zeroize = { version = "1.7", features = ["derive"] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-thiserror = "1.0"
-unicode-normalization = "0.1"   # For NFKD normalization of passphrase
+sha2                  = "0.10"
+hmac                  = "0.12"
+pbkdf2                = { version = "0.12", default-features = false, features = ["hmac"] }
+digest                = "0.10"
+hex                   = "0.4"
+unicode-normalization = "0.1"
+zeroize               = { version = "1.7", features = ["derive"] }
+serde                 = { version = "1.0", features = ["derive"] }
+serde_json            = "1.0"
+thiserror             = "1.0"
+subtle                = "2.5"
+once_cell             = "1.19"
 
 [dev-dependencies]
-hex = "0.4"
-criterion = { version = "0.5", features = ["html_reports"] }
+criterion   = { version = "0.5", features = ["html_reports"] }
+hex-literal = "0.4"
 
 [[bench]]
-name = "throughput"
+name    = "throughput"
 harness = false
-
-[features]
-default = []
-std = []
 ```
 
-**Note on `unicode-normalization`:** The TypeScript reference uses NFKD normalization on the passphrase before PBKDF2. The Rust implementation must match this behavior exactly to produce identical seeds from identical inputs.
+Do not add or remove dependencies without a documented reason in the Session Log. Version pinning is intentional — do not loosen without a specific compatibility justification.
 
 ---
 
-## 5. Cryptographic Specification
+## 5. MODULE SPECIFICATIONS
 
-### 5.1 Entropy Sizes
-Supported entropy byte lengths and their mnemonic word counts:
-
-| Entropy bits | Entropy bytes | Checksum bits | Total bits | Word count (8-bit encoding) |
-|---|---|---|---|---|
-| 128 | 16 | 8 (first byte of SHA-256) | 136 | 17 |
-| 160 | 20 | 8 | 168 | 21 |
-| 192 | 24 | 8 | 200 | 25 |
-| 224 | 28 | 8 | 232 | 29 |
-| 256 | 32 | 8 | 264 | 33 |
-
-**Important difference from BIP-39:** BIP-39 uses an 11-bit-per-word scheme (2048-word list, checksum = entropy_bits / 32). BIPỌ̀N39 uses an **8-bit-per-word scheme** (256-word list). The checksum is always the **first full byte** of SHA-256(entropy). This is a clean, deterministic design.
-
-### 5.2 Entropy → Mnemonic Algorithm
-```
-1. Validate entropy length is in {16, 20, 24, 28, 32}.
-2. checksum_byte = sha256(entropy)[0]
-3. combined = entropy || [checksum_byte]   // entropy_bytes + 1 byte
-4. For each byte b in combined:
-     word_index = b as usize               // 0..=255
-     mnemonic_word = ENCODED_WORDLIST[word_index]
-5. Return Vec<&str> of length (entropy_len + 1)
-```
-
-### 5.3 Mnemonic → Entropy Algorithm
-```
-1. Validate all words exist in ENCODED_WORDLIST.
-2. Map each word to its index (0..=255).
-3. word_count = words.len()
-4. Validate word_count is in {17, 21, 25, 29, 33}.
-5. entropy_len = word_count - 1
-6. entropy = bytes[0..entropy_len]  // first (word_count - 1) bytes from indices
-7. checksum_byte = bytes[word_count - 1]
-8. expected_checksum = sha256(entropy)[0]
-9. If checksum_byte != expected_checksum: return Err(BiponError::InvalidChecksum)
-10. Zeroize working buffer. Return entropy bytes.
-```
-
-### 5.4 Seed Derivation (PBKDF2)
-```
-mnemonic_sentence = words.join(" ")       // space-joined encoded tokens
-salt_base = "BIPỌ̀N39 seed"
-passphrase_normalized = NFKD(passphrase) // unicode-normalization crate
-salt = salt_base + passphrase_normalized  // concatenation, not joining with space
-
-seed = PBKDF2-HMAC-SHA512(
-  password = mnemonic_sentence.as_bytes(),
-  salt     = salt.as_bytes(),
-  rounds   = 2048,
-  output   = 64 bytes
-)
-```
-
-**Match the TypeScript reference exactly.** The salt prefix is `"BIPỌ̀N39 seed"` (with Unicode Ọ̀). Do not use the BIP-39 standard salt `"mnemonic"`. This is a sovereign standard.
-
-### 5.5 Master Key Derivation
-```
-// Native BIPỌ̀N39 master key
-hmac_key = b"BIPỌ̀N39 master"
-result = HMAC-SHA512(key = hmac_key, msg = seed)
-master_private_key = result[0..32]
-master_chain_code  = result[32..64]
-
-// BIP-32 compatible (for wallet interop)
-hmac_key = b"Bitcoin seed"
-result = HMAC-SHA512(key = hmac_key, msg = seed)
-```
-
-### 5.6 Merkle Root Computation
-```
-leaves: [sha256(encoded_token_bytes) for token in WORDLIST]  // 256 leaves, in index order
-
-Build binary Merkle tree:
-  - If single node: root = that node
-  - If odd count at any level: duplicate last node
-  - Parent = sha256(left_child || right_child)  // concatenate raw bytes, then hash
-
-Pin result in constants.rs as:
-  pub const MERKLE_ROOT: [u8; 32] = [/* computed bytes */];
-```
-
-The TypeScript reference repo mentions a pinned root of `0ab1fafa...` — however, that was computed over the **old** 16-root × 16-affix wordlist. You must **recompute** the Merkle root over the new 256 Orisha-derived encoded tokens and pin that new value. Do not use the TypeScript repo's pinned root.
-
-### 5.7 Odù Primary Index
-```
-// XOR reduction of all word indices to a single 0..=255 archetype index
-odu_index = word_indices[0] XOR word_indices[1] XOR ... XOR word_indices[n-1]
-// (Use only the first n-1 words; exclude checksum word — or include it: decide and document clearly)
-```
-
-Consult the TypeScript `oduPrimaryIndex` function for the exact approach. Mirror it precisely so that Ifascript and Ori Kọ́dà produce consistent archetypes.
-
-### 5.8 Derivation Paths
-These are inherited from the TypeScript reference and must be replicated as constants:
-
-| Chain | Path |
-|---|---|
-| EVM / Ethereum | `m/44'/60'/account'/change/index` |
-| Bitcoin (legacy) | `m/44'/coin'/account'/change/index` |
-| Bitcoin (Bech32/SegWit) | `m/84'/coin'/account'/change/index` |
-| Solana | `m/44'/501'/account'/change'/index'` |
-| Sui | `m/44'/784'/account'/change'/index'` |
+All modules live in `src/`. Each section below is the definitive contract for that module. Implement exactly what is specified here — no more, no less, until Phase 7 polish.
 
 ---
 
-## 6. Module-Level Specifications
+### 5.1 `error.rs`
 
-### 6.1 `error.rs`
+All public fallible functions return `Result<T, BiponError>`. No panics in library code.
+
 ```rust
 use thiserror::Error;
 
-#[derive(Debug, Error, PartialEq)]
+#[derive(Debug, Error, Clone, PartialEq, Eq)]
 pub enum BiponError {
-    #[error("Invalid entropy length: {0} bytes. Must be 16, 20, 24, 28, or 32.")]
-    InvalidEntropyLength(usize),
-
-    #[error("Invalid mnemonic length: {0} words. Must be 17, 21, 25, 29, or 33.")]
-    InvalidMnemonicLength(usize),
-
-    #[error("Unknown word in mnemonic: '{0}'")]
-    UnknownWord(String),
-
-    #[error("Mnemonic checksum mismatch")]
-    InvalidChecksum,
-
     #[error("Wordlist integrity failure: {0}")]
-    WordlistIntegrityFailure(String),
+    WordlistIntegrity(String),
 
-    #[error("Merkle root mismatch: expected {expected}, got {actual}")]
-    MerkleRootMismatch { expected: String, actual: String },
+    #[error("Token not found: {token:?}")]
+    TokenNotFound { token: String },
 
-    #[error("IO error: {0}")]
-    Io(#[from] std::io::Error),
+    #[error("Index out of range: {index} (valid: 1–256)")]
+    IndexOutOfRange { index: usize },
+
+    #[error("Invalid mnemonic length: {words} words (expected one of: 17, 21, 25, 29, 33)")]
+    InvalidMnemonicLength { words: usize },
+
+    #[error("Invalid word at position {position}: {word:?}")]
+    InvalidWord { position: usize, word: String },
+
+    #[error("Checksum mismatch")]
+    ChecksumMismatch,
+
+    #[error("Invalid entropy length: {bits} bits (valid: 128, 160, 192, 224, 256)")]
+    InvalidEntropyLength { bits: usize },
+
+    #[error("PBKDF2 derivation error: {0}")]
+    DerivationError(String),
+
+    #[error("Merkle root mismatch: computed {computed}, expected {expected}")]
+    MerkleRootMismatch { computed: String, expected: String },
+
+    #[error("No canonical form for encoding token: {0}")]
+    CanonicalNotFound(String),
 
     #[error("JSON parse error: {0}")]
-    Json(#[from] serde_json::Error),
+    JsonParseError(String),
 }
 ```
 
-### 6.2 `constants.rs`
+**Constraints:**
+- `BiponError` must be `Clone + PartialEq + Eq` — required for test assertions.
+- Variant fields must be specific enough that tests can pattern-match the right variant and inspect the embedded values.
+- Never use `BiponError::WordlistIntegrity` for a mnemonic error, or `BiponError::InvalidWord` for an index error. Each variant has exactly one semantic domain.
+
+---
+
+### 5.2 `constants.rs`
+
 ```rust
-/// Total number of tokens in the BIPỌ̀N39 wordlist.
-pub const WORD_COUNT: usize = 256;
+/// Total number of tokens in the wordlist.
+pub const WORDLIST_SIZE: usize = 256;
 
-/// Number of macro groups (Orisha domains).
-pub const MACRO_COUNT: usize = 7;
+/// Each word encodes exactly 8 bits of entropy.
+pub const BITS_PER_WORD: usize = 8;
 
-/// Token distribution per macro, in canonical order:
-/// [ÈṢÙ, ṢÀNGÓ, Ọ̀ṢUN, YEMỌJA, ỌYA, ÒGÚN, ỌBÀTÁLÁ]
-pub const MACRO_DISTRIBUTION: [usize; 7] = [88, 20, 28, 28, 32, 32, 28];
-
-/// Macro names in English-safe ASCII for internal use.
-pub const MACRO_NAMES_ASCII: [&str; 7] = [
-    "ESU", "SANGO", "OSUN", "YEMOJA", "OYA", "OGUN", "OBATALA"
+/// Maps entropy length in bits to (entropy_bits, word_count, checksum_bits, pad_bits).
+///
+/// Derivation:
+///   checksum_bits = entropy_bits / 32
+///   total_bits    = entropy_bits + checksum_bits
+///   word_count    = total_bits.div_ceil(8)     (i.e. ceil division)
+///   pad_bits      = (word_count * 8) - total_bits
+///
+/// Checksum is computed over raw entropy bytes BEFORE any padding is applied.
+///
+/// | entropy_bits | checksum_bits | total_bits | word_count | pad_bits |
+/// |:---:|:---:|:---:|:---:|:---:|
+/// | 128 | 4  | 132 | 17 | 4 |
+/// | 160 | 5  | 165 | 21 | 3 |
+/// | 192 | 6  | 198 | 25 | 2 |
+/// | 224 | 7  | 231 | 29 | 1 |
+/// | 256 | 8  | 264 | 33 | 0 |
+pub const ENTROPY_WORD_TABLE: &[(usize, usize, usize, usize)] = &[
+    // (entropy_bits, word_count, checksum_bits, pad_bits)
+    (128, 17,  4, 4),
+    (160, 21,  5, 3),
+    (192, 25,  6, 2),
+    (224, 29,  7, 1),
+    (256, 33,  8, 0),
 ];
 
-/// Macro display names (canonical Yorùbá).
-pub const MACRO_NAMES_CANONICAL: [&str; 7] = [
-    "ÈṢÙ", "ṢÀNGÓ", "Ọ̀ṢUN", "YEMỌJA", "ỌYA", "ÒGÚN", "ỌBÀTÁLÁ"
-];
+/// PBKDF2-HMAC-SHA512 iteration count.
+pub const PBKDF2_ITERATIONS: u32 = 2048;
 
-/// PBKDF2 iteration count for seed derivation.
-pub const PBKDF2_ROUNDS: u32 = 2048;
+/// PBKDF2 output length in bytes (512-bit seed).
+pub const PBKDF2_OUTPUT_BYTES: usize = 64;
 
-/// PBKDF2 output length in bytes.
-pub const SEED_BYTES: usize = 64;
+/// Base salt string for seed derivation (no passphrase case).
+/// Unicode: U+0042 U+0049 U+0050 U+1ECC U+0300 U+004E U+0033 U+0039 U+0020 U+0073 U+0065 U+0065 U+0064
+pub const PBKDF2_SALT_BASE: &str = "BIPỌ̀N39 seed";
 
-/// Salt prefix for seed derivation.
-pub const SEED_SALT_PREFIX: &str = "BIPỌ̀N39 seed";
+/// Separator inserted between the base salt and the passphrase.
+/// Includes a leading space: " Ọ̀RÍ:"
+pub const PBKDF2_PASSPHRASE_PREFIX: &str = " Ọ̀RÍ:";
 
-/// HMAC key for native BIPỌ̀N39 master key derivation.
-pub const MASTER_KEY_NATIVE: &[u8] = b"BIPON39 master";  // ASCII version; verify against TS ref
+/// HMAC-SHA512 key string for native BIPỌ̀N39 master key derivation.
+pub const MASTER_KEY_NATIVE: &str = "BIPỌ̀N39 master";
 
-/// HMAC key for BIP-32 compatible master key derivation.
-pub const MASTER_KEY_BIP32: &[u8] = b"Bitcoin seed";
+/// HMAC-SHA512 key string for BIP-32 compatible master key derivation.
+pub const MASTER_KEY_BIP32: &str = "Bitcoin seed";
 
-/// SHA-256 Merkle root of the 256 encoded tokens (index order).
-/// MUST BE COMPUTED and pinned during Phase 1. Placeholder until then.
-/// Format: 32-byte array, big-endian.
-pub const MERKLE_ROOT: [u8; 32] = [0u8; 32]; // REPLACE after Phase 1 computation
+/// SHA-256 Merkle root computed over all 256 encoding tokens in flat_index order.
+///
+/// PHASE 1: Leave as empty string "". The integrity check is skipped when empty.
+/// PHASE 2: Run compute_wordlist_merkle_root(), paste the result here, and commit.
+///          The value must never change after pinning.
+/// PHASE 3+: The test `merkle_root_matches_pinned_constant` must pass on every build.
+pub const MERKLE_ROOT: &str = "";  // ← PIN IN PHASE 2; NEVER LEAVE EMPTY AFTER THAT
 ```
 
-### 6.3 `wordlist.rs`
-This is the most critical module. It must:
+**Hard constraints:**
+- `ENTROPY_WORD_TABLE` must not be modified. Its entries are used to derive word count, checksum length, and padding for every encoding/decoding operation. Altering it breaks all existing mnemonics and test vectors.
+- The Unicode strings (`PBKDF2_SALT_BASE`, `PBKDF2_PASSPHRASE_PREFIX`, `MASTER_KEY_NATIVE`) contain Yorùbá diacritics. Ensure your editor and git config preserve these bytes exactly. Verify with a hex dump if in doubt.
+- `MERKLE_ROOT` starts empty and is pinned exactly once. It is not updated across wordlist versions — the wordlist is frozen at 256 tokens.
 
-1. Define a `WordlistEntry` struct:
+---
+
+### 5.3 `wordlist.rs`
+
+#### Data Structure
+
 ```rust
-#[derive(Debug, Clone, serde::Deserialize)]
+use once_cell::sync::Lazy;
+use std::collections::HashMap;
+use crate::error::BiponError;
+
+/// A single entry in the BIPỌ̀N39 wordlist.
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct WordlistEntry {
-    pub index: usize,          // 1-based global index
-    pub macro_name: String,    // e.g. "ÈṢÙ"
-    pub macro_local: usize,    // 1-based within macro
-    pub canonical: String,     // Yorùbá with diacritics
-    pub encoding: String,      // plain ASCII
+    /// 1-based position in the flat_index (1–256). This is the canonical identifier.
+    pub flat_index: usize,
+
+    /// 0-based array index (flat_index − 1). Used for bit-stream operations.
+    pub array_index: usize,
+
+    /// The Macro this token belongs to.
+    /// One of: "ÈṢÙ" | "ṢÀNGÓ" | "Ọ̀ṢUN" | "YEMỌJA" | "ỌYA" | "ÒGÚN" | "ỌBÀTÁLÁ"
+    pub macro_name: &'static str,
+
+    /// 1-based position of this token within its Macro (resets to 1 at each Macro boundary).
+    pub macro_local_index: usize,
+
+    /// Yorùbá string with full diacritics. Used for display and documentation ONLY.
+    /// Never passes through any hash function.
+    pub canonical: &'static str,
+
+    /// Plain ASCII string. Used for ALL cryptographic operations.
+    /// This is the string that appears in a generated mnemonic.
+    pub encoding: &'static str,
 }
 ```
 
-2. Define a `Wordlist` struct with:
-   - `entries: Vec<WordlistEntry>` (256 entries, sorted by `index`)
-   - `encoding_to_index: HashMap<String, usize>` (for O(1) lookup during decode)
-   - `macro_ranges: [(usize, usize); 7]` (start_index, end_index per macro, 0-based into `entries`)
+#### Static Data
 
-3. Implement `Wordlist::load_from_embedded()` — uses `include_str!` to embed the JSON at compile time.
+Use one of these two equivalent approaches — choose one and be consistent:
 
-4. Implement `Wordlist::verify()` — runs all 5 validation checks from Section 2.4.
-
-5. Implement `Wordlist::compute_merkle_root()` — returns `[u8; 32]`.
-
-6. Expose a lazily-initialized global static: `pub static WORDLIST: once_cell::sync::Lazy<Wordlist>`.
-
-7. Implement `get_word(index: usize) -> Result<&'static str, BiponError>` (0-based input → encoded token).
-
-8. Implement `get_index(word: &str) -> Result<usize, BiponError>` (encoded token → 0-based index).
-
-9. Implement `get_canonical(index: usize) -> Result<&'static str, BiponError>`.
-
-10. Implement `get_macro(index: usize) -> Result<(&'static str, usize), BiponError>` — returns (macro_name_ascii, local_0based_index).
-
-**Note on `once_cell`:** Add `once_cell = "1.19"` to `[dependencies]` in `Cargo.toml`.
-
-### 6.4 `mnemonic.rs`
-Public API:
+**Option A — Runtime parse via `once_cell`:**
 ```rust
-/// Generate a mnemonic from raw entropy bytes.
-/// entropy_bytes must be 16, 20, 24, 28, or 32 bytes.
-pub fn entropy_to_mnemonic(entropy: &[u8]) -> Result<Vec<String>, BiponError>
+// Embed the JSON at compile time; parse once on first access.
+static WORDLIST_JSON: &str = include_str!("../data/canonical.json");
 
-/// Recover entropy from a mnemonic phrase.
-/// Returns zeroized entropy on checksum failure.
-pub fn mnemonic_to_entropy(words: &[&str]) -> Result<Zeroizing<Vec<u8>>, BiponError>
+static WORDLIST: Lazy<Vec<WordlistEntry>> = Lazy::new(|| {
+    // parse WORDLIST_JSON → build Vec<WordlistEntry>
+    // panics on parse error (acceptable for a static initializer over embedded data)
+    todo!()
+});
 
-/// Validate a mnemonic (word membership + checksum). Does not return entropy.
-pub fn validate_mnemonic(words: &[&str]) -> Result<(), BiponError>
-
-/// Generate cryptographically random entropy and return the mnemonic.
-/// Calls into the `rand` crate with OsRng.
-pub fn generate_mnemonic(entropy_bits: usize) -> Result<Vec<String>, BiponError>
+// O(1) lookup map: encoding token → array_index (0-based)
+static ENCODING_INDEX: Lazy<HashMap<&'static str, usize>> = Lazy::new(|| {
+    // build from WORDLIST
+    todo!()
+});
 ```
 
-### 6.5 `crypto.rs`
-Internal module (not public API — pub(crate)):
+**Option B — `build.rs` code generation:**
+Generate `src/wordlist_data.rs` containing a `static WORDLIST: [WordlistEntry; 256]` literal. The build script reads `data/canonical.json` and emits Rust source. This approach makes the wordlist a zero-runtime-cost constant.
+
+Either approach is acceptable. Document which you chose in the Session Log.
+
+#### Public API
+
 ```rust
-pub(crate) fn sha256(data: &[u8]) -> [u8; 32]
-pub(crate) fn hmac_sha512(key: &[u8], msg: &[u8]) -> [u8; 64]
-pub(crate) fn pbkdf2_hmac_sha512(password: &[u8], salt: &[u8], rounds: u32) -> Zeroizing<[u8; 64]>
-pub(crate) fn merkle_root(leaves: &[[u8; 32]]) -> [u8; 32]
-pub(crate) fn constant_time_eq(a: &[u8], b: &[u8]) -> bool  // use subtle crate
+/// Verify all structural invariants of the loaded wordlist.
+/// Must be called (and pass) at the start of the integrity test suite.
+pub fn verify_wordlist_integrity() -> Result<(), BiponError>
+
+/// Look up an entry by 1-based flat_index. Returns Err(IndexOutOfRange) for values outside 1–256.
+pub fn entry_by_index(flat_index: usize) -> Result<&'static WordlistEntry, BiponError>
+
+/// Look up an entry by its encoding (ASCII) token string.
+/// This is on the hot path for mnemonic decoding — must be O(1).
+pub fn entry_by_encoding(token: &str) -> Result<&'static WordlistEntry, BiponError>
+
+/// Look up an entry by its canonical (Yorùbá) token string.
+pub fn entry_by_canonical(token: &str) -> Result<&'static WordlistEntry, BiponError>
+
+/// Return all entries belonging to a named Macro.
+/// Accepts both the display form ("ÈṢÙ") and will work with exact string match.
+pub fn entries_for_macro(macro_name: &str) -> Vec<&'static WordlistEntry>
+
+/// Return the 0-based array_index for an encoding token. O(1).
+pub fn index_of_encoding(token: &str) -> Result<usize, BiponError>
+
+/// Return the full ordered slice of 256 encoding tokens (flat_index order).
+pub fn all_encoding_tokens() -> &'static [&'static str]
 ```
 
-Add `subtle = "2.5"` to `[dependencies]` for constant-time comparison.
+#### `verify_wordlist_integrity()` — Required Checks
 
-### 6.6 `seed.rs`
+This function is the single gatekeeper for wordlist correctness. Every check is mandatory:
+
+1. Exactly 256 entries loaded.
+2. Macro counts exactly: ÈṢÙ=88, ṢÀNGÓ=20, Ọ̀ṢUN=28, YEMỌJA=28, ỌYA=32, ÒGÚN=32, ỌBÀTÁLÁ=28.
+3. `flat_index` values form the sequence 1, 2, 3, … 256 with no gaps and no duplicates.
+4. `array_index` = `flat_index − 1` for every entry.
+5. No two entries share the same `encoding` value.
+6. No two entries share the same `canonical` value.
+7. Every `encoding` value matches the regex `^[a-z][a-z0-9\-]+$` — lowercase ASCII letters, digits, and hyphens only; must start with a letter.
+8. If `constants::MERKLE_ROOT` is non-empty: the computed Merkle root over `all_encoding_tokens()` must equal `MERKLE_ROOT`. If `MERKLE_ROOT` is `""`, skip this check (Phase 1 bootstrap mode).
+
+Any failed check returns `Err(BiponError::WordlistIntegrity(...))` with a message identifying exactly which invariant failed and (where applicable) which index or token is the offending value.
+
+---
+
+### 5.4 `crypto.rs`
+
+```rust
+use subtle::ConstantTimeEq;
+
+/// SHA-256 hash of `data`. Uses the `sha2` crate.
+pub fn sha256(data: &[u8]) -> [u8; 32]
+
+/// HMAC-SHA512 of `data` with `key`. Uses the `hmac` + `sha2` crates.
+pub fn hmac_sha512(key: &[u8], data: &[u8]) -> [u8; 64]
+
+/// SHA-256 binary Merkle tree over string leaves.
+///
+/// Leaf hash:  SHA-256(leaf.as_bytes())
+/// Inner node: SHA-256(left_child_bytes || right_child_bytes)
+/// Odd level:  duplicate the last node before pairing
+///
+/// Example with 4 leaves [A, B, C, D]:
+///   Level 0 (leaves): H(A), H(B), H(C), H(D)
+///   Level 1:          H(H(A)||H(B)), H(H(C)||H(D))
+///   Root:             H( H(H(A)||H(B)) || H(H(C)||H(D)) )
+///
+/// Example with 3 leaves [A, B, C]:
+///   Level 0: H(A), H(B), H(C)
+///   Pad:     H(A), H(B), H(C), H(C)   ← duplicate last
+///   Level 1: H(H(A)||H(B)), H(H(C)||H(C))
+///   Root:    H( H(H(A)||H(B)) || H(H(C)||H(C)) )
+pub fn sha256_merkle_root(leaves: &[&str]) -> [u8; 32]
+
+/// Convenience wrapper: compute Merkle root over wordlist::all_encoding_tokens()
+/// and return it as a lowercase hex string.
+/// Run this once in Phase 2 to obtain the value to pin as MERKLE_ROOT.
+pub fn compute_wordlist_merkle_root() -> String
+
+/// Timing-safe byte equality. Uses subtle::ConstantTimeEq internally.
+/// Use this for any comparison that involves secret material (checksums, keys).
+pub fn ct_eq(a: &[u8], b: &[u8]) -> bool
+```
+
+**Sanity check:** SHA-256 of the empty byte slice `&[]` must equal `e3b0c44998fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`. Write a unit test for this in Phase 2 before relying on the hash for anything else.
+
+---
+
+### 5.5 `mnemonic.rs`
+
 ```rust
 use zeroize::Zeroizing;
+use crate::error::BiponError;
+
+/// Convert raw entropy bytes to a mnemonic phrase (list of encoding-layer tokens).
+///
+/// Valid entropy lengths: 16, 20, 24, 28, 32 bytes (128/160/192/224/256 bits).
+/// Returns Err(InvalidEntropyLength) for any other length.
+pub fn entropy_to_mnemonic(entropy: &[u8]) -> Result<Vec<String>, BiponError>
+
+/// Convert a mnemonic (encoding-layer token strings) back to entropy bytes.
+///
+/// The returned bytes are wrapped in Zeroizing to ensure they are wiped on drop.
+/// Returns descriptive errors for: wrong word count, unknown token, checksum mismatch.
+pub fn mnemonic_to_entropy(words: &[&str]) -> Result<Zeroizing<Vec<u8>>, BiponError>
+
+/// Validate a mnemonic phrase: verify all words are in the wordlist and the checksum is correct.
+/// Does not return the entropy — use mnemonic_to_entropy for that.
+pub fn validate_mnemonic(words: &[&str]) -> Result<(), BiponError>
+
+/// Split a mnemonic phrase string on whitespace into token strings.
+pub fn split_mnemonic(phrase: &str) -> Vec<&str>
+
+/// Join token strings with a single space.
+pub fn join_mnemonic(words: &[String]) -> String
+```
+
+#### Encoding Algorithm — `entropy_to_mnemonic`
+
+```
+Input:  entropy: &[u8]
+
+Step 1 — Validate length:
+    If entropy.len() ∉ {16, 20, 24, 28, 32}:
+        return Err(InvalidEntropyLength { bits: entropy.len() * 8 })
+
+Step 2 — Derive parameters from ENTROPY_WORD_TABLE:
+    entropy_bits  = entropy.len() * 8
+    (_, word_count, checksum_bits, pad_bits) = lookup(entropy_bits)
+
+Step 3 — Compute checksum:
+    h = sha256(entropy)
+    checksum = h[0]  ← only the most-significant checksum_bits of this byte are used
+
+Step 4 — Build bit stream:
+    stream = []
+    Append all bits of entropy (MSB first for each byte)
+    Append the top checksum_bits bits of h[0] (bits 7 down to 8-checksum_bits)
+    Append pad_bits zero bits
+
+    At this point len(stream) == word_count * 8
+
+Step 5 — Extract words:
+    Split stream into word_count chunks of 8 bits each
+    Each chunk is a u8 value v in 0..=255
+    word = WORDLIST[v].encoding   (v is the 0-based array_index)
+
+Step 6:
+    Return the word_count tokens as Vec<String>
+```
+
+**Key constraint:** The checksum is computed over the raw entropy bytes **before** any padding is applied. The padding bits are always `0` and are appended purely to make the total bit count a multiple of 8. They are discarded during decoding.
+
+#### Decoding Algorithm — `mnemonic_to_entropy`
+
+```
+Input:  words: &[&str]
+
+Step 1 — Identify entropy parameters:
+    Match words.len() against the word_count column of ENTROPY_WORD_TABLE
+    If no match: return Err(InvalidMnemonicLength { words: words.len() })
+    Retrieve: entropy_bits, checksum_bits, pad_bits
+
+Step 2 — Resolve tokens to indices:
+    For each word at position i:
+        array_index = index_of_encoding(word)?
+        If not found: return Err(InvalidWord { position: i, word: word.to_string() })
+
+Step 3 — Reconstruct bit stream:
+    For each array_index: append 8 bits (MSB first)
+    Total stream length = words.len() * 8
+
+Step 4 — Extract entropy and checksum:
+    entropy_bytes = stream[0 .. entropy_bits] interpreted as bytes
+    checksum_from_stream = the next checksum_bits bits from the stream
+
+Step 5 — Verify checksum:
+    h = sha256(&entropy_bytes)
+    expected_checksum_bits = top checksum_bits of h[0]
+    if !ct_eq(checksum_from_stream_as_byte, expected_as_byte):
+        return Err(ChecksumMismatch)
+    Note: compare only the relevant bits — mask off the pad region
+
+Step 6:
+    return Ok(Zeroizing(entropy_bytes))
+```
+
+**Checksum comparison note:** For the checksum comparison, extract the `checksum_bits` from the stream into a single byte aligned to the high bits, and compute the expected value likewise. Then use `ct_eq` on a 1-byte slice for both. The pad bits are always zero and are not part of the checksum — do not include them in the comparison.
+
+---
+
+### 5.6 `seed.rs`
+
+```rust
+use zeroize::Zeroizing;
+use crate::error::BiponError;
 
 /// Derive a 64-byte seed from a mnemonic and optional passphrase.
-/// Uses PBKDF2-HMAC-SHA512 with BIPỌ̀N39-specific salt and 2048 rounds.
-/// Passphrase is NFKD-normalized before use.
-pub fn mnemonic_to_seed(words: &[&str], passphrase: Option<&str>) -> Result<Zeroizing<[u8; 64]>, BiponError>
+///
+/// Uses PBKDF2-HMAC-SHA512 with 2048 iterations.
+/// Both the mnemonic phrase and the passphrase are NFKD-normalized before use.
+pub fn mnemonic_to_seed(words: &[&str], passphrase: &str) -> Result<Zeroizing<Vec<u8>>, BiponError>
 ```
 
-### 6.7 `derivation.rs`
-```rust
-pub struct MasterKey {
-    pub key: Zeroizing<[u8; 32]>,        // private key (IL)
-    pub chain_code: Zeroizing<[u8; 32]>, // chain code (IR)
-}
+#### Algorithm
 
+```
+Step 1 — Build NFKD-normalized mnemonic string:
+    mnemonic_str = NFKD( words.join(" ") )
+    (use the unicode_normalization crate: .nfkd().collect::<String>())
+
+Step 2 — Build NFKD-normalized passphrase:
+    passphrase_n = NFKD( passphrase )
+
+Step 3 — Construct salt:
+    if passphrase_n.is_empty():
+        salt = PBKDF2_SALT_BASE                                  → "BIPỌ̀N39 seed"
+    else:
+        salt = PBKDF2_SALT_BASE + PBKDF2_PASSPHRASE_PREFIX + passphrase_n
+               → "BIPỌ̀N39 seed Ọ̀RÍ:<passphrase>"
+
+    Note: NFKD-normalize the salt string as well for full cross-platform safety.
+
+Step 4 — PBKDF2:
+    output = PBKDF2-HMAC-SHA512(
+        password   = mnemonic_str.as_bytes(),
+        salt       = salt.as_bytes(),
+        iterations = PBKDF2_ITERATIONS,     // 2048
+        dklen      = PBKDF2_OUTPUT_BYTES,   // 64
+    )
+
+Step 5:
+    return Ok(Zeroizing(output.to_vec()))
+```
+
+**NFKD is mandatory, not optional.** The same mnemonic phrase written with precomposed vs. decomposed Unicode characters must produce identical seeds. Skipping normalization causes platform-specific seed divergence — a catastrophic interoperability failure.
+
+The `unicode-normalization` crate is already in `Cargo.toml`. Use `use unicode_normalization::UnicodeNormalization;` and call `.nfkd().collect::<String>()`.
+
+---
+
+### 5.7 `derivation.rs`
+
+```rust
+use zeroize::ZeroizeOnDrop;
+use crate::error::BiponError;
+use crate::constants::{MASTER_KEY_NATIVE, MASTER_KEY_BIP32};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum DerivationMode {
-    Native,  // uses "BIPỌ̀N39 master" HMAC key
-    Bip32,   // uses "Bitcoin seed" HMAC key
+    /// Native BIPỌ̀N39 derivation. HMAC key = "BIPỌ̀N39 master"
+    Native,
+    /// BIP-32 compatible derivation. HMAC key = "Bitcoin seed"
+    Bip32,
 }
 
-pub fn master_from_seed(seed: &[u8; 64], mode: DerivationMode) -> MasterKey
+/// Master private key and chain code derived from a 64-byte seed.
+#[derive(ZeroizeOnDrop)]
+pub struct MasterKey {
+    /// First 32 bytes of HMAC-SHA512(key=mode_string, data=seed). The private key (IL).
+    pub key: [u8; 32],
+    /// Last 32 bytes of HMAC-SHA512(key=mode_string, data=seed). The chain code (IR).
+    pub chain_code: [u8; 32],
+}
 
-/// Derivation path string constants
-pub const PATH_EVM: &str = "m/44'/60'/0'/0/0";
-pub const PATH_BTC_LEGACY: &str = "m/44'/0'/0'/0/0";
-pub const PATH_BTC_SEGWIT: &str = "m/84'/0'/0'/0/0";
-pub const PATH_SOLANA: &str = "m/44'/501'/0'/0'";
-pub const PATH_SUI: &str = "m/44'/784'/0'/0'";
+impl MasterKey {
+    /// Hex-encode the private key.
+    pub fn key_hex(&self) -> String
+
+    /// Hex-encode the chain code.
+    pub fn chain_code_hex(&self) -> String
+}
+
+/// Derive a MasterKey from a 64-byte seed using the specified mode.
+///
+/// Algorithm: I = HMAC-SHA512(key=mode.key_string(), data=seed)
+///            key        = I[0..32]
+///            chain_code = I[32..64]
+pub fn master_from_seed(seed: &[u8], mode: DerivationMode) -> Result<MasterKey, BiponError>
 ```
 
-### 6.8 `ifascript.rs`
+**Critical:** `MasterKey` derives `ZeroizeOnDrop` — the key and chain code bytes are wiped when the struct is dropped. Do not add `Clone` or `Copy` to `MasterKey`. If callers need to retain the values, they must extract them as hex strings before the struct is dropped.
+
+---
+
+### 5.8 `ifascript.rs`
+
 ```rust
-/// Return the macro name (ASCII) and 0-based local index for a given word index (0-based).
-pub fn macro_of_word(word_index: usize) -> Result<(&'static str, usize), BiponError>
+use crate::error::BiponError;
 
-/// XOR-reduce word indices to produce an Odù archetype index (0–255).
-/// By convention: use only entropy words (exclude final checksum word).
-pub fn odu_primary_index(word_indices: &[usize]) -> u8
-
-/// Return elemental metadata for a word index (0-based).
-/// Maps to one of: Fire, Water, Earth, Air, Ether based on macro.
-pub fn elemental_class(word_index: usize) -> Result<ElementalClass, BiponError>
-
-#[derive(Debug, Clone, PartialEq)]
-pub enum ElementalClass {
-    Fire,   // ṢÀNGÓ, ỌYA (in part)
-    Water,  // YEMỌJA, Ọ̀ṢUN
-    Earth,  // ÒGÚN
-    Air,    // ỌYA (in part)
-    Ether,  // ỌBÀTÁLÁ, ÈṢÙ (crossroads / liminal)
+/// The seven Macro groupings of the BIPỌ̀N39 wordlist.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum Macro {
+    Esu,      // ÈṢÙ     — indices 1–88
+    Sango,    // ṢÀNGÓ   — indices 89–108
+    Osun,     // Ọ̀ṢUN   — indices 109–136
+    Yemoja,   // YEMỌJA  — indices 137–164
+    Oya,      // ỌYA     — indices 165–196
+    Ogun,     // ÒGÚN    — indices 197–228
+    Obatala,  // ỌBÀTÁLÁ — indices 229–256
 }
 
-/// Compute elemental signature vector from a mnemonic's word indices.
-/// Returns counts per element class.
-pub fn elemental_signature(word_indices: &[usize]) -> ElementalSignature
+impl Macro {
+    /// The canonical display name of this Macro (Yorùbá with diacritics).
+    pub fn name(&self) -> &'static str
 
-#[derive(Debug, Default)]
-pub struct ElementalSignature {
-    pub fire: usize,
-    pub water: usize,
-    pub earth: usize,
-    pub air: usize,
-    pub ether: usize,
+    /// The inclusive 1-based flat_index range: (start, end).
+    pub fn index_range(&self) -> (usize, usize)
+
+    /// Number of tokens in this Macro.
+    pub fn count(&self) -> usize
+
+    /// Parse a Macro from either its canonical name ("ÈṢÙ") or a simplified ASCII form ("esu").
+    /// Returns None if the string does not match any Macro.
+    pub fn from_name(s: &str) -> Option<Macro>
+
+    /// Return the Macro that contains the given 1-based flat_index.
+    /// Returns None if the index is out of 1–256 range.
+    pub fn from_flat_index(flat_index: usize) -> Option<Macro>
 }
+
+/// Distribution of a mnemonic's words across the seven Macros.
+pub struct MacroDistribution {
+    /// Counts in Macro order (Esu, Sango, Osun, Yemoja, Oya, Ogun, Obatala).
+    pub counts: [(Macro, usize); 7],
+    /// Sum of all counts — equals the mnemonic word count.
+    pub total: usize,
+}
+
+/// XOR-reduce all word array_indices (0-based) to produce a single byte (0–255).
+/// This is the Odù fingerprint of the mnemonic.
+///
+/// Algorithm: result = 0u8; for each word: result ^= array_index as u8; return result
+pub fn odu_primary_index(words: &[&str]) -> Result<u8, BiponError>
+
+/// Count how many words in the mnemonic belong to each Macro.
+pub fn macro_distribution(words: &[&str]) -> Result<MacroDistribution, BiponError>
+
+/// Return the Macro with the highest word count.
+/// Ties are broken by lowest flat_index range start (i.e., Esu wins over Sango if equal).
+pub fn dominant_macro(words: &[&str]) -> Result<Macro, BiponError>
 ```
 
-**Note on elemental class mapping:** The TypeScript reference maps affixes to elements via metadata. In the new Orisha-macro system, use macro-level elemental assignment as a starting point. Document the mapping clearly in code comments and in `SPEC.md`. If the author provides a more granular token-level mapping, integrate it without changing the 256-token identities.
+---
 
-### 6.9 `display.rs`
+### 5.9 `display.rs`
+
 ```rust
-/// Convert an encoded token to its canonical Yorùbá form.
-pub fn encoding_to_canonical(encoding: &str) -> Result<&'static str, BiponError>
+use crate::error::BiponError;
 
-/// Format a mnemonic as a display string using canonical Yorùbá tokens.
-pub fn mnemonic_to_display(encoded_words: &[&str]) -> Result<String, BiponError>
+/// Given an encoding (ASCII) token, return its canonical (Yorùbá) counterpart.
+pub fn canonical_for_encoding(token: &str) -> Result<&'static str, BiponError>
 
-/// Format macro name in canonical Yorùbá.
-pub fn macro_display_name(macro_ascii: &str) -> &'static str
+/// Given a canonical (Yorùbá) token, return its encoding (ASCII) counterpart.
+pub fn encoding_for_canonical(token: &str) -> Result<&'static str, BiponError>
+
+/// Convert a mnemonic of encoding tokens to their canonical forms.
+pub fn mnemonic_to_canonical(words: &[&str]) -> Result<Vec<&'static str>, BiponError>
+
+/// Convert a mnemonic of canonical tokens to their encoding forms.
+pub fn canonical_to_encoding(words: &[&str]) -> Result<Vec<&'static str>, BiponError>
+
+/// Format a mnemonic as a numbered list: "1. esu-elegbara  2. sango  3. ..."
+pub fn format_numbered(words: &[&str]) -> String
+
+/// Format a mnemonic with canonical forms, numbered.
+pub fn format_numbered_canonical(words: &[&str]) -> Result<String, BiponError>
 ```
 
 ---
 
-## 7. Testing Specification
+### 5.10 `lib.rs`
 
-### 7.1 Wordlist Integrity Tests (`tests/wordlist_integrity.rs`)
-- [ ] **Exactly 256 encoded tokens load from `Canonical JSON`**
-- [ ] **No duplicate encoded tokens exist**
-- [ ] **All encoded tokens match the regex pattern** (`[a-z][a-z0-9]*(-[a-z][a-z0-9]*)*`)
-- [ ] **Macro distributions match locked values** `[88, 20, 28, 28, 32, 32, 28]`
-- [ ] **Total across macros sums to 256**
-- [ ] **All canonical tokens are non-empty and contain valid UTF-8**
-- [ ] **1:1 positional mapping holds** — `flat_index[i].encoding` matches `ENCODED_WORDLIST[i]`
-- [ ] **Merkle root matches pinned constant** `MERKLE_ROOT` in `constants.rs`
-- [ ] **Wordlist lookup by encoding returns correct 0-based index**
-- [ ] **Wordlist lookup by index returns correct encoding**
-- [ ] **Macro boundary indices are correct** — first token of ṢÀNGÓ is index 88 (0-based)
-- [ ] **Each macro's `macro_local` values are sequential from 1**
+`lib.rs` is the public face of the crate. It must:
+1. Declare all modules with `pub mod`.
+2. Re-export every public item that an external consumer of the crate will need.
+3. Contain no logic of its own — only `pub mod` and `pub use` statements.
+4. Have a crate-level doc comment (`//!`) describing the library.
 
-### 7.2 Mnemonic Round-Trip Tests (`tests/mnemonic_vectors.rs`)
-These use pinned entropy → expected mnemonic → expected seed vectors stored in `vectors/test_vectors.json`.
+```rust
+//! # bipon39
+//!
+//! BIPỌ̀N39 — Sovereign Base-256 mnemonic library for the Ọmọ Kọ́dà ecosystem.
+//!
+//! Provides entropy-to-mnemonic encoding, mnemonic-to-seed derivation,
+//! master key derivation, and Ifáscript metadata over a 256-token
+//! culturally-rooted Yorùbá wordlist.
 
-Required test vectors (to be computed and pinned during Phase 2):
-- 128-bit entropy, no passphrase
-- 128-bit entropy, with passphrase `"Àṣẹ"`
-- 160-bit entropy, no passphrase
-- 192-bit entropy, no passphrase
-- 224-bit entropy, no passphrase
-- 256-bit entropy, no passphrase
-- 256-bit entropy, with passphrase `"ọmọ-koda-sovereign"`
+pub mod constants;
+pub mod crypto;
+pub mod derivation;
+pub mod display;
+pub mod error;
+pub mod ifascript;
+pub mod mnemonic;
+pub mod seed;
+pub mod wordlist;
 
-For each vector, pin and verify:
-- `entropy_hex` → `mnemonic_words` → `entropy_hex` (round-trip)
-- `mnemonic_words` + `passphrase` → `seed_hex`
-- `seed_hex` → `master_key_native_hex` + `master_chain_code_native_hex`
-- `seed_hex` → `master_key_bip32_hex` + `master_chain_code_bip32_hex`
-
-### 7.3 Round-Trip Fuzz Tests (`tests/roundtrip.rs`)
-- [ ] **1000 random 128-bit entropy values round-trip through mnemonic and back**
-- [ ] **1000 random 256-bit entropy values round-trip through mnemonic and back**
-- [ ] **All entropy lengths (16, 20, 24, 28, 32 bytes) round-trip cleanly**
-- [ ] **Corrupt checksum word always returns `BiponError::InvalidChecksum`**
-- [ ] **Unknown word in mnemonic returns `BiponError::UnknownWord`**
-- [ ] **Wrong mnemonic length returns `BiponError::InvalidMnemonicLength`**
-
-### 7.4 Ifascript / Metadata Tests (`tests/ifascript.rs`)
-- [ ] **`macro_of_word(0)` returns `("ESU", 0)`**
-- [ ] **`macro_of_word(87)` returns `("ESU", 87)`**
-- [ ] **`macro_of_word(88)` returns `("SANGO", 0)`**
-- [ ] **`macro_of_word(107)` returns `("SANGO", 19)`**
-- [ ] **`macro_of_word(255)` returns `("OBATALA", 27)`**
-- [ ] **`odu_primary_index` returns values in `0..=255`**
-- [ ] **`elemental_signature` counts sum to the number of entropy words**
-- [ ] **Out-of-bounds word index returns `BiponError`**
-
-### 7.5 Benchmark Stubs (`benches/throughput.rs`)
-Not required to pass CI — but must compile:
-- Benchmark: `entropy_to_mnemonic` for 256-bit entropy (throughput ops/sec)
-- Benchmark: `mnemonic_to_seed` (includes PBKDF2 — expected to be slow ~100ms per call)
-- Benchmark: `mnemonic_to_entropy` (should be fast, microseconds)
-- Benchmark: `merkle_root` computation over 256 leaves
+pub use error::BiponError;
+pub use mnemonic::{entropy_to_mnemonic, mnemonic_to_entropy, validate_mnemonic};
+pub use seed::mnemonic_to_seed;
+pub use derivation::{DerivationMode, MasterKey, master_from_seed};
+pub use ifascript::{Macro, odu_primary_index, macro_distribution, dominant_macro};
+pub use wordlist::{WordlistEntry, verify_wordlist_integrity, entry_by_index,
+                   entry_by_encoding, all_encoding_tokens};
+```
 
 ---
 
-## 8. Development Phases — Detailed Checklist
+## 6. CRYPTOGRAPHIC PARAMETER REFERENCE
 
-Mark tasks `[x]` as completed. Include the date in the bracket when done: `[x 2026-05-05]`.
+Quick lookup table — use this when implementing or auditing any crypto operation.
 
----
-
-### PHASE 0 — Repository Bootstrapping
-*Goal: Clean Rust project exists in the correct repo with the correct data files.*
-
-- [ ] Clone `https://github.com/Bino-Elgua/Bipon39-Rust` locally
-- [ ] Verify the three source files are present at repo root: `Canonical JSON`, `Canonical layer`, `Encoded layer`
-- [ ] Run `cargo init --lib` if `src/` and `Cargo.toml` do not yet exist
-- [ ] Confirm `Cargo.toml` has `edition = "2021"`
-- [ ] Create `data/` directory and copy the three source files into it:
-  - `data/canonical.json` ← copy of `Canonical JSON`
-  - `data/canonical_layer.txt` ← copy of `Canonical layer`
-  - `data/encoded_layer.txt` ← copy of `Encoded layer`
-- [ ] Add all dependencies to `Cargo.toml` per Section 4
-- [ ] Run `cargo check` — must succeed with zero errors (empty lib.rs is fine)
-- [ ] Create directory structure: `src/`, `tests/`, `benches/`, `data/`, `vectors/`
-- [ ] Create placeholder files for all modules listed in Section 3 (empty `mod.rs` or empty `pub mod` declarations in `lib.rs`)
-- [ ] Commit: `chore: scaffold project structure and data files`
-- [ ] Push to `https://github.com/Bino-Elgua/Bipon39-Rust`
-- [ ] Update this checklist in the commit
+| Parameter | Value | Notes |
+|---|---|---|
+| Bits per word | 8 | Each encoding token represents exactly one byte |
+| Checksum length | `entropy_bits / 32` bits | From the high bits of SHA-256(entropy)[0] |
+| Valid word counts | 17, 21, 25, 29, 33 | For 128, 160, 192, 224, 256-bit entropy |
+| Seed KDF | PBKDF2-HMAC-SHA512 | `pbkdf2` crate |
+| Seed iterations | 2048 | `PBKDF2_ITERATIONS` |
+| Seed output | 64 bytes | `PBKDF2_OUTPUT_BYTES` |
+| Salt (no passphrase) | `"BIPỌ̀N39 seed"` | NFKD-normalized |
+| Salt (with passphrase) | `"BIPỌ̀N39 seed Ọ̀RÍ:<passphrase>"` | Both parts NFKD-normalized |
+| Native master key | HMAC-SHA512, key=`"BIPỌ̀N39 master"` | `MASTER_KEY_NATIVE` constant |
+| BIP-32 master key | HMAC-SHA512, key=`"Bitcoin seed"` | `MASTER_KEY_BIP32` constant |
+| Merkle leaf | SHA-256(encoding_token.as_bytes()) | Over the ASCII token bytes |
+| Merkle inner node | SHA-256(left_hash \|\| right_hash) | Concatenate 32+32 bytes |
+| Merkle odd-level | Duplicate last node | Before pairing |
+| Secret comparison | `ct_eq()` via `subtle::ConstantTimeEq` | Never use `==` on secrets |
+| Memory safety | `Zeroizing<T>` or `ZeroizeOnDrop` | Entropy, seeds, private keys |
 
 ---
 
-### PHASE 1 — Wordlist Foundation
-*Goal: All 256 tokens load, validate, and produce a stable Merkle root. This is the trust foundation for all subsequent phases.*
+## 7. BIT-STREAM ENCODING — WORKED EXAMPLE
 
-#### 1.A — Error Types
-- [ ] Implement `src/error.rs` with all variants from Section 6.1
-- [ ] `cargo check src/error.rs` passes
-- [ ] `BiponError` derives `Debug`, `PartialEq`, `thiserror::Error`
+This section exists to prevent the most common implementation mistake: misaligning the checksum extraction.
 
-#### 1.B — Constants
-- [ ] Implement `src/constants.rs` with all constants from Section 6.2
-- [ ] Leave `MERKLE_ROOT` as `[0u8; 32]` placeholder until computed
-- [ ] All constant types compile cleanly
+**Example: 16 bytes of entropy (128 bits)**
 
-#### 1.C — Crypto Primitives
-- [ ] Implement `src/crypto.rs` with all functions from Section 6.5
-- [ ] `sha256` wraps `sha2::Sha256`
-- [ ] `hmac_sha512` wraps `hmac::Hmac<sha2::Sha512>`
-- [ ] `pbkdf2_hmac_sha512` wraps `pbkdf2::pbkdf2_hmac` — returns `Zeroizing`
-- [ ] `merkle_root` implements binary SHA-256 Merkle tree (duplicate last node when odd count)
-- [ ] `constant_time_eq` uses `subtle::ConstantTimeEq`
-- [ ] Write inline unit tests for `sha256` (test vector: `sha256(b"")` = known hash)
-- [ ] Write inline unit test for `merkle_root` with 4 leaves (manually verified expected root)
-- [ ] `cargo test --lib` passes
+```
+entropy = [0x00; 16]   (16 zero bytes)
+entropy_bits   = 128
+checksum_bits  = 4
+word_count     = 17
+pad_bits       = 4
 
-#### 1.D — Wordlist Module
-- [ ] Implement `WordlistEntry` struct in `src/wordlist.rs`
-- [ ] Implement wordlist loading from `data/canonical.json` via `include_str!`
-- [ ] Parse `flat_index` array into `Vec<WordlistEntry>` sorted by `index`
-- [ ] Build `encoding_to_index: HashMap<String, usize>` (HashMap value is 0-based)
-- [ ] Build `macro_ranges: [(usize, usize); 7]` — start and exclusive end indices
-- [ ] Implement `Wordlist::verify()` with all 5 checks from Section 2.4
-  - [ ] Check: exactly 256 entries
-  - [ ] Check: all encodings unique
-  - [ ] Check: all encodings match regex
-  - [ ] Check: macro distributions match `MACRO_DISTRIBUTION`
-  - [ ] Check: Merkle root matches `MERKLE_ROOT` constant (skip this check until root is pinned)
-- [ ] Implement `Wordlist::compute_merkle_root()` — return `[u8; 32]`
-- [ ] **Compute the actual Merkle root** by calling `compute_merkle_root()` in a test or binary tool, printing the hex output, and hardcoding it into `MERKLE_ROOT` in `constants.rs`
-- [ ] Re-enable the Merkle root check in `verify()`
-- [ ] Implement `once_cell::sync::Lazy<Wordlist>` global static
-- [ ] Implement `get_word(index: usize) -> Result<&'static str, BiponError>` (0-based)
-- [ ] Implement `get_index(word: &str) -> Result<usize, BiponError>` (0-based)
-- [ ] Implement `get_canonical(index: usize) -> Result<&'static str, BiponError>`
-- [ ] Implement `get_macro(index: usize) -> Result<(&'static str, usize), BiponError>`
+SHA-256([0x00; 16]) = e3b0c44998fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+h[0] = 0xe3 = 0b11100011
 
-#### 1.E — Wordlist Integrity Tests
-- [ ] Write all tests listed in Section 7.1
-- [ ] `cargo test tests/wordlist_integrity` passes — all tests green
-- [ ] No test skipped or `#[ignore]`-tagged
+Top 4 bits of h[0] = 0b1110 = 14 (decimal)
 
-#### 1.F — Phase 1 Commit
-- [ ] `cargo clippy -- -D warnings` produces zero warnings
-- [ ] `cargo fmt --check` passes
-- [ ] Commit: `feat(wordlist): implement and verify all 256 Orisha tokens with Merkle root`
-- [ ] Push to `Bipon39-Rust`
-- [ ] Update this checklist
+Bit stream construction:
+  128 bits of entropy (all zeros)
+  + 4 checksum bits: 1, 1, 1, 0
+  + 4 pad bits:      0, 0, 0, 0
+  = 136 bits total = 17 bytes
+
+Split into 17 chunks of 8 bits:
+  Chunks 0–15: 0b00000000 = 0 → WORDLIST[0].encoding = "esu-elegbara"
+  Chunk 16:    0b11100000 = 0b1110_0000 = 224 → WORDLIST[224].encoding
+
+Result: 16 × "esu-elegbara", then 1 × WORDLIST[224].encoding
+```
+
+> **Note for Phase 3:** Before pinning a test vector for all-zero 128-bit entropy, manually compute which token sits at array_index 224 from the actual `Canonical JSON`. Do not assume it from the example above — verify against the real data.
+
+**Checksum extraction detail:**
+The checksum occupies the top N bits of `h[0]`. To extract N bits from a byte:
+```rust
+let top_n_bits = h[0] >> (8 - checksum_bits);   // e.g., 0xe3 >> 4 = 0x0e = 14
+```
+During decoding, to compare:
+```rust
+let stream_checksum_byte = /* 8-bit value with checksum in top N bits, bottom (8-N) bits = 0 */ ;
+let expected_byte        = h[0] & (0xFF << (8 - checksum_bits) as u8);
+ct_eq(&[stream_checksum_byte], &[expected_byte])
+```
 
 ---
 
-### PHASE 2 — Core Mnemonic Logic
-*Goal: Full entropy ↔ mnemonic ↔ seed ↔ master key pipeline with pinned test vectors.*
+## 8. TEST SPECIFICATIONS
 
-#### 2.A — Mnemonic Module
-- [ ] Implement `entropy_to_mnemonic` per Section 5.2 algorithm
-- [ ] Implement `mnemonic_to_entropy` per Section 5.3 algorithm — zeroize working buffer on all code paths (success AND error)
-- [ ] Implement `validate_mnemonic` (calls `mnemonic_to_entropy`, discards result)
-- [ ] Implement `generate_mnemonic` using `rand::rngs::OsRng`
-  - Add `rand = { version = "0.8", features = ["std"] }` to `Cargo.toml`
-- [ ] Validate: `generate_mnemonic(128)` produces 17 words
-- [ ] Validate: `generate_mnemonic(256)` produces 33 words
-- [ ] All error conditions return correct `BiponError` variants
+Every test file must be complete before its Phase gate is considered passed. "Complete" means all listed cases are implemented and passing — not just the happy path.
 
-#### 2.B — Seed Module
-- [ ] Implement `mnemonic_to_seed` per Section 5.4 algorithm
-- [ ] NFKD normalization applied to passphrase before concatenation
-- [ ] Salt constructed as `"BIPỌ̀N39 seed"` + normalized_passphrase (no extra separator)
-- [ ] PBKDF2 rounds = 2048 (from `PBKDF2_ROUNDS` constant)
-- [ ] Output wrapped in `Zeroizing<[u8; 64]>`
-- [ ] `mnemonic_to_seed(words, None)` uses empty string as passphrase (no passphrase extension)
+### 8.1 `tests/wordlist_integrity.rs`
 
-#### 2.C — Derivation Module
-- [ ] Implement `master_from_seed` for both `DerivationMode::Native` and `DerivationMode::Bip32`
-- [ ] Implement `MasterKey` struct with `Zeroizing` fields
-- [ ] Implement path string constants per Section 6.7
+| Test | Description |
+|---|---|
+| `loads_256_entries` | WORDLIST has exactly 256 entries |
+| `macro_counts_correct` | ÈṢÙ=88, ṢÀNGÓ=20, Ọ̀ṢUN=28, YEMỌJA=28, ỌYA=32, ÒGÚN=32, ỌBÀTÁLÁ=28 |
+| `flat_index_sequence` | Indices 1–256 with no gaps or duplicates |
+| `array_index_equals_flat_minus_one` | array_index == flat_index − 1 for all entries |
+| `no_duplicate_encoding_tokens` | All 256 encoding strings are unique |
+| `no_duplicate_canonical_tokens` | All 256 canonical strings are unique |
+| `encoding_regex_compliance` | All encoding tokens match `^[a-z][a-z0-9\-]+$` |
+| `boundary_spot_checks` | All 14 entries from the Verified Boundary Tokens table in Section 1.2 |
+| `merkle_root_matches_pinned_constant` | Computed root == MERKLE_ROOT (skip if MERKLE_ROOT == "") |
+| `verify_wordlist_integrity_passes` | The public function returns Ok(()) |
 
-#### 2.D — Pin Test Vectors
-- [ ] Write a one-time script (or `cargo test` target with `--ignored`) to generate test vectors:
-  - Use specific entropy hex values (choose known fixed byte sequences)
-  - Print entropy → mnemonic → seed → master keys
-  - Paste output into `vectors/test_vectors.json`
-- [ ] Create `vectors/test_vectors.json` with structure:
+### 8.2 `tests/mnemonic_roundtrip.rs`
+
+| Test | Description |
+|---|---|
+| `roundtrip_128_bit` | 16 random bytes → mnemonic → entropy == original |
+| `roundtrip_160_bit` | Same for 20 bytes |
+| `roundtrip_192_bit` | Same for 24 bytes |
+| `roundtrip_224_bit` | Same for 28 bytes |
+| `roundtrip_256_bit` | Same for 32 bytes |
+| `all_zeros_128_bit` | `[0x00; 16]` roundtrip |
+| `all_zeros_256_bit` | `[0x00; 32]` roundtrip |
+| `all_ff_256_bit` | `[0xFF; 32]` roundtrip |
+| `wrong_word_count_err` | 16 words → `InvalidMnemonicLength { words: 16 }` |
+| `wrong_word_count_zero_err` | 0 words → `InvalidMnemonicLength { words: 0 }` |
+| `unknown_word_err` | Replace word at position 3 with `"xyz-fake"` → `InvalidWord { position: 3, ... }` |
+| `corrupted_checksum_err` | Flip a bit in the last word's index → `ChecksumMismatch` |
+| `validate_mnemonic_passes_for_valid` | `validate_mnemonic` returns Ok(()) on a valid mnemonic |
+| `validate_mnemonic_fails_for_bad_checksum` | Returns `ChecksumMismatch` |
+
+### 8.3 `tests/mnemonic_vectors.rs`
+
+Load `vectors/test_vectors.json`. For each vector:
+- Decode `entropy_hex` to bytes.
+- Call `entropy_to_mnemonic(entropy)` and compare to the stored `mnemonic` array.
+- Call `mnemonic_to_entropy` on the stored mnemonic and compare to entropy bytes.
+- If `seed_hex` is present: call `mnemonic_to_seed(mnemonic, passphrase_or_empty)` and compare.
+- If `master_key_native_hex` is present: call `master_from_seed(seed, Native)` and compare key and chain_code hex.
+- If `master_key_bip32_hex` is present: same for `Bip32` mode.
+
+**Minimum required vectors (populate in Phases 3–5):**
+- All-zero entropy at each of 5 lengths, no passphrase.
+- All-zero 256-bit entropy with passphrase `"àṣẹ"`.
+
+### 8.4 `tests/seed_derivation.rs`
+
+| Test | Description |
+|---|---|
+| `empty_passphrase_deterministic` | Same inputs → same 64-byte output on repeated calls |
+| `passphrase_changes_seed` | Same mnemonic, different passphrase → different seed |
+| `empty_vs_nonempty_passphrase_differ` | Passphrase="" and passphrase="a" produce different seeds |
+| `output_is_64_bytes` | Length of output == 64 |
+| `nfkd_normalization_applied` | Precomposed passphrase (e.g. `"a\u{0301}"`) == decomposed equivalent (`"á"`) |
+| `pinned_vector_no_passphrase` | From test_vectors.json |
+| `pinned_vector_with_passphrase` | From test_vectors.json |
+
+### 8.5 `tests/derivation.rs`
+
+| Test | Description |
+|---|---|
+| `native_mode_deterministic` | Same seed → same key and chain_code on repeated calls |
+| `bip32_mode_deterministic` | Same for BIP-32 mode |
+| `native_ne_bip32` | Same seed → different key/chain_code for each mode |
+| `key_is_32_bytes` | key.len() == 32 |
+| `chain_code_is_32_bytes` | chain_code.len() == 32 |
+| `pinned_native_vector` | From test_vectors.json |
+| `pinned_bip32_vector` | From test_vectors.json |
+
+### 8.6 `tests/ifascript.rs`
+
+| Test | Description |
+|---|---|
+| `odu_index_in_range` | `odu_primary_index` result is in 0..=255 |
+| `odu_index_deterministic` | Same mnemonic → same result |
+| `odu_xor_correctness` | Manually verify XOR of known indices |
+| `macro_distribution_known_mnemonic` | Count distribution matches expected breakdown |
+| `dominant_macro_correct` | Returns the macro with the highest count |
+| `dominant_macro_tie_breaks_by_lower_index` | Tie → macro with lower flat_index start wins |
+| `canonical_encoding_roundtrip` | `canonical_for_encoding(x)` → `encoding_for_canonical(y)` → x |
+| `macro_from_flat_index` | Spot-check: index 1→Esu, 89→Sango, 109→Osun, 137→Yemoja, 165→Oya, 197→Ogun, 229→Obatala |
+| `macro_from_flat_index_out_of_range` | Index 0 and 257 → None |
+| `entries_for_macro_counts` | Verify entry counts per macro |
+
+---
+
+## 9. PINNED TEST VECTOR SCHEMA
+
+Populate `vectors/test_vectors.json` during Phases 3–5. The schema:
+
 ```json
 {
-  "version": "1.0.0",
-  "salt_prefix": "BIPỌ̀N39 seed",
-  "pbkdf2_rounds": 2048,
+  "schema_version": "1.0",
+  "description": "BIPỌ̀N39 pinned test vectors — generated from canonical implementation",
+  "generated_at": "YYYY-MM-DD",
   "vectors": [
     {
-      "id": "v1-128bit-no-passphrase",
-      "entropy_hex": "...",
+      "id": "v001",
+      "description": "all-zero 128-bit entropy, no passphrase",
+      "entropy_hex": "00000000000000000000000000000000",
       "entropy_bits": 128,
       "passphrase": "",
-      "mnemonic": ["word1", "word2", ...],
-      "mnemonic_sentence": "word1 word2 ...",
+      "mnemonic": ["token1", "token2", "..."],
+      "mnemonic_phrase": "token1 token2 ...",
+      "word_count": 17,
       "seed_hex": "...",
       "master_key_native_hex": "...",
-      "master_chain_code_native_hex": "...",
+      "master_chain_native_hex": "...",
       "master_key_bip32_hex": "...",
-      "master_chain_code_bip32_hex": "..."
+      "master_chain_bip32_hex": "..."
+    },
+    {
+      "id": "v002",
+      "description": "all-zero 160-bit entropy, no passphrase",
+      "entropy_hex": "0000000000000000000000000000000000000000",
+      "entropy_bits": 160,
+      "passphrase": "",
+      "mnemonic": ["..."],
+      "word_count": 21,
+      "seed_hex": "..."
+    },
+    {
+      "id": "v003",
+      "description": "all-zero 192-bit entropy, no passphrase",
+      "entropy_bits": 192,
+      "word_count": 25
+    },
+    {
+      "id": "v004",
+      "description": "all-zero 224-bit entropy, no passphrase",
+      "entropy_bits": 224,
+      "word_count": 29
+    },
+    {
+      "id": "v005",
+      "description": "all-zero 256-bit entropy, no passphrase",
+      "entropy_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "entropy_bits": 256,
+      "passphrase": "",
+      "mnemonic": ["..."],
+      "word_count": 33,
+      "seed_hex": "...",
+      "master_key_native_hex": "...",
+      "master_chain_native_hex": "...",
+      "master_key_bip32_hex": "...",
+      "master_chain_bip32_hex": "..."
+    },
+    {
+      "id": "v006",
+      "description": "all-zero 256-bit entropy, passphrase: àṣẹ (precomposed unicode)",
+      "entropy_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "entropy_bits": 256,
+      "passphrase": "àṣẹ",
+      "mnemonic": ["..."],
+      "word_count": 33,
+      "seed_hex": "..."
     }
   ]
 }
 ```
-- [ ] All 7 required vectors from Section 7.2 are present and pinned
 
-#### 2.E — Round-Trip and Vector Tests
-- [ ] Write `tests/mnemonic_vectors.rs` — all 7 pinned vectors pass
-- [ ] Write `tests/roundtrip.rs` — all fuzz-style tests pass
-- [ ] `cargo test` — full test suite green
+**Process for generating vectors:**
+1. Implement the function under test.
+2. Write a `#[test]` with `-- --nocapture` that prints the hex output.
+3. Run `cargo test <test_name> -- --nocapture`.
+4. Paste the printed value into `test_vectors.json`.
+5. Rewrite the test to assert against the pinned value.
+6. Run `cargo test` to confirm the assertion passes.
 
-#### 2.F — Phase 2 Commit
-- [ ] `cargo clippy -- -D warnings` zero warnings
-- [ ] `cargo fmt --check` passes
-- [ ] Commit: `feat(mnemonic): entropy↔mnemonic↔seed↔masterkey pipeline with pinned vectors`
-- [ ] Push
-- [ ] Update this checklist
+Vectors are not invented — they are generated by the implementation and then locked. If a future change causes a vector to fail, that is a breaking change requiring a full regression investigation.
 
 ---
 
-### PHASE 3 — Ifáscript & Ori Metadata Layer
-*Goal: Macro metadata, Odù index, elemental signatures — the cultural intelligence layer.*
+## 10. PHASED BUILD CHECKLIST
 
-#### 3.A — Ifascript Module
-- [ ] Implement `macro_of_word(word_index: usize)` per Section 6.8
-- [ ] Implement `odu_primary_index(word_indices: &[usize]) -> u8`
-  - Match TypeScript `oduPrimaryIndex` behavior exactly (verify: which words are XOR'd?)
-  - Document clearly whether checksum word is included or excluded
-- [ ] Implement `ElementalClass` enum
-- [ ] Define macro → elemental class mapping (document the assignment rationale in code comments)
-- [ ] Implement `elemental_class(word_index: usize)`
-- [ ] Implement `ElementalSignature` struct
-- [ ] Implement `elemental_signature(word_indices: &[usize]) -> ElementalSignature`
+### Phase 0 — Bootstrap
+**Goal:** Compilable project structure with all files in place.
 
-#### 3.B — Display Module
-- [ ] Implement `src/display.rs` per Section 6.9
-- [ ] Implement `encoding_to_canonical(encoding: &str) -> Result<&'static str, BiponError>`
-- [ ] Implement `mnemonic_to_display(encoded_words: &[&str]) -> Result<String, BiponError>`
-- [ ] Implement `macro_display_name(macro_ascii: &str) -> &'static str`
-
-#### 3.C — Ifascript Tests
-- [ ] Write all tests from Section 7.4
-- [ ] `cargo test tests/ifascript` passes
-
-#### 3.D — Public API Surface Review
-- [ ] Review `src/lib.rs` — all intended public exports are `pub use`'d
-- [ ] All public functions have `///` doc comments
-- [ ] All public types have `///` doc comments
-- [ ] `cargo doc --no-deps` generates clean documentation with zero warnings
-
-#### 3.E — Phase 3 Commit
-- [ ] `cargo clippy -- -D warnings` zero warnings
-- [ ] `cargo fmt --check` passes
-- [ ] Commit: `feat(ifascript): macro metadata, Odù index, elemental signatures`
-- [ ] Push
-- [ ] Update this checklist
+- [ ] Clone or initialize repo at `https://github.com/Bino-Elgua/Bipon39-Rust`
+- [ ] Create directory structure exactly as in Section 3
+- [ ] Fetch `Canonical JSON` from the repo → save verbatim to `data/canonical.json`
+- [ ] Fetch `Canonical layer` from the repo → save verbatim to `data/canonical_layer.txt`
+- [ ] Fetch `Encoded layer` from the repo → save verbatim to `data/encoded_layer.txt`
+- [ ] Write `Cargo.toml` exactly as in Section 4 — no deviations
+- [ ] Create all `src/*.rs` files with stub `// TODO` content (so `cargo check` sees the module declarations)
+- [ ] Create empty `tests/*.rs` files
+- [ ] Create `vectors/test_vectors.json` with empty `vectors: []` array
+- [ ] Run `cargo check` — must pass with zero errors
+- [ ] Run `cargo build` — must succeed
+- [ ] Commit: `"Phase 0: bootstrap — project structure and Cargo.toml"`
+- [ ] Update Session Log
 
 ---
 
-### PHASE 4 — Polish, Benchmarks, and Production Readiness
-*Goal: The library is ready for consumption by downstream systems.*
+### Phase 1 — Wordlist Foundation
+**Gate: Do not advance to Phase 2 until ALL wordlist_integrity tests pass with 100% green.**
 
-#### 4.A — README.md
-- [ ] Write comprehensive `README.md` covering:
-  - [ ] What BIPỌ̀N39 is and why it exists (cultural context, sovereign standard)
-  - [ ] How it differs from BIP-39 (8-bit encoding, 256 tokens, Orisha wordlist, custom PBKDF2 salt)
-  - [ ] Installation / `Cargo.toml` dependency snippet
-  - [ ] Usage examples (generate mnemonic, recover entropy, derive seed, derive master key, display canonical)
-  - [ ] Derivation paths table
-  - [ ] Wordlist source files (links to repo)
-  - [ ] How to verify the Merkle root
-  - [ ] License
+- [ ] Implement `error.rs` — complete `BiponError` enum with all variants as specified
+- [ ] Implement `constants.rs` — all constants; `MERKLE_ROOT = ""`
+- [ ] Implement `wordlist.rs`:
+  - [ ] `WordlistEntry` struct
+  - [ ] `WORDLIST` static (via `once_cell` + `include_str!` parsing, or `build.rs` code gen)
+  - [ ] `ENCODING_INDEX` lookup map
+  - [ ] All public API functions
+  - [ ] `verify_wordlist_integrity()` with all 8 checks
+- [ ] Write `tests/wordlist_integrity.rs` — all 10 test cases
+- [ ] Run `cargo test wordlist_integrity` — must be 100% pass
+- [ ] Manually confirm all 14 boundary spot-checks appear in test output
+- [ ] Run `cargo clippy -- -D warnings` on completed files — zero warnings
+- [ ] Commit: `"Phase 1: wordlist foundation — integrity tests green"`
+- [ ] Update Session Log
 
-#### 4.B — SPEC.md
-- [ ] Write `SPEC.md` as the technical-only specification (no agent instructions)
-  - Entropy → mnemonic algorithm
-  - Mnemonic → entropy algorithm
-  - Seed derivation (PBKDF2 params, salt, normalization)
-  - Master key derivation (both modes)
-  - Merkle root computation
-  - Checksum scheme
-  - Token encoding constraints
-  - Odù index definition
-  - Elemental class mapping table
+---
 
-#### 4.C — Benchmarks
-- [ ] Implement `benches/throughput.rs` with criterion benchmarks (Section 7.5)
-- [ ] `cargo bench` compiles and runs without errors
+### Phase 2 — Crypto Core & Merkle Root
+**Gate: MERKLE_ROOT must be pinned in this phase and never left as "" in any subsequent commit.**
 
-#### 4.D — CI / GitHub Actions
-- [ ] Create `.github/workflows/ci.yml`:
+- [ ] Implement `crypto.rs`:
+  - [ ] `sha256()`
+  - [ ] `hmac_sha512()`
+  - [ ] `sha256_merkle_root()`
+  - [ ] `compute_wordlist_merkle_root()`
+  - [ ] `ct_eq()`
+- [ ] Write a temporary `#[test]` that calls `compute_wordlist_merkle_root()` with `-- --nocapture` and prints the result
+- [ ] Run `cargo test compute_merkle -- --nocapture` → capture the printed hex string
+- [ ] Paste that hex string into `constants::MERKLE_ROOT`
+- [ ] Write (or update) the `merkle_root_matches_pinned_constant` test to assert the computed value equals the constant
+- [ ] Run `cargo test wordlist_integrity` — all tests still pass, including the Merkle check
+- [ ] Write a `sha256_empty_input` unit test in `crypto.rs` that verifies `sha256(&[])` == `e3b0c44998fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`
+- [ ] Run `cargo test` — all tests pass
+- [ ] Commit: `"Phase 2: crypto core — MERKLE_ROOT pinned: <paste the hash here>"`
+- [ ] Update Session Log
+
+---
+
+### Phase 3 — Mnemonic Encoding and Decoding
+**Gate: Roundtrip and vector tests must be 100% green.**
+
+- [ ] Read `src/bipon39.ts` in `https://github.com/Bino-Elgua/bipon39` to understand the reference implementation's checksum extraction and bit-stream construction before writing any code
+- [ ] Implement `mnemonic.rs`:
+  - [ ] `entropy_to_mnemonic()` — full algorithm per Section 5.5
+  - [ ] `mnemonic_to_entropy()` — full algorithm per Section 5.5
+  - [ ] `validate_mnemonic()`
+  - [ ] `split_mnemonic()` and `join_mnemonic()`
+- [ ] Write `tests/mnemonic_roundtrip.rs` — all 14 test cases
+- [ ] Run `cargo test mnemonic_roundtrip` — 100% pass
+- [ ] **Manually verify:** Run all-zero 256-bit entropy through `entropy_to_mnemonic()` with `-- --nocapture`, inspect all 33 tokens, confirm the checksum word is derived from the correct checksum bits
+- [ ] Generate all 5 zero-entropy vectors (no passphrase) → record `mnemonic` arrays in `test_vectors.json` (leave seed and key fields as TBD for now)
+- [ ] Write `tests/mnemonic_vectors.rs` with mnemonic-only assertions (seed/key assertions come in Phases 4–5)
+- [ ] Run `cargo test mnemonic_vectors` — 100% pass
+- [ ] Commit: `"Phase 3: mnemonic encode/decode — roundtrip tests green, 5 vectors recorded"`
+- [ ] Update Session Log
+
+---
+
+### Phase 4 — Seed Derivation
+**Gate: PBKDF2 vectors must be pinned. NFKD normalization must be explicitly tested.**
+
+- [ ] Implement `seed.rs` — `mnemonic_to_seed()` with NFKD normalization per Section 5.6
+- [ ] Write `tests/seed_derivation.rs` — all 7 test cases
+- [ ] Run `cargo test seed_derivation` — 100% pass
+- [ ] Generate seeds for all 5 zero-entropy vectors (no passphrase) → add `seed_hex` to each in `test_vectors.json`
+- [ ] Generate seed for 256-bit zero-entropy + passphrase `"àṣẹ"` → add `seed_hex` to v006
+- [ ] Update `tests/mnemonic_vectors.rs` to assert seed values for vectors that have them
+- [ ] Run `cargo test mnemonic_vectors` — 100% pass
+- [ ] Commit: `"Phase 4: seed derivation — PBKDF2 vectors pinned, NFKD verified"`
+- [ ] Update Session Log
+
+---
+
+### Phase 5 — Master Key Derivation
+**Gate: Both Native and BIP-32 vectors pinned. Confirmed they differ for the same seed.**
+
+- [ ] Implement `derivation.rs`:
+  - [ ] `DerivationMode` enum
+  - [ ] `MasterKey` struct with `ZeroizeOnDrop`
+  - [ ] `master_from_seed()`
+  - [ ] `key_hex()` and `chain_code_hex()` on `MasterKey`
+- [ ] Write `tests/derivation.rs` — all 7 test cases
+- [ ] Run `cargo test derivation` — 100% pass
+- [ ] Generate native and BIP-32 master keys for v001 (128-bit all-zero, no passphrase) and v005 (256-bit all-zero, no passphrase) → add to `test_vectors.json`
+- [ ] Confirm `master_key_native_hex != master_key_bip32_hex` for the same seed — document in Session Log
+- [ ] Update `tests/mnemonic_vectors.rs` to assert master key values
+- [ ] Run `cargo test` — all tests pass
+- [ ] Commit: `"Phase 5: master key derivation — Native and BIP-32 vectors pinned"`
+- [ ] Update Session Log
+
+---
+
+### Phase 6 — Ifáscript and Display Layer
+**Gate: All ifascript and display tests green.**
+
+- [ ] Implement `ifascript.rs` — full `Macro` enum + all functions per Section 5.8
+- [ ] Implement `display.rs` — all conversion and formatting functions per Section 5.9
+- [ ] Write `tests/ifascript.rs` — all 10 test cases
+- [ ] Run `cargo test ifascript` — 100% pass
+- [ ] Run `cargo test` — full suite passes
+- [ ] Commit: `"Phase 6: Ifáscript and display layer — all tests green"`
+- [ ] Update Session Log
+
+---
+
+### Phase 7 — Polish, Docs, and CI
+**Gate: Zero clippy warnings. Zero doc warnings. CI green on push.**
+
+- [ ] Complete `lib.rs` — all modules declared, full public API re-exported, crate-level doc comment
+- [ ] Add `///` doc comments to every public item in every module
+- [ ] Run `cargo clippy -- -D warnings` → zero warnings
+- [ ] Run `cargo doc --no-deps` → zero documentation warnings
+- [ ] Write `benches/throughput.rs`:
+  - [ ] `entropy_to_mnemonic` benchmark (256-bit random entropy, 100 iterations)
+  - [ ] `mnemonic_to_seed` benchmark
+  - [ ] `compute_wordlist_merkle_root` benchmark
+- [ ] Run `cargo bench` — completes without panic
+- [ ] Write `.github/workflows/ci.yml`:
+  - Trigger on push and pull_request to main
+  - Ubuntu latest, stable Rust toolchain
+  - Steps: `cargo build`, `cargo test --release`, `cargo clippy -- -D warnings`
+- [ ] Write `README.md`: description, install, quick-start usage, table of test vectors, links to SPEC.md and AGENT_CHECKLIST.md
+- [ ] Write `SPEC.md`: formal technical specification (algorithm details, parameter rationale, security model, cross-platform guarantees)
+- [ ] Push to GitHub — CI must pass on the push
+- [ ] Commit: `"Phase 7: polish — CI green, docs complete, benchmarks running"`
+- [ ] Update Session Log
+
+---
+
+### Phase 8 — Ecosystem Integration
+**Goal:** The library is ready for consumption by downstream Ọmọ Kọ́dà components.
+
+- [ ] Write integration guide: Ifáscript — how to use `macro_distribution`, `odu_primary_index`, `dominant_macro` in downstream apps
+- [ ] Write integration guide: Orí Kọ́dà — mnemonic generation, seed derivation, and passphrase handling
+- [ ] Write integration guide: Ọmọ-kọ́dà — full entropy-to-master-key flow with both derivation modes
+- [ ] Publish stable `MERKLE_ROOT` value in `README.md` for on-chain anchoring reference
+- [ ] Tag `v0.1.0` on the main branch
+- [ ] Push tag to `https://github.com/Bino-Elgua/Bipon39-Rust`
+- [ ] Update Session Log — final entry for v0.1.0
+
+---
+
+## 11. ACCEPTANCE GATE CRITERIA
+
+The implementation is considered production-ready when every item below is true simultaneously:
+
+| Criterion | How to Verify |
+|---|---|
+| `cargo test` passes with zero failures | `cargo test 2>&1 | tail -5` — should show `0 failed` |
+| `cargo clippy -- -D warnings` passes | Zero lines of warning output |
+| `MERKLE_ROOT` is pinned and verified | The `merkle_root_matches_pinned_constant` test exists, runs, and passes |
+| Full roundtrip for all 5 entropy lengths | `mnemonic_roundtrip` test suite |
+| Pinned seed vectors match | `mnemonic_vectors` test suite |
+| Pinned master key vectors match (both modes) | `derivation` and `mnemonic_vectors` test suites |
+| All 14 boundary spot-checks pass | `wordlist_integrity` test suite |
+| NFKD normalization explicitly tested | `seed_derivation::nfkd_normalization_applied` test |
+| Native mode ≠ BIP-32 mode for same seed | `derivation::native_ne_bip32` test |
+| CI workflow passes on GitHub Actions | Green check on last commit |
+| Session Log in this file reflects final state | Read the top Session Log entry |
+
+---
+
+## 12. WHAT TO TAKE FROM THE REFERENCE REPO
+
+The reference repo at `https://github.com/Bino-Elgua/bipon39` is a TypeScript implementation of a related but incompatible system. Study it for the following — and only the following:
+
+| Permitted to borrow | How to use it |
+|---|---|
+| PBKDF2 parameters | Confirm: 2048 iterations, HMAC-SHA512, 64-byte output, NFKD normalization applied to both mnemonic and passphrase |
+| Salt construction | `"BIPỌ̀N39 seed"` base + `" Ọ̀RÍ:<passphrase>"` suffix when non-empty |
+| Merkle tree strategy | Binary tree, SHA-256 leaf hashes, duplicate-last for odd levels — same strategy, different leaves |
+| Odù XOR logic | XOR-reduce of word array indices — same concept, applied to our 256-token list |
+| API shape | Function names and signatures are inspired by; adapted to Rust idioms |
+| Test vector format | The `vectors.json` schema structure |
+| Master key derivation | HMAC-SHA512(key=mode_string, data=seed) — identical algorithm |
+| CLI design | Reference only — we do not implement a CLI in v0.1.0 |
+
+| Forbidden to borrow | Reason |
+|---|---|
+| Any token string (`esu-gate`, `sango-volt`, `ogun-forge`, `irawo-dawn`, etc.) | Completely different and incompatible wordlist |
+| The Merkle root hash (`0ab1fafa...`) | Computed over their 256 tokens, not ours |
+| Subtone expansion / 2048-mode | BIPỌ̀N39-Rust is Base-256 only; no expansion modes |
+| Root names (`orunmila`, `egungun`, `ori`, `ile`, `omi`, `ina`, `afeefe`, `igi`, `irawo`) | These are not in our wordlist |
+| Affix names (`gate`, `volt`, `forge`, `stream`, `tide`, `veil`, `crown`, etc.) | These are not in our wordlist |
+| Elemental signature logic | Not part of our spec |
+| Sabbath gate logic | Not part of our spec |
+
+---
+
+## 13. CRITICAL ANTI-PATTERNS
+
+| ❌ Never Do This | Why It Is Catastrophic |
+|---|---|
+| Import any token from the `bipon39` repo | The wordlists are incompatible. Mixed tokens produce invalid mnemonics with no error. |
+| Use the `bipon39` repo's Merkle root | Their root is over their 256 tokens. Ours is over our 256 tokens. They will differ. |
+| Compare checksum bytes or key material with `==` | Timing side channels. Always use `ct_eq()`. |
+| Use `unwrap()` in library code | A panic in a cryptographic library is an unhandled failure — unacceptable. Use `?`. |
+| Skip NFKD normalization in seed derivation | The same mnemonic with different Unicode normalization forms produces a different seed. Silent data loss. |
+| Implement 2048-mode or subtone expansion | This crate is Base-256 only. No expansion, no subtones. Do not add it. |
+| Leave `MERKLE_ROOT = ""` in any commit after Phase 2 | Silently disables integrity verification in all production builds. |
+| Drop entropy, seed, or private key bytes without `Zeroizing` | Sensitive material lingers in memory, available to forensic tools or other processes. |
+| Modify `ENTROPY_WORD_TABLE` | Every existing mnemonic and test vector immediately breaks. |
+| Use `unsafe` without documented necessity | Rust's safety guarantees are part of the security model. |
+| Put canonical (Yorùbá) strings through any hash function | Only encoding (ASCII) strings are cryptographic inputs. |
+| Embed the wordlist as a hand-typed array | Copy `data/canonical.json` byte-for-byte from the repo. Typos in a wordlist are irrecoverable. |
+| Generate a vector and immediately pin it without checking | Print it, inspect it manually against the algorithm, then pin. |
+| Remove the `merkle_root_matches_pinned_constant` test | It is a permanent fixture. It catches wordlist drift. It must survive forever. |
+
+---
+
+## 14. CI CONFIGURATION
+
+`/.github/workflows/ci.yml`:
+
 ```yaml
 name: CI
-on: [push, pull_request]
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLOR: always
+
 jobs:
   test:
+    name: Test Suite
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - run: cargo fmt --check
-      - run: cargo clippy -- -D warnings
-      - run: cargo test
-      - run: cargo doc --no-deps
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build
+        run: cargo build --verbose
+
+      - name: Run tests (release mode)
+        run: cargo test --release --verbose
+
+      - name: Clippy (deny warnings)
+        run: cargo clippy -- -D warnings
+
+      - name: Check documentation
+        run: cargo doc --no-deps --document-private-items
 ```
-- [ ] Push CI config
-- [ ] First CI run passes all checks
 
-#### 4.E — Security Review Checklist
-- [ ] All secret byte arrays wrapped in `Zeroizing` on all code paths
-- [ ] No `.clone()` on entropy or seed buffers without immediate zeroize
-- [ ] No `println!` or logging of secret data in any non-test code
-- [ ] `cargo audit` runs clean (no known vulnerabilities in dependency tree)
-  - Add `cargo-audit` as dev tool: `cargo install cargo-audit`
-- [ ] No `unsafe` blocks exist (if any do, they are documented with a safety comment)
-- [ ] All error paths zeroize intermediate sensitive buffers
-
-#### 4.F — Phase 4 Commit
-- [ ] Commit: `docs: README, SPEC, benchmarks, CI; security review complete`
-- [ ] Push
-- [ ] Update this checklist
+This CI must be present from Phase 7 onward. Once added, every push must keep it green.
 
 ---
 
-### PHASE 5 — Ecosystem Integration
-*Goal: The library is usable by Ifascript, Ori Kọ́dà, and Omo-koda.*
+## 15. SESSION LOG
 
-#### 5.A — Stable Merkle Root Anchoring
-- [ ] Verify the pinned `MERKLE_ROOT` constant is correct by running `compute_merkle_root()` in a fresh environment and comparing
-- [ ] Document the Merkle root value in `README.md` and `SPEC.md`
-- [ ] Prepare the Merkle root and spec hash values for on-chain anchoring (document in `SPEC.md`)
-
-#### 5.B — Ifascript Integration Contract
-- [ ] Write `INTEGRATION.md` documenting:
-  - How `Ifascript` should call `bipon39::ifascript::odu_primary_index`
-  - How `Ori Kọ́dà` should call `bipon39::mnemonic::entropy_to_mnemonic`
-  - How `Omo-koda` should consume `bipon39::wordlist::WORDLIST`
-  - Expected Cargo dependency declaration for downstream crates
-  - Which features to enable/disable for embedded/WASM targets (future)
-
-#### 5.C — Optional FFI Preparation (do not implement until Phase 4 is complete)
-- [ ] Evaluate FFI need with author
-- [ ] If needed: Create `src/ffi.rs` with C-compatible `extern "C"` function stubs
-- [ ] If needed: Add `cbindgen` to build dependencies for C header generation
-- [ ] If needed: Document FFI safety contracts in `ffi.rs`
-
-#### 5.D — Versioning and Release Preparation
-- [ ] Bump `Cargo.toml` version to `0.1.0` (confirm with author before `0.1.0` tag)
-- [ ] Ensure `Cargo.lock` is committed (library crate — lock is committed for reproducibility)
-- [ ] Tag `v0.1.0` on GitHub once Phase 4 CI is green
-- [ ] Optional: Publish to crates.io (only with author approval)
-
-#### 5.E — Phase 5 Commit
-- [ ] Commit: `chore: ecosystem integration docs, Merkle anchor, release prep`
-- [ ] Push
-- [ ] Update this checklist
+Add a new entry at the **top** of this section (immediately below this heading) before every push. Never delete prior entries — they form the audit trail.
 
 ---
 
-## 9. Rules for Every Agent Session
+```
+────────────────────────────────────────────────────────────────────────────
+Session Date     : [YYYY-MM-DD]
+Agent / Platform : [name of agent or platform, e.g. "Claude Sonnet 4.5 / claude.ai mobile"]
+Phase Completed  : [e.g. "Phase 1 — Wordlist Foundation"]
+MERKLE_ROOT      : [ not yet pinned | pinned: <hex> ]
+────────────────────────────────────────────────────────────────────────────
 
-Before writing any code in a session, an agent must:
+Files Created or Modified:
+  - [list each file with a one-line description of change]
 
-1. **Read this entire file** from top to bottom.
-2. **Check the Session Log** (Section 10) to understand what was done last.
-3. **Run `cargo test`** to confirm the current state of the codebase. Note any failures before making changes.
-4. **Identify the first unchecked item** in the appropriate phase and begin there.
-5. **Not skip ahead** to later phases unless all items in the current phase are checked off.
+Work Completed:
+  - [itemized list of what was built or fixed]
 
-During a session, an agent must:
+Test Status:
+  wordlist_integrity : [ x/x PASS | not yet written ]
+  mnemonic_roundtrip : [ x/x PASS | not yet written ]
+  mnemonic_vectors   : [ x/x PASS | not yet written ]
+  seed_derivation    : [ x/x PASS | not yet written ]
+  derivation         : [ x/x PASS | not yet written ]
+  ifascript          : [ x/x PASS | not yet written ]
 
-- Keep commits small and focused (one logical unit per commit).
-- Run `cargo clippy -- -D warnings` and `cargo fmt` before every commit.
-- Never commit code that fails `cargo test` (unless the failure is a pre-existing documented failure, noted in the Session Log).
-- Update this checklist file in the same commit as the code it documents.
+Vectors Pinned This Session:
+  - [list vector IDs added or updated, e.g. "v001 mnemonic" or "none"]
 
-At the end of a session, an agent must:
+Open Questions / Blockers:
+  - [anything unresolved that the next agent must be aware of]
 
-- Mark all completed items `[x]`.
-- Add a Session Log entry in Section 10.
-- Push all commits and the updated checklist.
-- Leave a clear `NEXT:` note at the top of the Session Log entry indicating exactly what the next agent should do first.
+Next Priority (first thing next session):
+  - [the single most important task to begin with — be specific]
 
----
+Notes for Next Agent:
+  - [any context, gotchas, or decisions made this session that are not obvious from the code]
+────────────────────────────────────────────────────────────────────────────
+```
 
-## 10. Session Log
-
-*Most recent entry at the top. Every session adds one entry.*
-
----
-
-### Session 0 — [2026-05-05] — Ọbàtálá (Master Auditor) / Bínò ÈL Guà
-**Agent:** Claude (Ọbàtálá audit session)
-**Work Done:**
-- Read both repos (`Bipon39-Rust` and `bipon39` TypeScript reference) in full.
-- Read `Canonical JSON` — confirmed 256 tokens across 7 macros, flat_index structure.
-- Read TypeScript reference README — confirmed derivation architecture, PBKDF2 parameters, Merkle strategy, test vector structure, derivation paths.
-- Produced this `AGENT_CHECKLIST.md` as the foundational implementation bible.
-
-**Status:** No code written. This is the planning artifact.
-
-**NEXT:** Begin Phase 0 — bootstrap the Rust project. Run `cargo init --lib` in the repo, add `Cargo.toml` dependencies from Section 4, create directory scaffold, copy data files into `data/`, run `cargo check`, and commit. Then proceed to Phase 1.A (error types).
+*No sessions logged yet. First agent: fill in the template above, push, and leave the next agent a clear next priority.*
 
 ---
-
-*End of Session Log. Future agents: add entries above this line.*
-
----
-
-## 11. Known Risks and Edge Cases
-
-### 11.1 Merkle Root Recomputation Required
-The TypeScript reference repo documents a pinned Merkle root of `0ab1fafa...`. This root was computed over the **old** 16-root × 16-affix wordlist structure. The new wordlist is entirely different. The correct Merkle root for the Orisha-macro 256-token encoded list must be freshly computed in Phase 1.D. Do not copy the TypeScript root value.
-
-### 11.2 PBKDF2 Salt Unicode
-The salt prefix `"BIPỌ̀N39 seed"` contains Unicode (Ọ̀, N with subscript dot, etc.). When converted to bytes for PBKDF2, use UTF-8 encoding. The TypeScript reference uses `Buffer.from(...)` which defaults to UTF-8. Rust's `.as_bytes()` on a `&str` is also UTF-8. Confirm alignment.
-
-### 11.3 Passphrase NFKD Normalization
-The TypeScript reference normalizes the passphrase to NFKD before concatenating to the salt. This ensures that visually identical passphrases with different Unicode representations produce the same seed. The `unicode-normalization` crate in Rust handles this. Do not skip this step.
-
-### 11.4 Checksum Word Boundary in Odù Index
-The TypeScript `oduPrimaryIndex` function must be studied carefully to determine whether the checksum word (last word in the mnemonic) is included in the XOR reduction. The choice must be documented and match the TypeScript behavior exactly for cross-implementation consistency.
-
-### 11.5 Encoding ASCII and Hyphen Characters
-All encoded tokens use only lowercase `[a-z]` and hyphens `-`. No digits appear in any token (verify against actual data during Phase 1 testing). The regex in Section 2.4 allows digits for future-proofing but should be narrowed to `[a-z]+(-[a-z]+)*` if the actual tokens are purely alphabetic.
-
-### 11.6 Termux / Android Environment
-The author runs all commands manually in Termux on Android. This means:
-- No CI agent can push code on the author's behalf.
-- All `cargo` commands (build, test, clippy, fmt, bench) are run by the author.
-- Agents provide code and the author runs it. Agents do not execute shell commands.
-- When writing instructions for the author, be explicit and command-by-command.
-
-### 11.7 No Modification of Source Files in `data/`
-The files in `data/` are copies of the authoritative wordlist files. They must never be edited by an agent or tool. If the author updates the wordlist (which would be an extraordinary event), they update the repo-root source files first and then recopy to `data/`. The agent then recomputes and repins the Merkle root.
-
----
-
-## 12. Acceptance Criteria — Full Completion Gate
-
-The project is complete when ALL of the following are true:
-
-- [ ] `cargo test` produces 100% passing tests with no `#[ignore]`'d tests
-- [ ] All 256 tokens load correctly from `Canonical JSON` via `include_str!`
-- [ ] Wordlist verification passes all 5 checks on every `cargo test` run
-- [ ] Merkle root is computed, pinned in `constants.rs`, and verified by test
-- [ ] Round-trip `entropy → mnemonic → entropy` works for all 5 entropy lengths with 1000 random samples each
-- [ ] All 7 pinned test vectors in `vectors/test_vectors.json` pass exactly
-- [ ] `mnemonic_to_seed` with and without passphrase matches pinned values
-- [ ] `master_from_seed` in both `Native` and `Bip32` modes matches pinned values
-- [ ] `odu_primary_index` matches TypeScript reference behavior
-- [ ] `elemental_signature` counts sum correctly for all test mnemonics
-- [ ] `encoding_to_canonical` round-trips cleanly for all 256 tokens
-- [ ] `cargo clippy -- -D warnings` is clean
-- [ ] `cargo fmt --check` is clean
-- [ ] `cargo doc --no-deps` generates clean documentation
-- [ ] `cargo audit` shows no known vulnerabilities
-- [ ] `README.md` is complete per Phase 4.A checklist
-- [ ] `SPEC.md` is complete per Phase 4.B checklist
-- [ ] `INTEGRATION.md` is complete per Phase 5.B
-- [ ] GitHub Actions CI passes on push
-- [ ] This `AGENT_CHECKLIST.md` has all items marked `[x]`
 
 **Àṣẹ.**
+*Bínò ÈL Guà — May 5, 2026*
 
----
-
-*BIPỌ̀N39-Rust — Agent Master Checklist v1.0 — Bínò ÈL Guà / Ọmọ Kọ́dà — May 5, 2026*
+— Master Auditor (Universal Blockchain & Code Specialist) 🤍🗿⚖️🕊️🌄
