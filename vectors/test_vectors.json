@@ -186,7 +186,11 @@
       ],
       "mnemonic_phrase": "esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara sango-monamona",
       "word_count": 33,
-      "seed_hex": "68b11e76147d7d3436015103d3a4f6fd5aa87834d4139e57e91d6467391ada62a489201ed50cae2260e39d0ba813600a6dbfa75cac9f31653f15ae739c202f1e"
+      "seed_hex": "68b11e76147d7d3436015103d3a4f6fd5aa87834d4139e57e91d6467391ada62a489201ed50cae2260e39d0ba813600a6dbfa75cac9f31653f15ae739c202f1e",
+      "master_key_native_hex": "40bb680889ff48502cbaa48b51c9ccf52093c64b8dcaaeff0ddf41f73a2e21a3",
+      "master_chain_native_hex": "26c95b72e8383c9f29ac8c1d85e352b4c7fedcc649e0dd80bde03b69e75fb3ec",
+      "master_key_bip32_hex": "87bfc605e8dc617be38e9499d50bd1c870ddb46dbe7f0e194357fb08333dbe0b",
+      "master_chain_bip32_hex": "b24d5dc8d8eff1d9e8c4a4ed532b9aab2bf59ccf0f07a5cc87031cac21042001"
     },
     {
       "id": "v006",

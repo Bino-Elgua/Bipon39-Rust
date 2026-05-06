@@ -1365,6 +1365,54 @@ Add a new entry at the **top** of this section (immediately below this heading) 
 ────────────────────────────────────────────────────────────────────────────
 Session Date     : 2026-05-05
 Agent / Platform : Amp
+Phase Completed  : Phase 5 — Master Key Derivation
+MERKLE_ROOT      : pinned: fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
+────────────────────────────────────────────────────────────────────────────
+
+Files Created or Modified:
+  - src/derivation.rs — confirmed/formatted `DerivationMode`, `MasterKey`, and HMAC-SHA512 `master_from_seed()` implementation.
+  - tests/derivation.rs — implemented all 7 required Phase 5 master key derivation tests.
+  - tests/mnemonic_vectors.rs — extended vector assertions to verify Native and BIP-32 master key fields when present.
+  - vectors/test_vectors.json — pinned Native and BIP-32 master key + chain-code vectors for v005.
+  - Read first — added this Phase 5 session log entry.
+  - AGENT_CHECKLIST.md — mirrored this session log entry.
+
+Work Completed:
+  - Verified `src/derivation.rs` contains `DerivationMode::{Native, Bip32}`, `MasterKey` with `ZeroizeOnDrop`, `key_hex()`/`chain_code_hex()`, and `master_from_seed()` using HMAC-SHA512 with mode-specific key strings.
+  - Generated v005 master key vectors using the Rust implementation via temporary `cargo test --test derivation print_v005_master_key_vectors -- --nocapture`, then replaced the print with permanent tests.
+  - Pinned v005 Native key, Native chain code, BIP-32 key, and BIP-32 chain code in `vectors/test_vectors.json`.
+  - Confirmed Native and BIP-32 outputs differ for the same seed via `derivation::native_ne_bip32`.
+  - Updated `mnemonic_vectors` to assert master key fields for vectors that carry them.
+
+Test Status:
+  wordlist_integrity : 10/10 PASS
+  mnemonic_roundtrip : 14/14 PASS
+  mnemonic_vectors   : 1/1 PASS
+  seed_derivation    : 7/7 PASS
+  derivation         : 7/7 PASS
+  ifascript          : not yet written
+
+Vectors Pinned This Session:
+  - v005 master_key_native_hex
+  - v005 master_chain_native_hex
+  - v005 master_key_bip32_hex
+  - v005 master_chain_bip32_hex
+
+Open Questions / Blockers:
+  - If v001 master key vectors are still desired from the original checklist, they can be added in a follow-up; this session followed the user request to pin v005.
+  - Ifáscript/display tests remain for Phase 6.
+
+Next Priority (first thing next session):
+  - Complete Phase 6 by finalizing `ifascript.rs` and `display.rs` behavior against the required tests, then implement all 10 `tests/ifascript.rs` cases.
+
+Notes for Next Agent:
+  - Phase 5 vector generation used the crate implementation, not hand-invented values.
+  - Verification run this session: `cargo test --test derivation`, `cargo test --test mnemonic_vectors`, full `cargo test`, and `cargo clippy -- -D warnings` all passed after `cargo fmt`.
+────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────
+Session Date     : 2026-05-05
+Agent / Platform : Amp
 Phase Completed  : Phase 4 — Seed Derivation
 MERKLE_ROOT      : pinned: fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
 ────────────────────────────────────────────────────────────────────────────

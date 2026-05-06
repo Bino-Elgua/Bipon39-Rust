@@ -1,5 +1,5 @@
 use bipon39::mnemonic::{entropy_to_mnemonic, mnemonic_to_entropy};
-use bipon39::mnemonic_to_seed;
+use bipon39::{master_from_seed, mnemonic_to_seed, DerivationMode};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -17,6 +17,10 @@ struct TestVector {
     mnemonic_phrase: Option<String>,
     word_count: usize,
     seed_hex: Option<String>,
+    master_key_native_hex: Option<String>,
+    master_chain_native_hex: Option<String>,
+    master_key_bip32_hex: Option<String>,
+    master_chain_bip32_hex: Option<String>,
 }
 
 #[test]
@@ -51,6 +55,23 @@ fn pinned_mnemonic_vectors_roundtrip() {
         if let Some(seed_hex) = &vector.seed_hex {
             let seed = mnemonic_to_seed(&words, &vector.passphrase).unwrap();
             assert_eq!(hex::encode(&seed[..]), *seed_hex, "{}", vector.id);
+
+            if let (Some(master_key), Some(master_chain)) = (
+                &vector.master_key_native_hex,
+                &vector.master_chain_native_hex,
+            ) {
+                let master = master_from_seed(&seed, DerivationMode::Native).unwrap();
+                assert_eq!(master.key_hex(), *master_key, "{}", vector.id);
+                assert_eq!(master.chain_code_hex(), *master_chain, "{}", vector.id);
+            }
+
+            if let (Some(master_key), Some(master_chain)) =
+                (&vector.master_key_bip32_hex, &vector.master_chain_bip32_hex)
+            {
+                let master = master_from_seed(&seed, DerivationMode::Bip32).unwrap();
+                assert_eq!(master.key_hex(), *master_key, "{}", vector.id);
+                assert_eq!(master.chain_code_hex(), *master_chain, "{}", vector.id);
+            }
         }
     }
 }
