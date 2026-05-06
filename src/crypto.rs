@@ -9,8 +9,7 @@ pub fn sha256(data: &[u8]) -> [u8; 32] {
 
 /// HMAC-SHA512 of `data` with `key`.
 pub fn hmac_sha512(key: &[u8], data: &[u8]) -> [u8; 64] {
-    let mut mac = Hmac::<Sha512>::new_from_slice(key)
-        .expect("HMAC accepts keys of any length");
+    let mut mac = Hmac::<Sha512>::new_from_slice(key).expect("HMAC accepts keys of any length");
     mac.update(data);
     mac.finalize().into_bytes().into()
 }

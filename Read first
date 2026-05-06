@@ -1365,6 +1365,56 @@ Add a new entry at the **top** of this section (immediately below this heading) 
 ────────────────────────────────────────────────────────────────────────────
 Session Date     : 2026-05-05
 Agent / Platform : Amp
+Phase Completed  : Phase 4 — Seed Derivation
+MERKLE_ROOT      : pinned: fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
+────────────────────────────────────────────────────────────────────────────
+
+Files Created or Modified:
+  - src/seed.rs — confirmed and formatted NFKD + PBKDF2-HMAC-SHA512 `mnemonic_to_seed()` implementation.
+  - tests/seed_derivation.rs — implemented all 7 required Phase 4 seed derivation tests.
+  - tests/mnemonic_vectors.rs — extended pinned vector assertions to verify `seed_hex` when present.
+  - vectors/test_vectors.json — pinned `seed_hex` for v001–v005 and added v006 (`àṣẹ` passphrase) with seed.
+  - src/crypto.rs, src/display.rs, src/ifascript.rs, src/lib.rs, src/wordlist.rs, tests/mnemonic_roundtrip.rs — formatted by `cargo fmt`.
+  - Read first — added this Phase 4 session log entry.
+  - AGENT_CHECKLIST.md — mirrored this session log entry.
+
+Work Completed:
+  - Verified `src/seed.rs` implements the specified algorithm: join mnemonic with spaces, NFKD-normalize mnemonic and passphrase, construct salt from `BIPỌ̀N39 seed` plus ` Ọ̀RÍ:<passphrase>` when non-empty, NFKD-normalize salt, then run PBKDF2-HMAC-SHA512 with 2048 iterations and 64-byte output.
+  - Generated seed vectors using the Rust implementation via temporary `cargo test --test seed_derivation print_phase4_seed_vectors -- --nocapture`, then removed the temporary print test.
+  - Pinned seeds for all five no-passphrase all-zero entropy vectors and the required v006 all-zero 256-bit vector with passphrase `àṣẹ`.
+  - Added deterministic, passphrase-difference, output-length, NFKD normalization, and pinned-vector seed tests.
+  - Updated `mnemonic_vectors` to assert seeds for every vector carrying `seed_hex`.
+
+Test Status:
+  wordlist_integrity : 10/10 PASS
+  mnemonic_roundtrip : 14/14 PASS
+  mnemonic_vectors   : 1/1 PASS
+  seed_derivation    : 7/7 PASS
+  derivation         : not yet written
+  ifascript          : not yet written
+
+Vectors Pinned This Session:
+  - v001 seed_hex — all-zero 128-bit entropy, no passphrase
+  - v002 seed_hex — all-zero 160-bit entropy, no passphrase
+  - v003 seed_hex — all-zero 192-bit entropy, no passphrase
+  - v004 seed_hex — all-zero 224-bit entropy, no passphrase
+  - v005 seed_hex — all-zero 256-bit entropy, no passphrase
+  - v006 mnemonic + seed_hex — all-zero 256-bit entropy, passphrase `àṣẹ`
+
+Open Questions / Blockers:
+  - Native/BIP-32 master key values remain for Phase 5.
+
+Next Priority (first thing next session):
+  - Complete Phase 5 by writing `tests/derivation.rs`, generating Native and BIP-32 master key vectors for v001 and v005, pinning them in `test_vectors.json`, and extending `mnemonic_vectors` to assert master key fields.
+
+Notes for Next Agent:
+  - Phase 4 seed generation used the crate implementation, not hand-invented values.
+  - Verification run this session: `cargo test --test seed_derivation`, `cargo test --test mnemonic_vectors`, full `cargo test`, and `cargo clippy -- -D warnings` all passed after `cargo fmt`.
+────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────
+Session Date     : 2026-05-05
+Agent / Platform : Amp
 Phase Completed  : Phase 3 — Mnemonic Encoding and Decoding
 MERKLE_ROOT      : pinned: fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
 ────────────────────────────────────────────────────────────────────────────

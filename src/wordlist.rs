@@ -64,9 +64,8 @@ static ENCODING_INDEX: Lazy<HashMap<&'static str, usize>> = Lazy::new(|| {
         .collect()
 });
 
-static ENCODING_TOKENS: Lazy<Vec<&'static str>> = Lazy::new(|| {
-    WORDLIST.iter().map(|entry| entry.encoding).collect()
-});
+static ENCODING_TOKENS: Lazy<Vec<&'static str>> =
+    Lazy::new(|| WORDLIST.iter().map(|entry| entry.encoding).collect());
 
 /// Verify all structural invariants of the loaded wordlist.
 pub fn verify_wordlist_integrity() -> Result<(), BiponError> {
@@ -87,7 +86,10 @@ pub fn verify_wordlist_integrity() -> Result<(), BiponError> {
         ("ỌBÀTÁLÁ", 28),
     ];
     for (macro_name, expected) in expected_counts {
-        let actual = WORDLIST.iter().filter(|entry| entry.macro_name == macro_name).count();
+        let actual = WORDLIST
+            .iter()
+            .filter(|entry| entry.macro_name == macro_name)
+            .count();
         if actual != expected {
             return Err(BiponError::WordlistIntegrity(format!(
                 "macro {macro_name} has {actual} entries, expected {expected}"

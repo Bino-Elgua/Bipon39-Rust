@@ -22,5 +22,6 @@ pub use ifascript::{dominant_macro, macro_distribution, odu_primary_index, Macro
 pub use mnemonic::{entropy_to_mnemonic, mnemonic_to_entropy, validate_mnemonic};
 pub use seed::mnemonic_to_seed;
 pub use wordlist::{
-    all_encoding_tokens, entry_by_encoding, entry_by_index, verify_wordlist_integrity, WordlistEntry,
+    all_encoding_tokens, entry_by_encoding, entry_by_index, verify_wordlist_integrity,
+    WordlistEntry,
 };

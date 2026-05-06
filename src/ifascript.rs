@@ -1,5 +1,5 @@
 use crate::error::BiponError;
-use crate::wordlist::{entry_by_encoding, entries_for_macro};
+use crate::wordlist::{entries_for_macro, entry_by_encoding};
 
 /// The seven Macro groupings of the BIPỌ̀N39 wordlist.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -62,12 +62,10 @@ impl Macro {
 
     /// Return the Macro containing a 1-based flat_index.
     pub fn from_flat_index(flat_index: usize) -> Option<Macro> {
-        Self::all()
-            .into_iter()
-            .find(|macro_| {
-                let (start, end) = macro_.index_range();
-                (start..=end).contains(&flat_index)
-            })
+        Self::all().into_iter().find(|macro_| {
+            let (start, end) = macro_.index_range();
+            (start..=end).contains(&flat_index)
+        })
     }
 
     fn all() -> [Macro; 7] {

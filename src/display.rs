@@ -13,12 +13,18 @@ pub fn encoding_for_canonical(token: &str) -> Result<&'static str, BiponError> {
 
 /// Convert encoding tokens to canonical forms.
 pub fn mnemonic_to_canonical(words: &[&str]) -> Result<Vec<&'static str>, BiponError> {
-    words.iter().map(|word| canonical_for_encoding(word)).collect()
+    words
+        .iter()
+        .map(|word| canonical_for_encoding(word))
+        .collect()
 }
 
 /// Convert canonical tokens to encoding forms.
 pub fn canonical_to_encoding(words: &[&str]) -> Result<Vec<&'static str>, BiponError> {
-    words.iter().map(|word| encoding_for_canonical(word)).collect()
+    words
+        .iter()
+        .map(|word| encoding_for_canonical(word))
+        .collect()
 }
 
 /// Format a mnemonic as a numbered list.

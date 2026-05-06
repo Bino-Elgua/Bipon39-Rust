@@ -119,5 +119,8 @@ fn validate_mnemonic_passes_for_valid() {
 fn validate_mnemonic_fails_for_bad_checksum() {
     let mnemonic = checksum_corrupted_words();
     let words = mnemonic.iter().map(String::as_str).collect::<Vec<_>>();
-    assert_eq!(validate_mnemonic(&words).unwrap_err(), BiponError::ChecksumMismatch);
+    assert_eq!(
+        validate_mnemonic(&words).unwrap_err(),
+        BiponError::ChecksumMismatch
+    );
 }
