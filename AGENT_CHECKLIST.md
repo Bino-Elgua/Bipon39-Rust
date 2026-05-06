@@ -1365,6 +1365,56 @@ Add a new entry at the **top** of this section (immediately below this heading) 
 ────────────────────────────────────────────────────────────────────────────
 Session Date     : 2026-05-05
 Agent / Platform : Amp
+Phase Completed  : Phase 3 — Mnemonic Encoding and Decoding
+MERKLE_ROOT      : pinned: fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
+────────────────────────────────────────────────────────────────────────────
+
+Files Created or Modified:
+  - tests/mnemonic_roundtrip.rs — implemented all 14 required Phase 3 roundtrip/error/validation tests.
+  - tests/mnemonic_vectors.rs — implemented pinned mnemonic vector roundtrip assertions.
+  - vectors/test_vectors.json — pinned v001–v005 all-zero mnemonic vectors for 128/160/192/224/256-bit entropy.
+  - Read first — added this Phase 3 session log entry.
+  - AGENT_CHECKLIST.md — mirrored this session log entry.
+
+Work Completed:
+  - Read `src/bipon39.ts` from the TypeScript reference repo at `Bino-Elgua/bipon39`.
+  - Confirmed the permitted reference patterns: checksum uses the top `ENT / 32` bits of `hash[0]` MSB-first; checksum bits are appended before zero padding; seed derivation uses NFKD and PBKDF2-HMAC-SHA512; Odù primary index is XOR of word indices.
+  - Wrote the full mnemonic roundtrip suite covering all five entropy lengths, all-zero/all-FF edge cases, invalid word counts, unknown words, checksum corruption, and validation behavior.
+  - Generated and pinned mnemonic arrays for all-zero entropy at the five required lengths.
+  - Manually verified the all-zero 256-bit mnemonic with `cargo test --test mnemonic_roundtrip print_all_zero_256_bit_mnemonic_for_manual_verification -- --nocapture`; the checksum word is `sango-monamona` (array index 102), matching SHA-256([0u8; 32])[0] with no padding for 256-bit entropy.
+  - Removed the temporary print test after manual inspection.
+
+Test Status:
+  wordlist_integrity : 10/10 PASS
+  mnemonic_roundtrip : 14/14 PASS
+  mnemonic_vectors   : 1/1 PASS
+  seed_derivation    : not yet written
+  derivation         : not yet written
+  ifascript          : not yet written
+
+Vectors Pinned This Session:
+  - v001 mnemonic — all-zero 128-bit entropy, no passphrase
+  - v002 mnemonic — all-zero 160-bit entropy, no passphrase
+  - v003 mnemonic — all-zero 192-bit entropy, no passphrase
+  - v004 mnemonic — all-zero 224-bit entropy, no passphrase
+  - v005 mnemonic — all-zero 256-bit entropy, no passphrase
+
+Open Questions / Blockers:
+  - Seed hex values for v001–v005 and v006 passphrase vector remain for Phase 4.
+  - Native/BIP-32 master key values remain for Phase 5.
+
+Next Priority (first thing next session):
+  - Implement the full `tests/seed_derivation.rs` suite, generate PBKDF2 seed hex for v001–v005 plus v006 (`àṣẹ` passphrase), and update `tests/mnemonic_vectors.rs` to assert seed values when present.
+
+Notes for Next Agent:
+  - Do not use any token strings from the TypeScript reference repo; it was read only for algorithm shape.
+  - A parallel Cargo invocation briefly produced a target/cache lock error; rerunning the affected vector test sequentially passed.
+  - Verification run this session: `cargo test --test mnemonic_roundtrip`, `cargo test --test mnemonic_vectors`, temporary all-zero 256-bit `--nocapture` print test, full `cargo test`, and `cargo clippy -- -D warnings` all passed.
+────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────
+Session Date     : 2026-05-05
+Agent / Platform : Amp
 Phase Completed  : Phase 2 — Wordlist Foundation and Crypto Core
 MERKLE_ROOT      : pinned: fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
 ────────────────────────────────────────────────────────────────────────────
