@@ -1365,6 +1365,48 @@ Add a new entry at the **top** of this section (immediately below this heading) 
 ────────────────────────────────────────────────────────────────────────────
 Session Date     : 2026-05-05
 Agent / Platform : Amp
+Phase Completed  : Phase 6 — Ifáscript and Display Layer
+MERKLE_ROOT      : pinned: fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
+────────────────────────────────────────────────────────────────────────────
+
+Files Created or Modified:
+  - src/ifascript.rs — verified full Macro enum and required Ifáscript functions.
+  - src/display.rs — verified encoding/canonical conversion and numbered formatting helpers.
+  - tests/ifascript.rs — implemented 14 tests covering all required Phase 6 Ifáscript and display behavior.
+  - Read first — added this Phase 6 session log entry.
+  - AGENT_CHECKLIST.md — mirrored this session log entry.
+
+Work Completed:
+  - Confirmed `Macro` exposes `name()`, `index_range()`, `count()`, `from_name()`, and `from_flat_index()` for all seven macro groups.
+  - Confirmed `odu_primary_index()`, `macro_distribution()`, and `dominant_macro()` operate over encoding-layer tokens and use wordlist indices/macros.
+  - Confirmed display helpers convert encoding↔canonical forms, convert whole mnemonic slices, and format numbered lists.
+  - Added tests for Odù XOR correctness/determinism, macro distribution, dominant macro tie-breaking, canonical/encoding roundtrips, numbered formatting, macro lookup/ranges/counts, and entries-per-macro counts.
+
+Test Status:
+  wordlist_integrity : 10/10 PASS
+  mnemonic_roundtrip : 14/14 PASS
+  mnemonic_vectors   : 1/1 PASS
+  seed_derivation    : 7/7 PASS
+  derivation         : 7/7 PASS
+  ifascript          : 14/14 PASS
+
+Vectors Pinned This Session:
+  - none
+
+Open Questions / Blockers:
+  - None for Phase 6.
+
+Next Priority (first thing next session):
+  - Start Phase 7 polish: complete public API re-exports/docs, run doc checks, add real Criterion benchmarks, CI workflow, README.md, and SPEC.md.
+
+Notes for Next Agent:
+  - Phase 6 added extra display coverage beyond the 10 listed Ifáscript cases because display helpers are part of the same phase.
+  - Verification run this session: `cargo test --test ifascript`, full `cargo test`, and `cargo clippy -- -D warnings` all passed after `cargo fmt`.
+────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────
+Session Date     : 2026-05-05
+Agent / Platform : Amp
 Phase Completed  : Phase 5 — Master Key Derivation
 MERKLE_ROOT      : pinned: fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
 ────────────────────────────────────────────────────────────────────────────
