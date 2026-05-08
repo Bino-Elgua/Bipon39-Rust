@@ -16,12 +16,21 @@ pub mod mnemonic;
 pub mod seed;
 pub mod wordlist;
 
+pub use crypto::{compute_wordlist_merkle_root, ct_eq, hmac_sha512, sha256, sha256_merkle_root};
 pub use derivation::{master_from_seed, DerivationMode, MasterKey};
+pub use display::{
+    canonical_for_encoding, canonical_to_encoding, encoding_for_canonical, format_numbered,
+    format_numbered_canonical, mnemonic_to_canonical,
+};
 pub use error::BiponError;
-pub use ifascript::{dominant_macro, macro_distribution, odu_primary_index, Macro};
-pub use mnemonic::{entropy_to_mnemonic, mnemonic_to_entropy, validate_mnemonic};
+pub use ifascript::{
+    dominant_macro, macro_distribution, odu_primary_index, Macro, MacroDistribution,
+};
+pub use mnemonic::{
+    entropy_to_mnemonic, join_mnemonic, mnemonic_to_entropy, split_mnemonic, validate_mnemonic,
+};
 pub use seed::mnemonic_to_seed;
 pub use wordlist::{
-    all_encoding_tokens, entry_by_encoding, entry_by_index, verify_wordlist_integrity,
-    WordlistEntry,
+    all_encoding_tokens, entries_for_macro, entry_by_canonical, entry_by_encoding, entry_by_index,
+    index_of_encoding, verify_wordlist_integrity, WordlistEntry,
 };

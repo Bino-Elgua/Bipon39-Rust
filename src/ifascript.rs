@@ -4,12 +4,19 @@ use crate::wordlist::{entries_for_macro, entry_by_encoding};
 /// The seven Macro groupings of the BIPỌ̀N39 wordlist.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Macro {
+    /// ÈṢÙ — flat indices 1–88.
     Esu,
+    /// ṢÀNGÓ — flat indices 89–108.
     Sango,
+    /// Ọ̀ṢUN — flat indices 109–136.
     Osun,
+    /// YEMỌJA — flat indices 137–164.
     Yemoja,
+    /// ỌYA — flat indices 165–196.
     Oya,
+    /// ÒGÚN — flat indices 197–228.
     Ogun,
+    /// ỌBÀTÁLÁ — flat indices 229–256.
     Obatala,
 }
 

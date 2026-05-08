@@ -1363,6 +1363,54 @@ Add a new entry at the **top** of this section (immediately below this heading) 
 ---
 
 ────────────────────────────────────────────────────────────────────────────
+Session Date     : 2026-05-08
+Agent / Platform : Amp
+Phase Completed  : Phase 7 — Polish, Docs, and CI
+MERKLE_ROOT      : pinned: fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
+────────────────────────────────────────────────────────────────────────────
+
+Files Created or Modified:
+  - .github/workflows/ci.yml — added GitHub Actions CI for build, release tests, clippy, and docs on push/PR to main.
+  - benches/throughput.rs — added Criterion benchmarks for 256-bit entropy encoding, seed derivation, and Merkle root computation.
+  - README.md — added project description, install snippet, quick start, vector summary, verification commands, and documentation links.
+  - SPEC.md — added formal technical specification covering wordlist authority, encoding/decoding, seed/master derivation, Ifáscript metadata, security, and cross-platform guarantees.
+  - src/lib.rs — expanded public API re-exports for crypto, display, mnemonic helpers, Ifáscript distribution, and wordlist lookups.
+  - src/error.rs — added public documentation for the error type and variants.
+  - src/ifascript.rs — added public documentation for Macro variants.
+  - Read first — added this Phase 7 session log entry.
+  - AGENT_CHECKLIST.md — mirrored this session log entry.
+
+Work Completed:
+  - Completed Phase 7 public API polish while keeping all modules declared in `lib.rs`.
+  - Added documentation for previously undocumented public enum items.
+  - Added CI workflow matching the project checklist: checkout, stable Rust + clippy, Cargo cache, `cargo build --verbose`, `cargo test --release --verbose`, `cargo clippy -- -D warnings`, and `cargo doc --no-deps --document-private-items`.
+  - Replaced the placeholder benchmark with real Criterion throughput benchmarks.
+  - Wrote README and formal SPEC documentation.
+  - Pushed commits through Phase 7 to GitHub so CI can run on the remote branch.
+
+Test Status:
+  wordlist_integrity : 10/10 PASS
+  mnemonic_roundtrip : 14/14 PASS
+  mnemonic_vectors   : 1/1 PASS
+  seed_derivation    : 7/7 PASS
+  derivation         : 7/7 PASS
+  ifascript          : 14/14 PASS
+
+Vectors Pinned This Session:
+  - none
+
+Open Questions / Blockers:
+  - GitHub Actions CI was pushed; final remote green status should be checked on GitHub if required.
+
+Next Priority (first thing next session):
+  - Begin Phase 8 ecosystem integration guides and v0.1.0 tagging once remote CI is confirmed green.
+
+Notes for Next Agent:
+  - Verification run this session: `cargo fmt`, `cargo test`, `cargo clippy -- -D warnings`, `cargo doc --no-deps`, `cargo bench`, `cargo build --verbose`, and `cargo test --release --verbose` all passed locally.
+  - `cargo bench` completed successfully; Criterion reported that gnuplot was unavailable and used the plotters backend, which is non-fatal.
+────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────
 Session Date     : 2026-05-05
 Agent / Platform : Amp
 Phase Completed  : Phase 6 — Ifáscript and Display Layer
