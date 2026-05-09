@@ -1,39 +1,90 @@
 # BIPỌ̀N39 Rust
 
-BIPỌ̀N39 is a sovereign Base-256 mnemonic library for the Ọmọ Kọ́dà ecosystem. It converts raw entropy into 256-token mnemonic phrases, validates and decodes those phrases, derives deterministic 64-byte seeds, derives Native and BIP-32-compatible master keys, and exposes Ifáscript metadata over a fixed Yorùbá-rooted wordlist.
+BIPỌ̀N39 is a sovereign Base-256 mnemonic library with Yorùbá/Ifá roots for the Ọmọ Kọ́dà ecosystem. It maps entropy to a fixed 256-token encoding layer, derives deterministic seeds and master keys, and exposes Ifáscript metadata over the same immutable wordlist.
 
-The cryptographic layer always uses the ASCII encoding tokens. The canonical Yorùbá forms are for display and documentation only.
+The cryptographic layer always uses lowercase ASCII encoding tokens. Yorùbá canonical forms are display-only and never enter hashes, PBKDF2 password input, or Merkle leaves.
 
-## Install
+## Installation
 
-Add the crate to a Rust project once it is published or consumed by git:
+```bash
+cargo add bipon39
+```
+
+Until the crate is published, use the git repository directly:
 
 ```toml
 [dependencies]
 bipon39 = { git = "https://github.com/Bino-Elgua/Bipon39-Rust" }
 ```
 
-## Quick start
+## Entropy → mnemonic
 
 ```rust
-use bipon39::{
-    dominant_macro, entropy_to_mnemonic, join_mnemonic, master_from_seed, mnemonic_to_seed,
-    DerivationMode,
-};
+use bipon39::{entropy_to_mnemonic, join_mnemonic, BiponError};
 
-let entropy = [0u8; 32];
-let mnemonic = entropy_to_mnemonic(&entropy)?;
-let phrase = join_mnemonic(&mnemonic);
+fn main() -> Result<(), BiponError> {
+    let entropy = [0u8; 32];
+    let mnemonic = entropy_to_mnemonic(&entropy)?;
 
-let words = mnemonic.iter().map(String::as_str).collect::<Vec<_>>();
-let seed = mnemonic_to_seed(&words, "")?;
-let native = master_from_seed(&seed, DerivationMode::Native)?;
-let macro_ = dominant_macro(&words)?;
+    println!("{}", join_mnemonic(&mnemonic));
+    Ok(())
+}
+```
 
-println!("phrase: {phrase}");
-println!("native key: {}", native.key_hex());
-println!("dominant macro: {}", macro_.name());
-# Ok::<(), bipon39::BiponError>(())
+## Mnemonic → seed
+
+```rust
+use bipon39::{entropy_to_mnemonic, mnemonic_to_seed, BiponError};
+
+fn main() -> Result<(), BiponError> {
+    let mnemonic = entropy_to_mnemonic(&[0u8; 32])?;
+    let words = mnemonic.iter().map(String::as_str).collect::<Vec<_>>();
+    let seed = mnemonic_to_seed(&words, "àṣẹ")?;
+
+    println!("seed bytes: {}", seed.len());
+    Ok(())
+}
+```
+
+## Seed → master key (Native + BIP-32)
+
+```rust
+use bipon39::{entropy_to_mnemonic, master_from_seed, mnemonic_to_seed, BiponError, DerivationMode};
+
+fn main() -> Result<(), BiponError> {
+    let mnemonic = entropy_to_mnemonic(&[0u8; 32])?;
+    let words = mnemonic.iter().map(String::as_str).collect::<Vec<_>>();
+    let seed = mnemonic_to_seed(&words, "")?;
+
+    let native = master_from_seed(&seed, DerivationMode::Native)?;
+    let bip32 = master_from_seed(&seed, DerivationMode::Bip32)?;
+
+    println!("native key: {}", native.key_hex());
+    println!("native chain: {}", native.chain_code_hex());
+    println!("bip32 key: {}", bip32.key_hex());
+    println!("bip32 chain: {}", bip32.chain_code_hex());
+    Ok(())
+}
+```
+
+## Ifáscript lookup
+
+```rust
+use bipon39::{dominant_macro, entropy_to_mnemonic, macro_distribution, odu_primary_index, BiponError};
+
+fn main() -> Result<(), BiponError> {
+    let mnemonic = entropy_to_mnemonic(&[0u8; 32])?;
+    let words = mnemonic.iter().map(String::as_str).collect::<Vec<_>>();
+
+    let odu = odu_primary_index(&words)?;
+    let dominant = dominant_macro(&words)?;
+    let distribution = macro_distribution(&words)?;
+
+    println!("Odù primary index: {odu}");
+    println!("Dominant macro: {}", dominant.name());
+    println!("Word count: {}", distribution.total);
+    Ok(())
+}
 ```
 
 ## Stable wordlist Merkle root
@@ -57,12 +108,27 @@ fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
 
 The full machine-readable vectors live in [`vectors/test_vectors.json`](vectors/test_vectors.json).
 
+## Examples
+
+Runnable examples live in [`examples/`](examples/):
+
+- `basic_usage.rs`
+- `ifascript_demo.rs`
+- `full_roundtrip.rs`
+
+Run one with:
+
+```bash
+cargo run --example basic_usage
+```
+
 ## Verification
 
 ```bash
-cargo test
+cargo test --all-features
 cargo clippy -- -D warnings
-cargo doc --no-deps
+cargo fmt --check
+cargo doc --no-deps --open
 cargo bench
 ```
 

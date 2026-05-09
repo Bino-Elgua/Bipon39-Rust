@@ -5,6 +5,9 @@ edition     = "2021"
 description = "BIPỌ̀N39 — Sovereign Base-256 mnemonic library for the Ọmọ Kọ́dà ecosystem"
 license     = "MIT"
 repository  = "https://github.com/Bino-Elgua/Bipon39-Rust"
+readme      = "README.md"
+keywords    = ["mnemonic", "bip39", "base256", "yoruba", "crypto"]
+categories  = ["cryptography", "encoding"]
 
 [dependencies]
 sha2                  = "0.10"

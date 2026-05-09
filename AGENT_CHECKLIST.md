@@ -1363,6 +1363,53 @@ Add a new entry at the **top** of this section (immediately below this heading) 
 ---
 
 ────────────────────────────────────────────────────────────────────────────
+Session Date     : 2026-05-09
+Agent / Platform : Amp
+Phase Completed  : Phase 8 — Final v0.1.0 Release Readiness
+MERKLE_ROOT      : pinned: fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
+────────────────────────────────────────────────────────────────────────────
+
+Files Created or Modified:
+  - Cargo.toml — confirmed v0.1.0 and added README, keywords, and categories metadata.
+  - README.md — expanded release-facing description, installation, usage examples, examples list, verification commands, and documentation links.
+  - examples/basic_usage.rs — added entropy-to-mnemonic and seed example.
+  - examples/ifascript_demo.rs — added Odù, dominant macro, and macro distribution example.
+  - examples/full_roundtrip.rs — added entropy → mnemonic → entropy/seed → Native/BIP-32 master key example.
+  - CHANGELOG.md — added v0.1.0 release-readiness entry.
+  - Read first — added this Phase 8 session log entry.
+  - AGENT_CHECKLIST.md — mirrored this session log entry.
+
+Work Completed:
+  - Finalized release documentation for BIPỌ̀N39 as a sovereign Base-256 mnemonic library with Yorùbá/Ifá roots for the Ọmọ Kọ́dà ecosystem.
+  - Added cargo installation instructions and clear examples for entropy-to-mnemonic, mnemonic-to-seed, Native/BIP-32 master key derivation, and Ifáscript lookup.
+  - Added runnable examples and verified they compile.
+  - Added a simple changelog for v0.1.0.
+  - Preserved the wordlist and core logic unchanged.
+
+Test Status:
+  wordlist_integrity : 10/10 PASS
+  mnemonic_roundtrip : 14/14 PASS
+  mnemonic_vectors   : 1/1 PASS
+  seed_derivation    : 7/7 PASS
+  derivation         : 7/7 PASS
+  ifascript          : 14/14 PASS
+
+Vectors Pinned This Session:
+  - none
+
+Open Questions / Blockers:
+  - None.
+
+Next Priority (first thing next session):
+  - If desired, create and push the `v0.1.0` git tag after reviewing this release-readiness commit and CI status.
+
+Notes for Next Agent:
+  - Verification run this session: `cargo test --all-features`, `cargo clippy -- -D warnings`, `cargo fmt --check`, `BROWSER=true cargo doc --no-deps --open`, `cargo bench`, and `cargo check --examples` all passed locally.
+  - `cargo doc --open` used `BROWSER=true` because this is a headless Termux environment; documentation was generated successfully.
+  - `cargo bench` completed successfully; Criterion used the plotters backend because gnuplot is unavailable, which is non-fatal.
+────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────
 Session Date     : 2026-05-08
 Agent / Platform : Amp
 Phase Completed  : Phase 7 — Polish, Docs, and CI
