@@ -16,6 +16,11 @@ pub mod mnemonic;
 pub mod seed;
 pub mod wordlist;
 
+pub use constants::{
+    BITS_PER_WORD, ENTROPY_WORD_TABLE, MASTER_KEY_BIP32, MASTER_KEY_NATIVE, MERKLE_ROOT,
+    PBKDF2_ITERATIONS, PBKDF2_OUTPUT_BYTES, PBKDF2_PASSPHRASE_PREFIX, PBKDF2_SALT_BASE,
+    WORDLIST_SIZE,
+};
 pub use crypto::{compute_wordlist_merkle_root, ct_eq, hmac_sha512, sha256, sha256_merkle_root};
 pub use derivation::{master_from_seed, DerivationMode, MasterKey};
 pub use display::{
@@ -24,7 +29,7 @@ pub use display::{
 };
 pub use error::BiponError;
 pub use ifascript::{
-    dominant_macro, macro_distribution, odu_primary_index, Macro, MacroDistribution,
+    dominant_macro, entries_for, macro_distribution, odu_primary_index, Macro, MacroDistribution,
 };
 pub use mnemonic::{
     entropy_to_mnemonic, join_mnemonic, mnemonic_to_entropy, split_mnemonic, validate_mnemonic,
