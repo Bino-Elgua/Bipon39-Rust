@@ -93,6 +93,26 @@ fn main() -> Result<(), BiponError> {
 }
 ```
 
+## Dual-mode 256 ↔ 2048 conversion
+
+BIPỌ̀N39 keeps its 256-token encoding layer immutable while supporting the
+TypeScript reference's 2048-mode expansion. The expanded mode uses the same base
+tokens plus eight deterministic subtones: `alpha`, `beta`, `gamma`, `delta`,
+`epsilon`, `zeta`, `eta`, and `theta`.
+
+```rust
+use bipon39::{decode_2048, encode_2048, entropy_to_mnemonic, BiponError};
+
+fn main() -> Result<(), BiponError> {
+    let mnemonic_256 = entropy_to_mnemonic(&[0u8; 16])?.join(" ");
+    let mnemonic_2048 = encode_2048(&mnemonic_256)?;
+    let recovered_256 = decode_2048(&mnemonic_2048)?;
+
+    assert_eq!(recovered_256, mnemonic_256);
+    Ok(())
+}
+```
+
 ## Token metadata lookup
 
 Token metadata is loaded from `data/canonical.json` at compile time alongside the
@@ -127,8 +147,32 @@ fn main() -> Result<(), BiponError> {
     println!("Dominant Orisha: {}", profile.dominant_orisha.name());
     println!("Earth balance: {}", profile.elemental_signature.earth);
     println!("Macro tokens: {}", profile.macro_distribution.total);
+    println!("ÈṢÙ percentage: {:.1}%", profile.macro_percentages[0].1);
+    println!("First ritual: {}", profile.ritual_suggestions[0]);
+    println!("Summary: {}", profile.personality_summary);
     Ok(())
 }
+```
+
+## CLI
+
+Install or run the binary with Cargo:
+
+```bash
+cargo run -- generate 256
+cargo run -- generate 128 --mode 2048
+cargo run -- convert --to-2048 "<256-mode mnemonic>"
+cargo run -- convert --to-256 "<2048-mode mnemonic>"
+cargo run -- inspect "esu-elegbara esu-elegba sango"
+cargo run -- seed "<mnemonic>" --passphrase "àṣẹ"
+```
+
+After installation, replace `cargo run --` with `bipon39`:
+
+```bash
+bipon39 generate 256
+bipon39 inspect esu-elegbara esu-elegba sango
+bipon39 convert --to-2048 "$(bipon39 generate 128)"
 ```
 
 ## Stable wordlist Merkle root
@@ -173,7 +217,7 @@ cargo run --example basic_usage
 cargo test --all-features
 cargo clippy -- -D warnings
 cargo fmt --check
-cargo doc --no-deps --open
+cargo doc
 cargo bench
 ```
 

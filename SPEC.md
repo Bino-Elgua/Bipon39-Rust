@@ -2,7 +2,7 @@
 
 ## Scope
 
-BIPỌ̀N39-Rust is a Base-256 mnemonic system. Each encoding-layer token maps to exactly one byte value (`array_index` 0–255). The crate does not implement 2048-word BIP39 mode, subtone expansion, or CLI commands. It does expose the TypeScript reference project's elemental/ritual metadata through the canonical JSON wordlist.
+BIPỌ̀N39-Rust is a Base-256 mnemonic system. Each encoding-layer token maps to exactly one byte value (`array_index` 0–255). The crate also implements TypeScript-compatible 2048-mode subtone re-encoding, a CLI, and elemental/ritual metadata through the canonical JSON wordlist.
 
 ## Wordlist authority
 
@@ -14,7 +14,7 @@ Runtime wordlist data is embedded from `data/canonical.json` with `include_str!(
 - `macro_local_index`: 1-based index within its macro.
 - `canonical`: Yorùbá display token.
 - `encoding`: ASCII cryptographic token.
-- `token_meta`: elemental and ritual metadata (`element`, `ritual_cue`, `ethical_tag`, `sigil_seed`).
+- `token_meta`: elemental and ritual metadata (`id`, `word`, `root`, `affix`, `element`, `ritual_cue`, `ethical_tag`, `sigil_seed`).
 
 Only `encoding` tokens are used in hashing, mnemonic phrases, PBKDF2 password input, and Merkle leaves. Canonical tokens are display-only.
 
@@ -57,6 +57,19 @@ Checksum bits are the most-significant `entropy_bits / 32` bits of `SHA-256(entr
 5. Recompute the expected checksum from the entropy.
 6. Compare only the relevant checksum bits using constant-time equality.
 7. Return entropy in `Zeroizing<Vec<u8>>`.
+
+## Dual 2048-mode conversion
+
+The 2048-mode expansion follows the TypeScript reference order:
+
+```text
+expanded_index = (base_array_index << 3) | subtone_index
+token          = "<base-token>~<subtone>"
+```
+
+Subtones are fixed as `alpha`, `beta`, `gamma`, `delta`, `epsilon`, `zeta`, `eta`, and `theta`.
+
+`encode_2048(mnemonic_256)` validates and decodes a 256-mode mnemonic to entropy, then re-encodes the same entropy into 11-bit 2048-mode chunks. `decode_2048(mnemonic_2048)` validates and decodes the 2048-mode phrase back to entropy, then re-encodes the entropy using the 256-mode algorithm. Supported entropy sizes are the same 128, 160, 192, 224, and 256 bits; resulting 2048-mode word counts are 12, 15, 18, 21, and 24.
 
 ## Seed derivation
 
@@ -101,9 +114,9 @@ The seven macro groups are fixed:
 | ÒGÚN | 197–228 | 32 |
 | ỌBÀTÁLÁ | 229–256 | 28 |
 
-`lookup_meta(index)` returns `token_meta` for a 0-based `array_index`. `elemental_signature(mnemonic)` counts Fire, Water, Earth, Air, and Ether associations across a whitespace-separated mnemonic, ignoring unknown tokens for parity with the TypeScript helper. `personality_profile(mnemonic)` validates tokens and returns macro distribution, elemental signature, and dominant Orisha/Macro.
+`lookup_meta(index)` returns `token_meta` for a 0-based `array_index`. `elemental_signature(mnemonic)` counts Fire, Water, Earth, Air, and Ether associations across a whitespace-separated 256- or 2048-mode mnemonic, ignoring unknown tokens for parity with the TypeScript helper. `ritual_cue_for(mnemonic)` returns ordered, deduplicated ritual cues. `personality_profile(mnemonic)` validates 256- or 2048-mode tokens and returns macro distribution, macro percentages, elemental signature, dominant Orisha/Macro, ritual suggestions, and a short personality summary.
 
-`odu_primary_index(words)` XOR-reduces all word `array_index` values into a single byte. `macro_distribution(words)` counts words per macro. `dominant_macro(words)` returns the highest-count macro, breaking ties by the more concentrated macro (smaller macro size) and then the lowest flat-index range start.
+`odu_primary_index(words)` XOR-reduces all 256-mode word `array_index` values or 2048-mode expanded indices into a single byte. `macro_distribution(words)` counts words per macro. `dominant_macro(words)` returns the highest-count macro, breaking ties by the more concentrated macro (smaller macro size) and then the lowest flat-index range start.
 
 ## Security model
 

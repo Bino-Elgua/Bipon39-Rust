@@ -10,6 +10,7 @@ pub mod constants;
 pub mod crypto;
 pub mod derivation;
 pub mod display;
+pub mod dualmode;
 pub mod error;
 pub mod ifascript;
 pub mod mnemonic;
@@ -27,10 +28,14 @@ pub use display::{
     canonical_for_encoding, canonical_to_encoding, encoding_for_canonical, format_numbered,
     format_numbered_canonical, mnemonic_to_canonical,
 };
+pub use dualmode::{
+    decode_2048, encode_2048, entropy_to_mnemonic_2048, mnemonic_2048_to_entropy, SUBTONES,
+};
 pub use error::BiponError;
 pub use ifascript::{
     dominant_macro, elemental_signature, entries_for, macro_distribution, odu_primary_index,
-    personality_profile, ElementalVector, Macro, MacroDistribution, PersonalityProfile,
+    personality_profile, ritual_cue_for, ElementalVector, Macro, MacroDistribution,
+    PersonalityProfile,
 };
 pub use mnemonic::{
     entropy_to_mnemonic, join_mnemonic, mnemonic_to_entropy, split_mnemonic, validate_mnemonic,

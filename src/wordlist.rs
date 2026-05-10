@@ -29,6 +29,14 @@ pub struct WordlistEntry {
 /// Ritual and elemental metadata for a single BIPỌ̀N39 token.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct TokenMeta {
+    /// 0-based token id matching the byte-oriented array index.
+    pub id: usize,
+    /// ASCII encoding token this metadata describes.
+    pub word: String,
+    /// Root Orisha/Macro key in ASCII form.
+    pub root: String,
+    /// TypeScript-compatible ritual affix/subtone family.
+    pub affix: String,
     /// Elemental association, e.g. "Fire", "Water", or "Ether".
     pub element: String,
     /// Suggested ritual cue, e.g. "face sunrise" or "beat dundun".
@@ -57,6 +65,10 @@ struct JsonEntry {
 
 #[derive(Deserialize)]
 struct JsonTokenMeta {
+    id: usize,
+    word: String,
+    root: String,
+    affix: String,
     element: String,
     ritual_cue: String,
     ethical_tag: String,
@@ -78,6 +90,10 @@ static WORDLIST: Lazy<Vec<WordlistEntry>> = Lazy::new(|| {
             canonical: Box::leak(entry.canonical.into_boxed_str()),
             encoding: Box::leak(entry.encoding.into_boxed_str()),
             meta: TokenMeta {
+                id: entry.token_meta.id,
+                word: entry.token_meta.word,
+                root: entry.token_meta.root,
+                affix: entry.token_meta.affix,
                 element: entry.token_meta.element,
                 ritual_cue: entry.token_meta.ritual_cue,
                 ethical_tag: entry.token_meta.ethical_tag,

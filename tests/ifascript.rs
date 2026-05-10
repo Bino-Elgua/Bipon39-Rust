@@ -4,7 +4,7 @@ use bipon39::display::{
 };
 use bipon39::ifascript::{
     dominant_macro, elemental_signature, macro_distribution, odu_primary_index,
-    personality_profile, ElementalVector, Macro,
+    personality_profile, ritual_cue_for, ElementalVector, Macro,
 };
 use bipon39::wordlist::entries_for_macro;
 
@@ -101,7 +101,13 @@ fn elemental_signature_counts_metadata_elements() {
 fn personality_profile_combines_macro_elements_and_dominant_orisha() {
     let profile = personality_profile("esu-elegbara esu-elegba sango").unwrap();
     assert_eq!(profile.macro_distribution.total, 3);
+    assert!((profile.macro_percentages[0].1 - (100.0 * 2.0 / 3.0)).abs() < 1e-10);
     assert_eq!(profile.dominant_orisha, Macro::Esu);
+    assert_eq!(
+        profile.ritual_suggestions,
+        vec!["draw crossroads", "clap thunder", "mark footprints"]
+    );
+    assert!(profile.personality_summary.contains("ÈṢÙ leads"));
     assert_eq!(
         profile.elemental_signature,
         ElementalVector {
@@ -112,6 +118,12 @@ fn personality_profile_combines_macro_elements_and_dominant_orisha() {
             ether: 0,
         }
     );
+}
+
+#[test]
+fn ritual_cues_are_ordered_and_deduplicated() {
+    let cues = ritual_cue_for("esu-elegbara esu-elegbara esu-elegba").unwrap();
+    assert_eq!(cues, vec!["draw crossroads", "clap thunder"]);
 }
 
 #[test]

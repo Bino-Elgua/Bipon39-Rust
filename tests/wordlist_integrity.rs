@@ -101,12 +101,20 @@ fn boundary_spot_checks() {
 #[test]
 fn token_metadata_loaded_from_canonical_json() {
     let first = lookup_meta(0).unwrap();
+    assert_eq!(first.id, 0);
+    assert_eq!(first.word, "esu-elegbara");
+    assert_eq!(first.root, "esu");
+    assert_eq!(first.affix, "gate");
     assert_eq!(first.element, "Earth");
     assert_eq!(first.ritual_cue, "draw crossroads");
     assert_eq!(first.ethical_tag, "threshold");
     assert_eq!(first.sigil_seed, "cross+dot");
 
     let dawn = lookup_meta(15).unwrap();
+    assert_eq!(dawn.id, 15);
+    assert_eq!(dawn.word, "esu-alaseyori");
+    assert_eq!(dawn.root, "esu");
+    assert_eq!(dawn.affix, "dawn");
     assert_eq!(dawn.element, "Ether");
     assert_eq!(dawn.ritual_cue, "face sunrise");
     assert_eq!(dawn.ethical_tag, "begin");

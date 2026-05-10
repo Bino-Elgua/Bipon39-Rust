@@ -19,6 +19,12 @@ pub enum BiponError {
     #[error("Invalid mnemonic length: {words} words (expected one of: 17, 21, 25, 29, 33)")]
     InvalidMnemonicLength { words: usize },
 
+    /// A 2048-mode mnemonic had a word count that cannot map to a supported entropy size.
+    #[error(
+        "Invalid 2048-mode mnemonic length: {words} words (expected one of: 12, 15, 18, 21, 24)"
+    )]
+    InvalidMnemonic2048Length { words: usize },
+
     /// A mnemonic word at the given zero-based position was not a valid encoding token.
     #[error("Invalid word at position {position}: {word:?}")]
     InvalidWord { position: usize, word: String },
@@ -46,4 +52,8 @@ pub enum BiponError {
     /// The embedded JSON wordlist could not be parsed.
     #[error("JSON parse error: {0}")]
     JsonParseError(String),
+
+    /// The operating system random number generator failed.
+    #[error("Random generation error: {0}")]
+    RandomGenerationError(String),
 }

@@ -1,5 +1,8 @@
+use std::collections::HashSet;
+
+use crate::dualmode::{entry_by_mode_token, mode_index_of_token};
 use crate::error::BiponError;
-use crate::wordlist::{entries_for_macro, entry_by_encoding};
+use crate::wordlist::entries_for_macro;
 
 /// The seven Macro groupings of the BIPỌ̀N39 wordlist.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -126,21 +129,27 @@ impl ElementalVector {
 }
 
 /// Combined Ifáscript profile for a mnemonic phrase.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct PersonalityProfile {
     /// Count of words across the seven Macro/Orisha groupings.
     pub macro_distribution: MacroDistribution,
+    /// Percentage share for each Macro in Macro order.
+    pub macro_percentages: [(Macro, f64); 7],
     /// Count of words across Fire, Water, Earth, Air, and Ether metadata.
     pub elemental_signature: ElementalVector,
     /// Dominant Macro/Orisha after deterministic tie-breaking.
     pub dominant_orisha: Macro,
+    /// Ordered, deduplicated ritual cues suggested by the mnemonic tokens.
+    pub ritual_suggestions: Vec<String>,
+    /// Short human-readable personality summary suitable for CLI/UI display.
+    pub personality_summary: String,
 }
 
-/// XOR-reduce all word array_indices.
+/// XOR-reduce all 256-mode array indices or 2048-mode expanded indices.
 pub fn odu_primary_index(words: &[&str]) -> Result<u8, BiponError> {
     let mut result = 0u8;
     for word in words {
-        result ^= entry_by_encoding(word)?.array_index as u8;
+        result ^= mode_index_of_token(word)? as u8;
     }
     Ok(result)
 }
@@ -149,7 +158,7 @@ pub fn odu_primary_index(words: &[&str]) -> Result<u8, BiponError> {
 pub fn macro_distribution(words: &[&str]) -> Result<MacroDistribution, BiponError> {
     let mut counts = Macro::all().map(|macro_| (macro_, 0usize));
     for word in words {
-        let entry = entry_by_encoding(word)?;
+        let entry = entry_by_mode_token(word)?;
         let macro_ = Macro::from_name(entry.macro_name).ok_or_else(|| {
             BiponError::WordlistIntegrity(format!("unknown macro {}", entry.macro_name))
         })?;
@@ -184,7 +193,7 @@ pub fn entries_for(macro_: Macro) -> Vec<&'static crate::wordlist::WordlistEntry
 pub fn elemental_signature(mnemonic: &str) -> ElementalVector {
     let mut signature = ElementalVector::default();
     for word in mnemonic.split_whitespace() {
-        if let Ok(entry) = entry_by_encoding(word) {
+        if let Ok(entry) = entry_by_mode_token(word) {
             signature.add_element(&entry.meta.element);
         }
     }
@@ -195,23 +204,88 @@ pub fn elemental_signature(mnemonic: &str) -> ElementalVector {
 pub fn personality_profile(mnemonic: &str) -> Result<PersonalityProfile, BiponError> {
     let words = mnemonic.split_whitespace().collect::<Vec<_>>();
     let macro_distribution = macro_distribution(&words)?;
+    let macro_percentages = macro_percentages(&macro_distribution);
     let elemental_signature = elemental_signature_for_words(&words)?;
     let dominant_orisha = dominant_macro_from_distribution(&macro_distribution);
+    let ritual_suggestions = ritual_cue_for(mnemonic)?;
+    let personality_summary = build_personality_summary(
+        dominant_orisha,
+        &elemental_signature,
+        ritual_suggestions.first(),
+    );
 
     Ok(PersonalityProfile {
         macro_distribution,
+        macro_percentages,
         elemental_signature,
         dominant_orisha,
+        ritual_suggestions,
+        personality_summary,
     })
+}
+
+/// Return ordered, deduplicated ritual cues for either 256- or 2048-mode tokens.
+pub fn ritual_cue_for(mnemonic: &str) -> Result<Vec<String>, BiponError> {
+    let mut seen = HashSet::new();
+    let mut cues = Vec::new();
+    for word in mnemonic.split_whitespace() {
+        let cue = entry_by_mode_token(word)?.meta.ritual_cue.clone();
+        if seen.insert(cue.clone()) {
+            cues.push(cue);
+        }
+    }
+    Ok(cues)
 }
 
 fn elemental_signature_for_words(words: &[&str]) -> Result<ElementalVector, BiponError> {
     let mut signature = ElementalVector::default();
     for word in words {
-        let entry = entry_by_encoding(word)?;
+        let entry = entry_by_mode_token(word)?;
         signature.add_element(&entry.meta.element);
     }
     Ok(signature)
+}
+
+fn macro_percentages(distribution: &MacroDistribution) -> [(Macro, f64); 7] {
+    distribution.counts.map(|(macro_, count)| {
+        let percentage = if distribution.total == 0 {
+            0.0
+        } else {
+            (count as f64 / distribution.total as f64) * 100.0
+        };
+        (macro_, percentage)
+    })
+}
+
+fn build_personality_summary(
+    dominant_orisha: Macro,
+    elements: &ElementalVector,
+    first_ritual: Option<&String>,
+) -> String {
+    let element = dominant_element(elements).unwrap_or("balanced");
+    match first_ritual {
+        Some(cue) => format!(
+            "{} leads with a {element} elemental tone; begin with \"{cue}\".",
+            dominant_orisha.name()
+        ),
+        None => format!(
+            "{} leads with a {element} elemental tone.",
+            dominant_orisha.name()
+        ),
+    }
+}
+
+fn dominant_element(elements: &ElementalVector) -> Option<&'static str> {
+    [
+        ("Fire", elements.fire),
+        ("Water", elements.water),
+        ("Earth", elements.earth),
+        ("Air", elements.air),
+        ("Ether", elements.ether),
+    ]
+    .into_iter()
+    .max_by_key(|(_, count)| *count)
+    .and_then(|(element, count)| (count > 0).then_some(element))
 }
 
 fn dominant_macro_from_distribution(distribution: &MacroDistribution) -> Macro {
