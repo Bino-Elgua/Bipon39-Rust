@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use bipon39::constants::{MERKLE_ROOT, WORDLIST_SIZE};
 use bipon39::crypto::compute_wordlist_merkle_root;
 use bipon39::wordlist::{
-    all_encoding_tokens, entries_for_macro, entry_by_index, verify_wordlist_integrity,
+    all_encoding_tokens, entries_for_macro, entry_by_index, lookup_meta, verify_wordlist_integrity,
 };
 
 #[test]
@@ -96,6 +96,26 @@ fn boundary_spot_checks() {
         assert_eq!(entry.encoding, encoding);
         assert_eq!(entry.canonical, canonical);
     }
+}
+
+#[test]
+fn token_metadata_loaded_from_canonical_json() {
+    let first = lookup_meta(0).unwrap();
+    assert_eq!(first.element, "Earth");
+    assert_eq!(first.ritual_cue, "draw crossroads");
+    assert_eq!(first.ethical_tag, "threshold");
+    assert_eq!(first.sigil_seed, "cross+dot");
+
+    let dawn = lookup_meta(15).unwrap();
+    assert_eq!(dawn.element, "Ether");
+    assert_eq!(dawn.ritual_cue, "face sunrise");
+    assert_eq!(dawn.ethical_tag, "begin");
+    assert_eq!(dawn.sigil_seed, "east-ray");
+}
+
+#[test]
+fn token_metadata_lookup_rejects_out_of_range_array_index() {
+    assert!(lookup_meta(WORDLIST_SIZE).is_none());
 }
 
 #[test]

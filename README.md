@@ -70,19 +70,63 @@ fn main() -> Result<(), BiponError> {
 ## Ifáscript lookup
 
 ```rust
-use bipon39::{dominant_macro, entropy_to_mnemonic, macro_distribution, odu_primary_index, BiponError};
+use bipon39::{
+    dominant_macro, elemental_signature, entropy_to_mnemonic, macro_distribution,
+    odu_primary_index, BiponError,
+};
 
 fn main() -> Result<(), BiponError> {
     let mnemonic = entropy_to_mnemonic(&[0u8; 32])?;
     let words = mnemonic.iter().map(String::as_str).collect::<Vec<_>>();
+    let phrase = mnemonic.join(" ");
 
     let odu = odu_primary_index(&words)?;
     let dominant = dominant_macro(&words)?;
     let distribution = macro_distribution(&words)?;
+    let elements = elemental_signature(&phrase);
 
     println!("Odù primary index: {odu}");
     println!("Dominant macro: {}", dominant.name());
     println!("Word count: {}", distribution.total);
+    println!("Fire tokens: {}", elements.fire);
+    Ok(())
+}
+```
+
+## Token metadata lookup
+
+Token metadata is loaded from `data/canonical.json` at compile time alongside the
+canonical/encoding wordlist. The lookup API uses the same 0-based array index as
+the byte-oriented mnemonic layer.
+
+```rust
+use bipon39::lookup_meta;
+
+fn main() {
+    let meta = lookup_meta(15).expect("token 15 exists");
+
+    assert_eq!(meta.element, "Ether");
+    assert_eq!(meta.ritual_cue, "face sunrise");
+    assert_eq!(meta.ethical_tag, "begin");
+    assert_eq!(meta.sigil_seed, "east-ray");
+}
+```
+
+## Personality profile
+
+`personality_profile` combines macro distribution, elemental signature, and a
+dominant Orisha/Macro selected with deterministic tie-breaking: highest count,
+then the more concentrated Macro, then lower flat-index range.
+
+```rust
+use bipon39::{personality_profile, BiponError};
+
+fn main() -> Result<(), BiponError> {
+    let profile = personality_profile("esu-elegbara esu-elegba sango")?;
+
+    println!("Dominant Orisha: {}", profile.dominant_orisha.name());
+    println!("Earth balance: {}", profile.elemental_signature.earth);
+    println!("Macro tokens: {}", profile.macro_distribution.total);
     Ok(())
 }
 ```
@@ -115,6 +159,7 @@ Runnable examples live in [`examples/`](examples/):
 - `basic_usage.rs`
 - `ifascript_demo.rs`
 - `full_roundtrip.rs`
+- `metadata_demo.rs`
 
 Run one with:
 

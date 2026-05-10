@@ -2,7 +2,10 @@ use bipon39::display::{
     canonical_for_encoding, canonical_to_encoding, encoding_for_canonical, format_numbered,
     format_numbered_canonical, mnemonic_to_canonical,
 };
-use bipon39::ifascript::{dominant_macro, macro_distribution, odu_primary_index, Macro};
+use bipon39::ifascript::{
+    dominant_macro, elemental_signature, macro_distribution, odu_primary_index,
+    personality_profile, ElementalVector, Macro,
+};
 use bipon39::wordlist::entries_for_macro;
 
 #[test]
@@ -65,6 +68,50 @@ fn dominant_macro_correct() {
 fn dominant_macro_tie_breaks_by_lower_index() {
     let words = ["sango", "osun"];
     assert_eq!(dominant_macro(&words).unwrap(), Macro::Sango);
+}
+
+#[test]
+fn dominant_macro_tie_prefers_more_concentrated_macro() {
+    let words = ["esu-elegbara", "sango"];
+    assert_eq!(dominant_macro(&words).unwrap(), Macro::Sango);
+}
+
+#[test]
+fn dominant_macro_tie_falls_back_to_lower_index_for_equal_size_macros() {
+    let words = ["osun", "yemoja"];
+    assert_eq!(dominant_macro(&words).unwrap(), Macro::Osun);
+}
+
+#[test]
+fn elemental_signature_counts_metadata_elements() {
+    let signature = elemental_signature("esu-elegbara esu-elegba esu-laaroye esu-laroye");
+    assert_eq!(
+        signature,
+        ElementalVector {
+            fire: 2,
+            water: 1,
+            earth: 1,
+            air: 0,
+            ether: 0,
+        }
+    );
+}
+
+#[test]
+fn personality_profile_combines_macro_elements_and_dominant_orisha() {
+    let profile = personality_profile("esu-elegbara esu-elegba sango").unwrap();
+    assert_eq!(profile.macro_distribution.total, 3);
+    assert_eq!(profile.dominant_orisha, Macro::Esu);
+    assert_eq!(
+        profile.elemental_signature,
+        ElementalVector {
+            fire: 1,
+            water: 0,
+            earth: 2,
+            air: 0,
+            ether: 0,
+        }
+    );
 }
 
 #[test]

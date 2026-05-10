@@ -14,7 +14,35 @@
       "1:1 mapping between canonical and encoding layers",
       "Deduplication happens outside the canon",
       "Identity must be resolved, not annotated"
-    ]
+    ],
+    "token_metadata": {
+      "source": "TypeScript reference affix metadata, projected deterministically by array_index modulo 16 without changing tokens",
+      "cycle": [
+        "gate",
+        "volt",
+        "forge",
+        "stream",
+        "tide",
+        "veil",
+        "crown",
+        "mirror",
+        "path",
+        "seal",
+        "code",
+        "sigil",
+        "drum",
+        "thunder",
+        "river",
+        "dawn"
+      ],
+      "elements": [
+        "Fire",
+        "Water",
+        "Earth",
+        "Air",
+        "Ether"
+      ]
+    }
   },
   "macros": {
     "ÈṢÙ": {
@@ -592,1792 +620,3328 @@
       "macro": "ÈṢÙ",
       "macro_local": 1,
       "canonical": "èṣù-elegbára",
-      "encoding": "esu-elegbara"
+      "encoding": "esu-elegbara",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 2,
       "macro": "ÈṢÙ",
       "macro_local": 2,
       "canonical": "èṣù-elegba",
-      "encoding": "esu-elegba"
+      "encoding": "esu-elegba",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 3,
       "macro": "ÈṢÙ",
       "macro_local": 3,
       "canonical": "èṣù-láàróyè",
-      "encoding": "esu-laaroye"
+      "encoding": "esu-laaroye",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 4,
       "macro": "ÈṢÙ",
       "macro_local": 4,
       "canonical": "èṣù-laroye",
-      "encoding": "esu-laroye"
+      "encoding": "esu-laroye",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 5,
       "macro": "ÈṢÙ",
       "macro_local": 5,
       "canonical": "èṣù-odàrà",
-      "encoding": "esu-odara"
+      "encoding": "esu-odara",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 6,
       "macro": "ÈṢÙ",
       "macro_local": 6,
       "canonical": "èṣù-bara",
-      "encoding": "esu-bara"
+      "encoding": "esu-bara",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 7,
       "macro": "ÈṢÙ",
       "macro_local": 7,
       "canonical": "èṣù-alákétu",
-      "encoding": "esu-alaketu"
+      "encoding": "esu-alaketu",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 8,
       "macro": "ÈṢÙ",
       "macro_local": 8,
       "canonical": "èṣù-aláje",
-      "encoding": "esu-alaje"
+      "encoding": "esu-alaje",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 9,
       "macro": "ÈṢÙ",
       "macro_local": 9,
       "canonical": "èṣù-ẹlẹ́gbára",
-      "encoding": "esu-elegbara-nla"
+      "encoding": "esu-elegbara-nla",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 10,
       "macro": "ÈṢÙ",
       "macro_local": 10,
       "canonical": "èṣù-aláṣẹ",
-      "encoding": "esu-alase"
+      "encoding": "esu-alase",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 11,
       "macro": "ÈṢÙ",
       "macro_local": 11,
       "canonical": "èṣù-ọlọ́fin",
-      "encoding": "esu-olofin"
+      "encoding": "esu-olofin",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 12,
       "macro": "ÈṢÙ",
       "macro_local": 12,
       "canonical": "èṣù-ọlọ́yè",
-      "encoding": "esu-oloye"
+      "encoding": "esu-oloye",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 13,
       "macro": "ÈṢÙ",
       "macro_local": 13,
       "canonical": "èṣù-adarí",
-      "encoding": "esu-adari"
+      "encoding": "esu-adari",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 14,
       "macro": "ÈṢÙ",
       "macro_local": 14,
       "canonical": "èṣù-alábára",
-      "encoding": "esu-alabara"
+      "encoding": "esu-alabara",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 15,
       "macro": "ÈṢÙ",
       "macro_local": 15,
       "canonical": "èṣù-alágbára",
-      "encoding": "esu-alagbara"
+      "encoding": "esu-alagbara",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 16,
       "macro": "ÈṢÙ",
       "macro_local": 16,
       "canonical": "èṣù-aláṣeyọrí",
-      "encoding": "esu-alaseyori"
+      "encoding": "esu-alaseyori",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 17,
       "macro": "ÈṢÙ",
       "macro_local": 17,
       "canonical": "èṣù-onílé-ọ̀nà",
-      "encoding": "esu-onile-ona"
+      "encoding": "esu-onile-ona",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 18,
       "macro": "ÈṢÙ",
       "macro_local": 18,
       "canonical": "èṣù-onílé-ọ̀rị́ta",
-      "encoding": "esu-onile-orita"
+      "encoding": "esu-onile-orita",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 19,
       "macro": "ÈṢÙ",
       "macro_local": 19,
       "canonical": "èṣù-olóríta",
-      "encoding": "esu-olorita"
+      "encoding": "esu-olorita",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 20,
       "macro": "ÈṢÙ",
       "macro_local": 20,
       "canonical": "èṣù-alábọ̀dé",
-      "encoding": "esu-alabode"
+      "encoding": "esu-alabode",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 21,
       "macro": "ÈṢÙ",
       "macro_local": 21,
       "canonical": "èṣù-ọ̀nà-mẹ́ta",
-      "encoding": "esu-ona-meta"
+      "encoding": "esu-ona-meta",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 22,
       "macro": "ÈṢÙ",
       "macro_local": 22,
       "canonical": "èṣù-òpó",
-      "encoding": "esu-opo"
+      "encoding": "esu-opo",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 23,
       "macro": "ÈṢÙ",
       "macro_local": 23,
       "canonical": "èṣù-ìlèkùn",
-      "encoding": "esu-ilekun"
+      "encoding": "esu-ilekun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 24,
       "macro": "ÈṢÙ",
       "macro_local": 24,
       "canonical": "èṣù-ojú-ọ̀nà",
-      "encoding": "esu-oju-ona"
+      "encoding": "esu-oju-ona",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 25,
       "macro": "ÈṢÙ",
       "macro_local": 25,
       "canonical": "èṣù-elérìí",
-      "encoding": "esu-elerii"
+      "encoding": "esu-elerii",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 26,
       "macro": "ÈṢÙ",
       "macro_local": 26,
       "canonical": "èṣù-olùrànṣẹ́",
-      "encoding": "esu-oluranse"
+      "encoding": "esu-oluranse",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 27,
       "macro": "ÈṢÙ",
       "macro_local": 27,
       "canonical": "èṣù-olóhùn",
-      "encoding": "esu-olohun"
+      "encoding": "esu-olohun",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 28,
       "macro": "ÈṢÙ",
       "macro_local": 28,
       "canonical": "èṣù-olùsọ̀rọ̀",
-      "encoding": "esu-olusoro"
+      "encoding": "esu-olusoro",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 29,
       "macro": "ÈṢÙ",
       "macro_local": 29,
       "canonical": "èṣù-olùkìlọ̀",
-      "encoding": "esu-olukilo"
+      "encoding": "esu-olukilo",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 30,
       "macro": "ÈṢÙ",
       "macro_local": 30,
       "canonical": "èṣù-olùkéde",
-      "encoding": "esu-olukede"
+      "encoding": "esu-olukede",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 31,
       "macro": "ÈṢÙ",
       "macro_local": 31,
       "canonical": "èṣù-olùtúmọ̀",
-      "encoding": "esu-olutumo"
+      "encoding": "esu-olutumo",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 32,
       "macro": "ÈṢÙ",
       "macro_local": 32,
       "canonical": "èṣù-olùjẹ́rìí",
-      "encoding": "esu-olujerii"
+      "encoding": "esu-olujerii",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 33,
       "macro": "ÈṢÙ",
       "macro_local": 33,
       "canonical": "èṣù-yàngí",
-      "encoding": "esu-yangi"
+      "encoding": "esu-yangi",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 34,
       "macro": "ÈṢÙ",
       "macro_local": 34,
       "canonical": "èṣù-káminalọ́wá",
-      "encoding": "esu-kaminalowa"
+      "encoding": "esu-kaminalowa",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 35,
       "macro": "ÈṢÙ",
       "macro_local": 35,
       "canonical": "èṣù-láàlú",
-      "encoding": "esu-laalu"
+      "encoding": "esu-laalu",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 36,
       "macro": "ÈṢÙ",
       "macro_local": 36,
       "canonical": "èṣù-agogo",
-      "encoding": "esu-agogo"
+      "encoding": "esu-agogo",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 37,
       "macro": "ÈṢÙ",
       "macro_local": 37,
       "canonical": "èṣù-ìjàpá",
-      "encoding": "esu-ijapa"
+      "encoding": "esu-ijapa",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 38,
       "macro": "ÈṢÙ",
       "macro_local": 38,
       "canonical": "èṣù-ògìrì-ọ̀kò",
-      "encoding": "esu-ogiri-oko"
+      "encoding": "esu-ogiri-oko",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 39,
       "macro": "ÈṢÙ",
       "macro_local": 39,
       "canonical": "èṣù-alárìnká",
-      "encoding": "esu-alarinka"
+      "encoding": "esu-alarinka",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 40,
       "macro": "ÈṢÙ",
       "macro_local": 40,
       "canonical": "èṣù-alárìn",
-      "encoding": "esu-alarin"
+      "encoding": "esu-alarin",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 41,
       "macro": "ÈṢÙ",
       "macro_local": 41,
       "canonical": "èṣù-alẹ́gbẹ̀",
-      "encoding": "esu-alegbe"
+      "encoding": "esu-alegbe",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 42,
       "macro": "ÈṢÙ",
       "macro_local": 42,
       "canonical": "èṣù-olùṣọ́",
-      "encoding": "esu-oluso"
+      "encoding": "esu-oluso",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 43,
       "macro": "ÈṢÙ",
       "macro_local": 43,
       "canonical": "èṣù-olùkópa",
-      "encoding": "esu-olukopa"
+      "encoding": "esu-olukopa",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 44,
       "macro": "ÈṢÙ",
       "macro_local": 44,
       "canonical": "èṣù-olùfọkànsìn",
-      "encoding": "esu-olufokansin"
+      "encoding": "esu-olufokansin",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 45,
       "macro": "ÈṢÙ",
       "macro_local": 45,
       "canonical": "èṣù-olùdarí",
-      "encoding": "esu-oludari"
+      "encoding": "esu-oludari",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 46,
       "macro": "ÈṢÙ",
       "macro_local": 46,
       "canonical": "èṣù-olùtọ́jú",
-      "encoding": "esu-olutoju"
+      "encoding": "esu-olutoju",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 47,
       "macro": "ÈṢÙ",
       "macro_local": 47,
       "canonical": "èṣù-olùjẹ́",
-      "encoding": "esu-oluje"
+      "encoding": "esu-oluje",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 48,
       "macro": "ÈṢÙ",
       "macro_local": 48,
       "canonical": "èṣù-olùrànlọ́wọ́",
-      "encoding": "esu-oluranlowo"
+      "encoding": "esu-oluranlowo",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 49,
       "macro": "ÈṢÙ",
       "macro_local": 49,
       "canonical": "èṣù-ẹnu-ọ̀nà",
-      "encoding": "esu-enu-ona"
+      "encoding": "esu-enu-ona",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 50,
       "macro": "ÈṢÙ",
       "macro_local": 50,
       "canonical": "èṣù-ẹnu-ilé",
-      "encoding": "esu-enu-ile"
+      "encoding": "esu-enu-ile",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 51,
       "macro": "ÈṢÙ",
       "macro_local": 51,
       "canonical": "èṣù-ẹnu-ọjà",
-      "encoding": "esu-enu-oja"
+      "encoding": "esu-enu-oja",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 52,
       "macro": "ÈṢÙ",
       "macro_local": 52,
       "canonical": "èṣù-olójà",
-      "encoding": "esu-oloja"
+      "encoding": "esu-oloja",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 53,
       "macro": "ÈṢÙ",
       "macro_local": 53,
       "canonical": "èṣù-ọjà-nlá",
-      "encoding": "esu-oja-nla"
+      "encoding": "esu-oja-nla",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 54,
       "macro": "ÈṢÙ",
       "macro_local": 54,
       "canonical": "èṣù-ọ̀nà-òru",
-      "encoding": "esu-ona-oru"
+      "encoding": "esu-ona-oru",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 55,
       "macro": "ÈṢÙ",
       "macro_local": 55,
       "canonical": "èṣù-alẹ́-ọ̀nà",
-      "encoding": "esu-ale-ona"
+      "encoding": "esu-ale-ona",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 56,
       "macro": "ÈṢÙ",
       "macro_local": 56,
       "canonical": "èṣù-ìyàlẹ́nu",
-      "encoding": "esu-iyalenu"
+      "encoding": "esu-iyalenu",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 57,
       "macro": "ÈṢÙ",
       "macro_local": 57,
       "canonical": "èṣù-aṣiwèrè",
-      "encoding": "esu-asiwere"
+      "encoding": "esu-asiwere",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 58,
       "macro": "ÈṢÙ",
       "macro_local": 58,
       "canonical": "èṣù-ìyípadà-ọ̀nà",
-      "encoding": "esu-iyipada-ona"
+      "encoding": "esu-iyipada-ona",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 59,
       "macro": "ÈṢÙ",
       "macro_local": 59,
       "canonical": "èṣù-ìrìn-àjò",
-      "encoding": "esu-irin-ajo"
+      "encoding": "esu-irin-ajo",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 60,
       "macro": "ÈṢÙ",
       "macro_local": 60,
       "canonical": "èṣù-ẹsẹ̀-yára",
-      "encoding": "esu-ese-yara"
+      "encoding": "esu-ese-yara",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 61,
       "macro": "ÈṢÙ",
       "macro_local": 61,
       "canonical": "èṣù-ìyára",
-      "encoding": "esu-iyara"
+      "encoding": "esu-iyara",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 62,
       "macro": "ÈṢÙ",
       "macro_local": 62,
       "canonical": "èṣù-ogo",
-      "encoding": "esu-ogo"
+      "encoding": "esu-ogo",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 63,
       "macro": "ÈṢÙ",
       "macro_local": 63,
       "canonical": "èṣù-ogo-èṣù",
-      "encoding": "esu-ogo-esu"
+      "encoding": "esu-ogo-esu",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 64,
       "macro": "ÈṢÙ",
       "macro_local": 64,
       "canonical": "èṣù-pàṣán",
-      "encoding": "esu-pasan"
+      "encoding": "esu-pasan",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 65,
       "macro": "ÈṢÙ",
       "macro_local": 65,
       "canonical": "èṣù-ìbọ̀",
-      "encoding": "esu-ibo"
+      "encoding": "esu-ibo",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 66,
       "macro": "ÈṢÙ",
       "macro_local": 66,
       "canonical": "èṣù-ojú-ifá",
-      "encoding": "esu-oju-ifa"
+      "encoding": "esu-oju-ifa",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 67,
       "macro": "ÈṢÙ",
       "macro_local": 67,
       "canonical": "èṣù-ojú-ọ̀run",
-      "encoding": "esu-oju-orun"
+      "encoding": "esu-oju-orun",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 68,
       "macro": "ÈṢÙ",
       "macro_local": 68,
       "canonical": "èṣù-ojú-ayé",
-      "encoding": "esu-oju-aye"
+      "encoding": "esu-oju-aye",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 69,
       "macro": "ÈṢÙ",
       "macro_local": 69,
       "canonical": "èṣù-ọmọ-ọ̀nà",
-      "encoding": "esu-omo-ona"
+      "encoding": "esu-omo-ona",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 70,
       "macro": "ÈṢÙ",
       "macro_local": 70,
       "canonical": "èṣù-ọmọ-àárọ̀",
-      "encoding": "esu-omo-aaro"
+      "encoding": "esu-omo-aaro",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 71,
       "macro": "ÈṢÙ",
       "macro_local": 71,
       "canonical": "èṣù-ìfẹ́kúfẹ̀",
-      "encoding": "esu-ifekufe"
+      "encoding": "esu-ifekufe",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 72,
       "macro": "ÈṢÙ",
       "macro_local": 72,
       "canonical": "èṣù-ebi-nlá",
-      "encoding": "esu-ebi-nla"
+      "encoding": "esu-ebi-nla",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 73,
       "macro": "ÈṢÙ",
       "macro_local": 73,
       "canonical": "èṣù-ẹ̀rín",
-      "encoding": "esu-erin"
+      "encoding": "esu-erin",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 74,
       "macro": "ÈṢÙ",
       "macro_local": 74,
       "canonical": "èṣù-àbọ̀",
-      "encoding": "esu-abo"
+      "encoding": "esu-abo",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 75,
       "macro": "ÈṢÙ",
       "macro_local": 75,
       "canonical": "èṣù-ìṣeré",
-      "encoding": "esu-isere"
+      "encoding": "esu-isere",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 76,
       "macro": "ÈṢÙ",
       "macro_local": 76,
       "canonical": "èṣù-ìdánwò",
-      "encoding": "esu-idanwo"
+      "encoding": "esu-idanwo",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 77,
       "macro": "ÈṢÙ",
       "macro_local": 77,
       "canonical": "èṣù-ìdán",
-      "encoding": "esu-idan"
+      "encoding": "esu-idan",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 78,
       "macro": "ÈṢÙ",
       "macro_local": 78,
       "canonical": "èṣù-àṣà",
-      "encoding": "esu-asa"
+      "encoding": "esu-asa",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 79,
       "macro": "ÈṢÙ",
       "macro_local": 79,
       "canonical": "èṣù-àṣẹ-ọ̀nà",
-      "encoding": "esu-ase-ona"
+      "encoding": "esu-ase-ona",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 80,
       "macro": "ÈṢÙ",
       "macro_local": 80,
       "canonical": "èṣù-àṣẹ-èṣù",
-      "encoding": "esu-ase-esu"
+      "encoding": "esu-ase-esu",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 81,
       "macro": "ÈṢÙ",
       "macro_local": 81,
       "canonical": "èṣù-ìmọ̀-ọ̀nà",
-      "encoding": "esu-imo-ona"
+      "encoding": "esu-imo-ona",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 82,
       "macro": "ÈṢÙ",
       "macro_local": 82,
       "canonical": "èṣù-ìmọ̀-àṣẹ",
-      "encoding": "esu-imo-ase"
+      "encoding": "esu-imo-ase",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 83,
       "macro": "ÈṢÙ",
       "macro_local": 83,
       "canonical": "èṣù-olùpèsè",
-      "encoding": "esu-olupese"
+      "encoding": "esu-olupese",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 84,
       "macro": "ÈṢÙ",
       "macro_local": 84,
       "canonical": "èṣù-olùdásílẹ̀",
-      "encoding": "esu-oludasile"
+      "encoding": "esu-oludasile",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 85,
       "macro": "ÈṢÙ",
       "macro_local": 85,
       "canonical": "èṣù-olùṣèdálẹ̀",
-      "encoding": "esu-olusedele"
+      "encoding": "esu-olusedele",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 86,
       "macro": "ÈṢÙ",
       "macro_local": 86,
       "canonical": "èṣù-olùpín",
-      "encoding": "esu-olupin"
+      "encoding": "esu-olupin",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 87,
       "macro": "ÈṢÙ",
       "macro_local": 87,
       "canonical": "èṣù-olùdarí-ọ̀nà",
-      "encoding": "esu-oludari-ona"
+      "encoding": "esu-oludari-ona",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 88,
       "macro": "ÈṢÙ",
       "macro_local": 88,
       "canonical": "èṣù-olùṣọ́-ọ̀nà",
-      "encoding": "esu-oluso-ona"
+      "encoding": "esu-oluso-ona",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 89,
       "macro": "ṢÀNGÓ",
       "macro_local": 1,
       "canonical": "ṣàngó",
-      "encoding": "sango"
+      "encoding": "sango",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 90,
       "macro": "ṢÀNGÓ",
       "macro_local": 2,
       "canonical": "ṣàngó-kòso",
-      "encoding": "sango-koso"
+      "encoding": "sango-koso",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 91,
       "macro": "ṢÀNGÓ",
       "macro_local": 3,
       "canonical": "ṣàngó-jákúta",
-      "encoding": "sango-jakuta"
+      "encoding": "sango-jakuta",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 92,
       "macro": "ṢÀNGÓ",
       "macro_local": 4,
       "canonical": "ṣàngó-ọba",
-      "encoding": "sango-oba"
+      "encoding": "sango-oba",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 93,
       "macro": "ṢÀNGÓ",
       "macro_local": 5,
       "canonical": "ṣàngó-aláàfin",
-      "encoding": "sango-alaafin"
+      "encoding": "sango-alaafin",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 94,
       "macro": "ṢÀNGÓ",
       "macro_local": 6,
       "canonical": "ṣàngó-ọ̀yọ́",
-      "encoding": "sango-oyo"
+      "encoding": "sango-oyo",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 95,
       "macro": "ṢÀNGÓ",
       "macro_local": 7,
       "canonical": "ṣàngó-lúfòn",
-      "encoding": "sango-lufo"
+      "encoding": "sango-lufo",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 96,
       "macro": "ṢÀNGÓ",
       "macro_local": 8,
       "canonical": "ṣàngó-obàlúfòn",
-      "encoding": "sango-obalufo"
+      "encoding": "sango-obalufo",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 97,
       "macro": "ṢÀNGÓ",
       "macro_local": 9,
       "canonical": "ṣàngó-ọba-òyó",
-      "encoding": "sango-oba-oyo"
+      "encoding": "sango-oba-oyo",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 98,
       "macro": "ṢÀNGÓ",
       "macro_local": 10,
       "canonical": "ṣàngó-aláàfin-òyó",
-      "encoding": "sango-alaafin-oyo"
+      "encoding": "sango-alaafin-oyo",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 99,
       "macro": "ṢÀNGÓ",
       "macro_local": 11,
       "canonical": "ṣàngó-ọba-ayé",
-      "encoding": "sango-oba-aye"
+      "encoding": "sango-oba-aye",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 100,
       "macro": "ṢÀNGÓ",
       "macro_local": 12,
       "canonical": "ṣàngó-ọba-ọ̀run",
-      "encoding": "sango-oba-orun"
+      "encoding": "sango-oba-orun",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 101,
       "macro": "ṢÀNGÓ",
       "macro_local": 13,
       "canonical": "ṣàngó-àyàn",
-      "encoding": "sango-ayan"
+      "encoding": "sango-ayan",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 102,
       "macro": "ṢÀNGÓ",
       "macro_local": 14,
       "canonical": "ṣàngó-àrá",
-      "encoding": "sango-ara"
+      "encoding": "sango-ara",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 103,
       "macro": "ṢÀNGÓ",
       "macro_local": 15,
       "canonical": "ṣàngó-mọ̀nàmọ́ná",
-      "encoding": "sango-monamona"
+      "encoding": "sango-monamona",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 104,
       "macro": "ṢÀNGÓ",
       "macro_local": 16,
       "canonical": "ṣàngó-iná",
-      "encoding": "sango-ina"
+      "encoding": "sango-ina",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 105,
       "macro": "ṢÀNGÓ",
       "macro_local": 17,
       "canonical": "ṣàngó-ìjì",
-      "encoding": "sango-iji"
+      "encoding": "sango-iji",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 106,
       "macro": "ṢÀNGÓ",
       "macro_local": 18,
       "canonical": "ṣàngó-àrá-ọ̀run",
-      "encoding": "sango-ara-orun"
+      "encoding": "sango-ara-orun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 107,
       "macro": "ṢÀNGÓ",
       "macro_local": 19,
       "canonical": "ṣàngó-àrá-ilẹ̀",
-      "encoding": "sango-ara-ile"
+      "encoding": "sango-ara-ile",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 108,
       "macro": "ṢÀNGÓ",
       "macro_local": 20,
       "canonical": "ṣàngó-ọba-òkè",
-      "encoding": "sango-oba-oke"
+      "encoding": "sango-oba-oke",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 109,
       "macro": "Ọ̀ṢUN",
       "macro_local": 1,
       "canonical": "ọ̀ṣun",
-      "encoding": "osun"
+      "encoding": "osun",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 110,
       "macro": "Ọ̀ṢUN",
       "macro_local": 2,
       "canonical": "ọ̀ṣun-òṣogbo",
-      "encoding": "osun-osogbo"
+      "encoding": "osun-osogbo",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 111,
       "macro": "Ọ̀ṢUN",
       "macro_local": 3,
       "canonical": "ọ̀ṣun-iyálódé",
-      "encoding": "osun-iyalode"
+      "encoding": "osun-iyalode",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 112,
       "macro": "Ọ̀ṢUN",
       "macro_local": 4,
       "canonical": "ọ̀ṣun-ọba",
-      "encoding": "osun-oba"
+      "encoding": "osun-oba",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 113,
       "macro": "Ọ̀ṢUN",
       "macro_local": 5,
       "canonical": "ọ̀ṣun-yèyé",
-      "encoding": "osun-yeye"
+      "encoding": "osun-yeye",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 114,
       "macro": "Ọ̀ṢUN",
       "macro_local": 6,
       "canonical": "ọ̀ṣun-iyá",
-      "encoding": "osun-iya"
+      "encoding": "osun-iya",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 115,
       "macro": "Ọ̀ṢUN",
       "macro_local": 7,
       "canonical": "ọ̀ṣun-iyá-ọmọ",
-      "encoding": "osun-iya-omo"
+      "encoding": "osun-iya-omo",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 116,
       "macro": "Ọ̀ṢUN",
       "macro_local": 8,
       "canonical": "ọ̀ṣun-òṣàn",
-      "encoding": "osun-osan"
+      "encoding": "osun-osan",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 117,
       "macro": "Ọ̀ṢUN",
       "macro_local": 9,
       "canonical": "ọ̀ṣun-òṣàn-nlá",
-      "encoding": "osun-osan-nla"
+      "encoding": "osun-osan-nla",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 118,
       "macro": "Ọ̀ṢUN",
       "macro_local": 10,
       "canonical": "ọ̀ṣun-ibú",
-      "encoding": "osun-ibu"
+      "encoding": "osun-ibu",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 119,
       "macro": "Ọ̀ṢUN",
       "macro_local": 11,
       "canonical": "ọ̀ṣun-òṣàn-ayé",
-      "encoding": "osun-osan-aye"
+      "encoding": "osun-osan-aye",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 120,
       "macro": "Ọ̀ṢUN",
       "macro_local": 12,
       "canonical": "ọ̀ṣun-ọba-òṣogbo",
-      "encoding": "osun-oba-osogbo"
+      "encoding": "osun-oba-osogbo",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 121,
       "macro": "Ọ̀ṢUN",
       "macro_local": 13,
       "canonical": "ọ̀ṣun-ọba-òṣàn",
-      "encoding": "osun-oba-osan"
+      "encoding": "osun-oba-osan",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 122,
       "macro": "Ọ̀ṢUN",
       "macro_local": 14,
       "canonical": "ọ̀ṣun-ọba-ìyá",
-      "encoding": "osun-oba-iya"
+      "encoding": "osun-oba-iya",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 123,
       "macro": "Ọ̀ṢUN",
       "macro_local": 15,
       "canonical": "ọ̀ṣun-oyín",
-      "encoding": "osun-oyin"
+      "encoding": "osun-oyin",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 124,
       "macro": "Ọ̀ṢUN",
       "macro_local": 16,
       "canonical": "ọ̀ṣun-iyá-ayé",
-      "encoding": "osun-iya-aye"
+      "encoding": "osun-iya-aye",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 125,
       "macro": "Ọ̀ṢUN",
       "macro_local": 17,
       "canonical": "ọ̀ṣun-oyún",
-      "encoding": "osun-oyun"
+      "encoding": "osun-oyun",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 126,
       "macro": "Ọ̀ṢUN",
       "macro_local": 18,
       "canonical": "ọ̀ṣun-dídùn",
-      "encoding": "osun-didun"
+      "encoding": "osun-didun",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 127,
       "macro": "Ọ̀ṢUN",
       "macro_local": 19,
       "canonical": "ọ̀ṣun-ìfẹ́",
-      "encoding": "osun-ife"
+      "encoding": "osun-ife",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 128,
       "macro": "Ọ̀ṢUN",
       "macro_local": 20,
       "canonical": "ọ̀ṣun-ìfẹ́-ayé",
-      "encoding": "osun-ife-aye"
+      "encoding": "osun-ife-aye",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 129,
       "macro": "Ọ̀ṢUN",
       "macro_local": 21,
       "canonical": "ọ̀ṣun-owó",
-      "encoding": "osun-owo"
+      "encoding": "osun-owo",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 130,
       "macro": "Ọ̀ṢUN",
       "macro_local": 22,
       "canonical": "ọ̀ṣun-ìbùkún",
-      "encoding": "osun-ibukun"
+      "encoding": "osun-ibukun",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 131,
       "macro": "Ọ̀ṢUN",
       "macro_local": 23,
       "canonical": "ọ̀ṣun-ìlera",
-      "encoding": "osun-ileri"
+      "encoding": "osun-ileri",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 132,
       "macro": "Ọ̀ṢUN",
       "macro_local": 24,
       "canonical": "ọ̀ṣun-ìbímọ",
-      "encoding": "osun-ibimo"
+      "encoding": "osun-ibimo",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 133,
       "macro": "Ọ̀ṢUN",
       "macro_local": 25,
       "canonical": "ọ̀ṣun-olùbímọ",
-      "encoding": "osun-olubimo"
+      "encoding": "osun-olubimo",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 134,
       "macro": "Ọ̀ṢUN",
       "macro_local": 26,
       "canonical": "ọ̀ṣun-ọkàn",
-      "encoding": "osun-okan"
+      "encoding": "osun-okan",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 135,
       "macro": "Ọ̀ṢUN",
       "macro_local": 27,
       "canonical": "ọ̀ṣun-jinlẹ̀",
-      "encoding": "osun-jinle"
+      "encoding": "osun-jinle",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 136,
       "macro": "Ọ̀ṢUN",
       "macro_local": 28,
       "canonical": "ọ̀ṣun-inú",
-      "encoding": "osun-inu"
+      "encoding": "osun-inu",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 137,
       "macro": "YEMỌJA",
       "macro_local": 1,
       "canonical": "yemọja",
-      "encoding": "yemoja"
+      "encoding": "yemoja",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 138,
       "macro": "YEMỌJA",
       "macro_local": 2,
       "canonical": "yemọja-òkun",
-      "encoding": "yemoja-okun"
+      "encoding": "yemoja-okun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 139,
       "macro": "YEMỌJA",
       "macro_local": 3,
       "canonical": "yemọja-òkun-nlá",
-      "encoding": "yemoja-okun-nla"
+      "encoding": "yemoja-okun-nla",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 140,
       "macro": "YEMỌJA",
       "macro_local": 4,
       "canonical": "yemọja-òkun-jin",
-      "encoding": "yemoja-okun-jin"
+      "encoding": "yemoja-okun-jin",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 141,
       "macro": "YEMỌJA",
       "macro_local": 5,
       "canonical": "yemọja-agbàgbà",
-      "encoding": "yemoja-agbagba"
+      "encoding": "yemoja-agbagba",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 142,
       "macro": "YEMỌJA",
       "macro_local": 6,
       "canonical": "yemọja-asẹ́wọ̀",
-      "encoding": "yemoja-asewo"
+      "encoding": "yemoja-asewo",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 143,
       "macro": "YEMỌJA",
       "macro_local": 7,
       "canonical": "yemọja-ọba-òkun",
-      "encoding": "yemoja-oba-okun"
+      "encoding": "yemoja-oba-okun",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 144,
       "macro": "YEMỌJA",
       "macro_local": 8,
       "canonical": "yemọja-ibú-òkun",
-      "encoding": "yemoja-ibu-okun"
+      "encoding": "yemoja-ibu-okun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 145,
       "macro": "YEMỌJA",
       "macro_local": 9,
       "canonical": "yemọja-jinlẹ̀-òkun",
-      "encoding": "yemoja-jinle-okun"
+      "encoding": "yemoja-jinle-okun",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 146,
       "macro": "YEMỌJA",
       "macro_local": 10,
       "canonical": "yemọja-ìsàlẹ̀-òkun",
-      "encoding": "yemoja-isale-okun"
+      "encoding": "yemoja-isale-okun",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 147,
       "macro": "YEMỌJA",
       "macro_local": 11,
       "canonical": "yemọja-òkun-dúdú",
-      "encoding": "yemoja-okun-dudu"
+      "encoding": "yemoja-okun-dudu",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 148,
       "macro": "YEMỌJA",
       "macro_local": 12,
       "canonical": "yemọja-òkun-ọkàn",
-      "encoding": "yemoja-okun-okan"
+      "encoding": "yemoja-okun-okan",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 149,
       "macro": "YEMỌJA",
       "macro_local": 13,
       "canonical": "yemọja-ìbí-òrìṣà",
-      "encoding": "yemoja-ibi-orisa"
+      "encoding": "yemoja-ibi-orisa",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 150,
       "macro": "YEMỌJA",
       "macro_local": 14,
       "canonical": "yemọja-ìyá-òkun",
-      "encoding": "yemoja-iya-okun"
+      "encoding": "yemoja-iya-okun",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 151,
       "macro": "YEMỌJA",
       "macro_local": 15,
       "canonical": "yemọja-ìbílẹ̀-òkun",
-      "encoding": "yemoja-ibile-okun"
+      "encoding": "yemoja-ibile-okun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 152,
       "macro": "YEMỌJA",
       "macro_local": 16,
       "canonical": "yemọja-olùdá-òkun",
-      "encoding": "yemoja-oluda-okun"
+      "encoding": "yemoja-oluda-okun",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 153,
       "macro": "YEMỌJA",
       "macro_local": 17,
       "canonical": "yemọja-olùkó-òkun",
-      "encoding": "yemoja-oluko-okun"
+      "encoding": "yemoja-oluko-okun",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 154,
       "macro": "YEMỌJA",
       "macro_local": 18,
       "canonical": "yemọja-ìpamọ́-òkun",
-      "encoding": "yemoja-ipamo-okun"
+      "encoding": "yemoja-ipamo-okun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 155,
       "macro": "YEMỌJA",
       "macro_local": 19,
       "canonical": "yemọja-àyé-ìsàlẹ̀",
-      "encoding": "yemoja-aye-isale"
+      "encoding": "yemoja-aye-isale",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 156,
       "macro": "YEMỌJA",
       "macro_local": 20,
       "canonical": "yemọja-jin",
-      "encoding": "yemoja-jin"
+      "encoding": "yemoja-jin",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 157,
       "macro": "YEMỌJA",
       "macro_local": 21,
       "canonical": "yemọja-jinlẹ̀",
-      "encoding": "yemoja-jinle"
+      "encoding": "yemoja-jinle",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 158,
       "macro": "YEMỌJA",
       "macro_local": 22,
       "canonical": "yemọja-ìmọ̀-òkun",
-      "encoding": "yemoja-imo-okun"
+      "encoding": "yemoja-imo-okun",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 159,
       "macro": "YEMỌJA",
       "macro_local": 23,
       "canonical": "yemọja-àyé-òkun",
-      "encoding": "yemoja-aye-okun"
+      "encoding": "yemoja-aye-okun",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 160,
       "macro": "YEMỌJA",
       "macro_local": 24,
       "canonical": "yemọja-ọkàn-òkun",
-      "encoding": "yemoja-okan-okun"
+      "encoding": "yemoja-okan-okun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 161,
       "macro": "YEMỌJA",
       "macro_local": 25,
       "canonical": "yemọja-òkùnkùn-òkun",
-      "encoding": "yemoja-okunkun-okun"
+      "encoding": "yemoja-okunkun-okun",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 162,
       "macro": "YEMỌJA",
       "macro_local": 26,
       "canonical": "yemọja-ìpadà-òkun",
-      "encoding": "yemoja-ipada-okun"
+      "encoding": "yemoja-ipada-okun",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 163,
       "macro": "YEMỌJA",
       "macro_local": 27,
       "canonical": "yemọja-omi-ayé",
-      "encoding": "yemoja-omi-aye"
+      "encoding": "yemoja-omi-aye",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 164,
       "macro": "YEMỌJA",
       "macro_local": 28,
       "canonical": "yemọja-ìsọdọtun-òkun",
-      "encoding": "yemoja-isodotun-okun"
+      "encoding": "yemoja-isodotun-okun",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 165,
       "macro": "ỌYA",
       "macro_local": 1,
       "canonical": "ọya",
-      "encoding": "oya"
+      "encoding": "oya",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 166,
       "macro": "ỌYA",
       "macro_local": 2,
       "canonical": "ọya-yànsàn",
-      "encoding": "oya-yansan"
+      "encoding": "oya-yansan",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 167,
       "macro": "ỌYA",
       "macro_local": 3,
       "canonical": "ọya-àfẹ̀fẹ̀",
-      "encoding": "oya-afefe"
+      "encoding": "oya-afefe",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 168,
       "macro": "ỌYA",
       "macro_local": 4,
       "canonical": "ọya-àfẹ̀fẹ̀-nlá",
-      "encoding": "oya-afefe-nla"
+      "encoding": "oya-afefe-nla",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 169,
       "macro": "ỌYA",
       "macro_local": 5,
       "canonical": "ọya-ìjì",
-      "encoding": "oya-iji"
+      "encoding": "oya-iji",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 170,
       "macro": "ỌYA",
       "macro_local": 6,
       "canonical": "ọya-ìjì-nlá",
-      "encoding": "oya-iji-nla"
+      "encoding": "oya-iji-nla",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 171,
       "macro": "ỌYA",
       "macro_local": 7,
       "canonical": "ọya-ẹ̀fúùfù",
-      "encoding": "oya-efuufu"
+      "encoding": "oya-efuufu",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 172,
       "macro": "ỌYA",
       "macro_local": 8,
       "canonical": "ọya-ẹ̀fúùfù-nlá",
-      "encoding": "oya-efuufu-nla"
+      "encoding": "oya-efuufu-nla",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 173,
       "macro": "ỌYA",
       "macro_local": 9,
       "canonical": "ọya-ìjì-àrá",
-      "encoding": "oya-iji-ara"
+      "encoding": "oya-iji-ara",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 174,
       "macro": "ỌYA",
       "macro_local": 10,
       "canonical": "ọya-àrá-ìjì",
-      "encoding": "oya-ara-iji"
+      "encoding": "oya-ara-iji",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 175,
       "macro": "ỌYA",
       "macro_local": 11,
       "canonical": "ọya-àjọ̀gbọ̀n",
-      "encoding": "oya-ajogbon"
+      "encoding": "oya-ajogbon",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 176,
       "macro": "ỌYA",
       "macro_local": 12,
       "canonical": "ọya-àgbàyun",
-      "encoding": "oya-agbayun"
+      "encoding": "oya-agbayun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 177,
       "macro": "ỌYA",
       "macro_local": 13,
       "canonical": "ọya-ìyípadà",
-      "encoding": "oya-iyipada"
+      "encoding": "oya-iyipada",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 178,
       "macro": "ỌYA",
       "macro_local": 14,
       "canonical": "ọya-olùyípadà",
-      "encoding": "oya-oluyipada"
+      "encoding": "oya-oluyipada",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 179,
       "macro": "ỌYA",
       "macro_local": 15,
       "canonical": "ọya-ìlẹ̀kùn-ikú",
-      "encoding": "oya-ilekun-iku"
+      "encoding": "oya-ilekun-iku",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 180,
       "macro": "ỌYA",
       "macro_local": 16,
       "canonical": "ọya-ẹnu-ọ̀na-ikú",
-      "encoding": "oya-enu-ona-iku"
+      "encoding": "oya-enu-ona-iku",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 181,
       "macro": "ỌYA",
       "macro_local": 17,
       "canonical": "ọya-ìyá-egúngún",
-      "encoding": "oya-iya-egungun"
+      "encoding": "oya-iya-egungun",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 182,
       "macro": "ỌYA",
       "macro_local": 18,
       "canonical": "ọya-ọ̀san-gangan",
-      "encoding": "oya-osan-gangan"
+      "encoding": "oya-osan-gangan",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 183,
       "macro": "ỌYA",
       "macro_local": 19,
       "canonical": "ọya-ìlú-egúngún",
-      "encoding": "oya-ilu-egungun"
+      "encoding": "oya-ilu-egungun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 184,
       "macro": "ỌYA",
       "macro_local": 20,
       "canonical": "ọya-ìdánimọ̀",
-      "encoding": "oya-idanimo"
+      "encoding": "oya-idanimo",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 185,
       "macro": "ỌYA",
       "macro_local": 21,
       "canonical": "ọya-ọba-ìjì",
-      "encoding": "oya-oba-iji"
+      "encoding": "oya-oba-iji",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 186,
       "macro": "ỌYA",
       "macro_local": 22,
       "canonical": "ọya-ọba-àfẹ̀fẹ̀",
-      "encoding": "oya-oba-afefe"
+      "encoding": "oya-oba-afefe",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 187,
       "macro": "ỌYA",
       "macro_local": 23,
       "canonical": "ọya-ọba-òfurufú",
-      "encoding": "oya-oba-ofurufu"
+      "encoding": "oya-oba-ofurufu",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 188,
       "macro": "ỌYA",
       "macro_local": 24,
       "canonical": "ọya-ìyá-mẹ́sàn",
-      "encoding": "oya-iya-mesan"
+      "encoding": "oya-iya-mesan",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 189,
       "macro": "ỌYA",
       "macro_local": 25,
       "canonical": "ọya-àṣọ-mẹ́sàn",
-      "encoding": "oya-aso-mesan"
+      "encoding": "oya-aso-mesan",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 190,
       "macro": "ỌYA",
       "macro_local": 26,
       "canonical": "ọya-ìyá-ọjà",
-      "encoding": "oya-iya-oja"
+      "encoding": "oya-iya-oja",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 191,
       "macro": "ỌYA",
       "macro_local": 27,
       "canonical": "ọya-ọba-ọjà",
-      "encoding": "oya-oba-oja"
+      "encoding": "oya-oba-oja",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 192,
       "macro": "ỌYA",
       "macro_local": 28,
       "canonical": "ọya-odò",
-      "encoding": "oya-odo"
+      "encoding": "oya-odo",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 193,
       "macro": "ỌYA",
       "macro_local": 29,
       "canonical": "ọya-odò-ọya",
-      "encoding": "oya-odo-oya"
+      "encoding": "oya-odo-oya",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 194,
       "macro": "ỌYA",
       "macro_local": 30,
       "canonical": "ọya-ìyá-ọ̀run",
-      "encoding": "oya-iya-orun"
+      "encoding": "oya-iya-orun",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 195,
       "macro": "ỌYA",
       "macro_local": 31,
       "canonical": "ọya-ìyá-ayé",
-      "encoding": "oya-iya-aye"
+      "encoding": "oya-iya-aye",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 196,
       "macro": "ỌYA",
       "macro_local": 32,
       "canonical": "ọya-aládé",
-      "encoding": "oya-alade"
+      "encoding": "oya-alade",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 197,
       "macro": "ÒGÚN",
       "macro_local": 1,
       "canonical": "ògún",
-      "encoding": "ogun"
+      "encoding": "ogun",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 198,
       "macro": "ÒGÚN",
       "macro_local": 2,
       "canonical": "ògún-onírè",
-      "encoding": "ogun-onire"
+      "encoding": "ogun-onire",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 199,
       "macro": "ÒGÚN",
       "macro_local": 3,
       "canonical": "ògún-àlàárá",
-      "encoding": "ogun-alaara"
+      "encoding": "ogun-alaara",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 200,
       "macro": "ÒGÚN",
       "macro_local": 4,
       "canonical": "ògún-irin",
-      "encoding": "ogun-irin"
+      "encoding": "ogun-irin",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 201,
       "macro": "ÒGÚN",
       "macro_local": 5,
       "canonical": "ògún-irin-nlá",
-      "encoding": "ogun-irin-nla"
+      "encoding": "ogun-irin-nla",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 202,
       "macro": "ÒGÚN",
       "macro_local": 6,
       "canonical": "ògún-agbẹ̀dẹ",
-      "encoding": "ogun-agbede"
+      "encoding": "ogun-agbede",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 203,
       "macro": "ÒGÚN",
       "macro_local": 7,
       "canonical": "ògún-ilé-agbẹ̀dẹ",
-      "encoding": "ogun-ile-agbede"
+      "encoding": "ogun-ile-agbede",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 204,
       "macro": "ÒGÚN",
       "macro_local": 8,
       "canonical": "ògún-iná-agbẹ̀dẹ",
-      "encoding": "ogun-ina-agbede"
+      "encoding": "ogun-ina-agbede",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 205,
       "macro": "ÒGÚN",
       "macro_local": 9,
       "canonical": "ògún-ọdẹ",
-      "encoding": "ogun-ode"
+      "encoding": "ogun-ode",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 206,
       "macro": "ÒGÚN",
       "macro_local": 10,
       "canonical": "ògún-igbó",
-      "encoding": "ogun-igbo"
+      "encoding": "ogun-igbo",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 207,
       "macro": "ÒGÚN",
       "macro_local": 11,
       "canonical": "ògún-ìgbó-nlá",
-      "encoding": "ogun-igbo-nla"
+      "encoding": "ogun-igbo-nla",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 208,
       "macro": "ÒGÚN",
       "macro_local": 12,
       "canonical": "ògún-ọ̀nà",
-      "encoding": "ogun-ona"
+      "encoding": "ogun-ona",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 209,
       "macro": "ÒGÚN",
       "macro_local": 13,
       "canonical": "ògún-ọ̀nà-irin",
-      "encoding": "ogun-ona-irin"
+      "encoding": "ogun-ona-irin",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 210,
       "macro": "ÒGÚN",
       "macro_local": 14,
       "canonical": "ògún-àárọ̀",
-      "encoding": "ogun-aaro"
+      "encoding": "ogun-aaro",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 211,
       "macro": "ÒGÚN",
       "macro_local": 15,
       "canonical": "ògún-akíkanjú",
-      "encoding": "ogun-akikanju"
+      "encoding": "ogun-akikanju",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 212,
       "macro": "ÒGÚN",
       "macro_local": 16,
       "canonical": "ògún-ológun",
-      "encoding": "ogun-ologun"
+      "encoding": "ogun-ologun",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 213,
       "macro": "ÒGÚN",
       "macro_local": 17,
       "canonical": "ògún-ológun-nlá",
-      "encoding": "ogun-ologun-nla"
+      "encoding": "ogun-ologun-nla",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 214,
       "macro": "ÒGÚN",
       "macro_local": 18,
       "canonical": "ògún-ọba-irin",
-      "encoding": "ogun-oba-irin"
+      "encoding": "ogun-oba-irin",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 215,
       "macro": "ÒGÚN",
       "macro_local": 19,
       "canonical": "ògún-ọba-igbó",
-      "encoding": "ogun-oba-igbo"
+      "encoding": "ogun-oba-igbo",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 216,
       "macro": "ÒGÚN",
       "macro_local": 20,
       "canonical": "ògún-ọba-ogun",
-      "encoding": "ogun-oba-ogun"
+      "encoding": "ogun-oba-ogun",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 217,
       "macro": "ÒGÚN",
       "macro_local": 21,
       "canonical": "ògún-aládé-irin",
-      "encoding": "ogun-alade-irin"
+      "encoding": "ogun-alade-irin",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 218,
       "macro": "ÒGÚN",
       "macro_local": 22,
       "canonical": "ògún-olùṣọ́-irin",
-      "encoding": "ogun-oluso-irin"
+      "encoding": "ogun-oluso-irin",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 219,
       "macro": "ÒGÚN",
       "macro_local": 23,
       "canonical": "ògún-àṣọ-irin",
-      "encoding": "ogun-aso-irin"
+      "encoding": "ogun-aso-irin",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 220,
       "macro": "ÒGÚN",
       "macro_local": 24,
       "canonical": "ògún-ìdájọ́",
-      "encoding": "ogun-idajo"
+      "encoding": "ogun-idajo",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 221,
       "macro": "ÒGÚN",
       "macro_local": 25,
       "canonical": "ògún-ìdánilójú",
-      "encoding": "ogun-idaniloju"
+      "encoding": "ogun-idaniloju",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 222,
       "macro": "ÒGÚN",
       "macro_local": 26,
       "canonical": "ògún-iṣẹ́-ọwọ́",
-      "encoding": "ogun-ise-owo"
+      "encoding": "ogun-ise-owo",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 223,
       "macro": "ÒGÚN",
       "macro_local": 27,
       "canonical": "ògún-olùṣẹ̀gun",
-      "encoding": "ogun-olushegun"
+      "encoding": "ogun-olushegun",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 224,
       "macro": "ÒGÚN",
       "macro_local": 28,
       "canonical": "ògún-ẹni-ogun",
-      "encoding": "ogun-eni-ogun"
+      "encoding": "ogun-eni-ogun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 225,
       "macro": "ÒGÚN",
       "macro_local": 29,
       "canonical": "ògún-ìyọrísí",
-      "encoding": "ogun-iyorisi"
+      "encoding": "ogun-iyorisi",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 226,
       "macro": "ÒGÚN",
       "macro_local": 30,
       "canonical": "ògún-àgbára-irin",
-      "encoding": "ogun-agbara-irin"
+      "encoding": "ogun-agbara-irin",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 227,
       "macro": "ÒGÚN",
       "macro_local": 31,
       "canonical": "ògún-odò-irin",
-      "encoding": "ogun-odo-irin"
+      "encoding": "ogun-odo-irin",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 228,
       "macro": "ÒGÚN",
       "macro_local": 32,
       "canonical": "ògún-aládé",
-      "encoding": "ogun-alade"
+      "encoding": "ogun-alade",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 229,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 1,
       "canonical": "ọbàtálá",
-      "encoding": "obatala"
+      "encoding": "obatala",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 230,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 2,
       "canonical": "ọbàtálá-òṣàlá",
-      "encoding": "obatala-osala"
+      "encoding": "obatala-osala",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 231,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 3,
       "canonical": "ọbàtálá-ọṣàlúfọ̀n",
-      "encoding": "obatala-osalufo"
+      "encoding": "obatala-osalufo",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 232,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 4,
       "canonical": "ọbàtálá-ọṣàgriyan",
-      "encoding": "obatala-osagriyan"
+      "encoding": "obatala-osagriyan",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 233,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 5,
       "canonical": "ọbàtálá-funfun",
-      "encoding": "obatala-funfun"
+      "encoding": "obatala-funfun",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 234,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 6,
       "canonical": "ọbàtálá-àṣọ-funfun",
-      "encoding": "obatala-aso-funfun"
+      "encoding": "obatala-aso-funfun",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 235,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 7,
       "canonical": "ọbàtálá-ìmọ́tótó",
-      "encoding": "obatala-imototo"
+      "encoding": "obatala-imototo",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 236,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 8,
       "canonical": "ọbàtálá-àlàáfíà",
-      "encoding": "obatala-alafia"
+      "encoding": "obatala-alafia",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 237,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 9,
       "canonical": "ọbàtálá-ìsinmi",
-      "encoding": "obatala-isinmi"
+      "encoding": "obatala-isinmi",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 238,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 10,
       "canonical": "ọbàtálá-sùúrù",
-      "encoding": "obatala-suuru"
+      "encoding": "obatala-suuru",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 239,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 11,
       "canonical": "ọbàtálá-ogbón",
-      "encoding": "obatala-ogbon"
+      "encoding": "obatala-ogbon",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 240,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 12,
       "canonical": "ọbàtálá-ìmọ̀",
-      "encoding": "obatala-imo"
+      "encoding": "obatala-imo",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     },
     {
       "index": 241,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 13,
       "canonical": "ọbàtálá-orí",
-      "encoding": "obatala-ori"
+      "encoding": "obatala-ori",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "draw crossroads",
+        "ethical_tag": "threshold",
+        "sigil_seed": "cross+dot"
+      }
     },
     {
       "index": 242,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 14,
       "canonical": "ọbàtálá-olórí",
-      "encoding": "obatala-olori"
+      "encoding": "obatala-olori",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "clap thunder",
+        "ethical_tag": "righteous-force",
+        "sigil_seed": "lightning-jaw"
+      }
     },
     {
       "index": 243,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 15,
       "canonical": "ọbàtálá-ìpilẹ̀-orí",
-      "encoding": "obatala-ipile-ori"
+      "encoding": "obatala-ipile-ori",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "strike iron",
+        "ethical_tag": "craft",
+        "sigil_seed": "anvil-rune"
+      }
     },
     {
       "index": 244,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 16,
       "canonical": "ọbàtálá-bàbá",
-      "encoding": "obatala-baba"
+      "encoding": "obatala-baba",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "pour libation",
+        "ethical_tag": "flow",
+        "sigil_seed": "wave-sigil"
+      }
     },
     {
       "index": 245,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 17,
       "canonical": "ọbàtálá-bàbá-òrìṣà",
-      "encoding": "obatala-baba-orisa"
+      "encoding": "obatala-baba-orisa",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "offer to ocean",
+        "ethical_tag": "returning",
+        "sigil_seed": "tide-knot"
+      }
     },
     {
       "index": 246,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 18,
       "canonical": "ọbàtálá-òkè",
-      "encoding": "obatala-oke"
+      "encoding": "obatala-oke",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "burn incense",
+        "ethical_tag": "reveal/conceal",
+        "sigil_seed": "smoke-spiral"
+      }
     },
     {
       "index": 247,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 19,
       "canonical": "ọbàtálá-ìtàkété",
-      "encoding": "obatala-itakete"
+      "encoding": "obatala-itakete",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "white cloth prayer",
+        "ethical_tag": "mercy-law",
+        "sigil_seed": "halo-arc"
+      }
     },
     {
       "index": 248,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 20,
       "canonical": "ọbàtálá-ẹdá",
-      "encoding": "obatala-eda"
+      "encoding": "obatala-eda",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "polish mirror",
+        "ethical_tag": "truth",
+        "sigil_seed": "twin-glyph"
+      }
     },
     {
       "index": 249,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 21,
       "canonical": "ọbàtálá-aláṣà",
-      "encoding": "obatala-alasa"
+      "encoding": "obatala-alasa",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "mark footprints",
+        "ethical_tag": "journey",
+        "sigil_seed": "line-run"
+      }
     },
     {
       "index": 250,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 22,
       "canonical": "ọbàtálá-ìpilẹ̀ṣẹ̀",
-      "encoding": "obatala-ipilese"
+      "encoding": "obatala-ipilese",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "close the circle",
+        "ethical_tag": "binding",
+        "sigil_seed": "ring-lock"
+      }
     },
     {
       "index": 251,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 23,
       "canonical": "ọbàtálá-ọba-funfun",
-      "encoding": "obatala-oba-funfun"
+      "encoding": "obatala-oba-funfun",
+      "token_meta": {
+        "element": "Air",
+        "ritual_cue": "write glyph",
+        "ethical_tag": "syntax",
+        "sigil_seed": "hex-grid"
+      }
     },
     {
       "index": 252,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 24,
       "canonical": "ọbàtálá-ọba-òkè",
-      "encoding": "obatala-oba-oke"
+      "encoding": "obatala-oba-oke",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "trace sigil",
+        "ethical_tag": "intent",
+        "sigil_seed": "sigil-star"
+      }
     },
     {
       "index": 253,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 25,
       "canonical": "ọbàtálá-ọba-òrìṣà",
-      "encoding": "obatala-oba-orisa"
+      "encoding": "obatala-oba-orisa",
+      "token_meta": {
+        "element": "Earth",
+        "ritual_cue": "beat dundun",
+        "ethical_tag": "rhythm",
+        "sigil_seed": "pulse-mark"
+      }
     },
     {
       "index": 254,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 26,
       "canonical": "ọbàtálá-aládé-funfun",
-      "encoding": "obatala-alade-funfun"
+      "encoding": "obatala-alade-funfun",
+      "token_meta": {
+        "element": "Fire",
+        "ritual_cue": "speak justice",
+        "ethical_tag": "judgment",
+        "sigil_seed": "bolt-mark"
+      }
     },
     {
       "index": 255,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 27,
       "canonical": "ọbàtálá-ìfọkànsìn",
-      "encoding": "obatala-ifokansin"
+      "encoding": "obatala-ifokansin",
+      "token_meta": {
+        "element": "Water",
+        "ritual_cue": "wash hands",
+        "ethical_tag": "cleansing",
+        "sigil_seed": "delta-sign"
+      }
     },
     {
       "index": 256,
       "macro": "ỌBÀTÁLÁ",
       "macro_local": 28,
       "canonical": "ọbàtálá-aládé",
-      "encoding": "obatala-alade"
+      "encoding": "obatala-alade",
+      "token_meta": {
+        "element": "Ether",
+        "ritual_cue": "face sunrise",
+        "ethical_tag": "begin",
+        "sigil_seed": "east-ray"
+      }
     }
   ]
 }

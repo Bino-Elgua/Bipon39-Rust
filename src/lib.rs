@@ -29,7 +29,8 @@ pub use display::{
 };
 pub use error::BiponError;
 pub use ifascript::{
-    dominant_macro, entries_for, macro_distribution, odu_primary_index, Macro, MacroDistribution,
+    dominant_macro, elemental_signature, entries_for, macro_distribution, odu_primary_index,
+    personality_profile, ElementalVector, Macro, MacroDistribution, PersonalityProfile,
 };
 pub use mnemonic::{
     entropy_to_mnemonic, join_mnemonic, mnemonic_to_entropy, split_mnemonic, validate_mnemonic,
@@ -37,5 +38,5 @@ pub use mnemonic::{
 pub use seed::mnemonic_to_seed;
 pub use wordlist::{
     all_encoding_tokens, entries_for_macro, entry_by_canonical, entry_by_encoding, entry_by_index,
-    index_of_encoding, verify_wordlist_integrity, WordlistEntry,
+    index_of_encoding, lookup_meta, verify_wordlist_integrity, TokenMeta, WordlistEntry,
 };

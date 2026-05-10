@@ -22,6 +22,21 @@ pub struct WordlistEntry {
     pub canonical: &'static str,
     /// ASCII cryptographic token.
     pub encoding: &'static str,
+    /// Ritual and elemental metadata loaded from canonical.json.
+    pub meta: TokenMeta,
+}
+
+/// Ritual and elemental metadata for a single BIPỌ̀N39 token.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct TokenMeta {
+    /// Elemental association, e.g. "Fire", "Water", or "Ether".
+    pub element: String,
+    /// Suggested ritual cue, e.g. "face sunrise" or "beat dundun".
+    pub ritual_cue: String,
+    /// Ethical or semantic tag, e.g. "truth" or "judgment".
+    pub ethical_tag: String,
+    /// Deterministic sigil seed phrase, e.g. "east-ray".
+    pub sigil_seed: String,
 }
 
 #[derive(Deserialize)]
@@ -37,6 +52,15 @@ struct JsonEntry {
     macro_local: usize,
     canonical: String,
     encoding: String,
+    token_meta: JsonTokenMeta,
+}
+
+#[derive(Deserialize)]
+struct JsonTokenMeta {
+    element: String,
+    ritual_cue: String,
+    ethical_tag: String,
+    sigil_seed: String,
 }
 
 static WORDLIST: Lazy<Vec<WordlistEntry>> = Lazy::new(|| {
@@ -53,6 +77,12 @@ static WORDLIST: Lazy<Vec<WordlistEntry>> = Lazy::new(|| {
             macro_local_index: entry.macro_local,
             canonical: Box::leak(entry.canonical.into_boxed_str()),
             encoding: Box::leak(entry.encoding.into_boxed_str()),
+            meta: TokenMeta {
+                element: entry.token_meta.element,
+                ritual_cue: entry.token_meta.ritual_cue,
+                ethical_tag: entry.token_meta.ethical_tag,
+                sigil_seed: entry.token_meta.sigil_seed,
+            },
         })
         .collect()
 });
@@ -191,6 +221,11 @@ pub fn index_of_encoding(token: &str) -> Result<usize, BiponError> {
         .ok_or_else(|| BiponError::TokenNotFound {
             token: token.to_string(),
         })
+}
+
+/// Look up token metadata by 0-based array index.
+pub fn lookup_meta(index: usize) -> Option<TokenMeta> {
+    WORDLIST.get(index).map(|entry| entry.meta.clone())
 }
 
 /// Return the full ordered slice of encoding tokens.

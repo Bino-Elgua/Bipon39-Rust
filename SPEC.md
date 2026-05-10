@@ -2,7 +2,7 @@
 
 ## Scope
 
-BIPỌ̀N39-Rust is a Base-256 mnemonic system. Each encoding-layer token maps to exactly one byte value (`array_index` 0–255). The crate does not implement 2048-word BIP39 mode, subtone expansion, CLI commands, or any elemental signature logic from the TypeScript reference project.
+BIPỌ̀N39-Rust is a Base-256 mnemonic system. Each encoding-layer token maps to exactly one byte value (`array_index` 0–255). The crate does not implement 2048-word BIP39 mode, subtone expansion, or CLI commands. It does expose the TypeScript reference project's elemental/ritual metadata through the canonical JSON wordlist.
 
 ## Wordlist authority
 
@@ -14,6 +14,7 @@ Runtime wordlist data is embedded from `data/canonical.json` with `include_str!(
 - `macro_local_index`: 1-based index within its macro.
 - `canonical`: Yorùbá display token.
 - `encoding`: ASCII cryptographic token.
+- `token_meta`: elemental and ritual metadata (`element`, `ritual_cue`, `ethical_tag`, `sigil_seed`).
 
 Only `encoding` tokens are used in hashing, mnemonic phrases, PBKDF2 password input, and Merkle leaves. Canonical tokens are display-only.
 
@@ -100,7 +101,9 @@ The seven macro groups are fixed:
 | ÒGÚN | 197–228 | 32 |
 | ỌBÀTÁLÁ | 229–256 | 28 |
 
-`odu_primary_index(words)` XOR-reduces all word `array_index` values into a single byte. `macro_distribution(words)` counts words per macro. `dominant_macro(words)` returns the highest-count macro, breaking ties by the lowest flat-index range start.
+`lookup_meta(index)` returns `token_meta` for a 0-based `array_index`. `elemental_signature(mnemonic)` counts Fire, Water, Earth, Air, and Ether associations across a whitespace-separated mnemonic, ignoring unknown tokens for parity with the TypeScript helper. `personality_profile(mnemonic)` validates tokens and returns macro distribution, elemental signature, and dominant Orisha/Macro.
+
+`odu_primary_index(words)` XOR-reduces all word `array_index` values into a single byte. `macro_distribution(words)` counts words per macro. `dominant_macro(words)` returns the highest-count macro, breaking ties by the more concentrated macro (smaller macro size) and then the lowest flat-index range start.
 
 ## Security model
 

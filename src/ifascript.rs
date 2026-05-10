@@ -89,11 +89,51 @@ impl Macro {
 }
 
 /// Distribution of mnemonic words across Macros.
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct MacroDistribution {
     /// Counts in Macro order.
     pub counts: [(Macro, usize); 7],
     /// Sum of all counts.
     pub total: usize,
+}
+
+/// Balance of the five elemental metadata families across a mnemonic.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+pub struct ElementalVector {
+    /// Fire-associated tokens.
+    pub fire: usize,
+    /// Water-associated tokens.
+    pub water: usize,
+    /// Earth-associated tokens.
+    pub earth: usize,
+    /// Air-associated tokens.
+    pub air: usize,
+    /// Ether-associated tokens.
+    pub ether: usize,
+}
+
+impl ElementalVector {
+    fn add_element(&mut self, element: &str) {
+        match element {
+            "Fire" => self.fire += 1,
+            "Water" => self.water += 1,
+            "Earth" => self.earth += 1,
+            "Air" => self.air += 1,
+            "Ether" => self.ether += 1,
+            _ => {}
+        }
+    }
+}
+
+/// Combined Ifáscript profile for a mnemonic phrase.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct PersonalityProfile {
+    /// Count of words across the seven Macro/Orisha groupings.
+    pub macro_distribution: MacroDistribution,
+    /// Count of words across Fire, Water, Earth, Air, and Ether metadata.
+    pub elemental_signature: ElementalVector,
+    /// Dominant Macro/Orisha after deterministic tie-breaking.
+    pub dominant_orisha: Macro,
 }
 
 /// XOR-reduce all word array_indices.
@@ -128,15 +168,66 @@ pub fn macro_distribution(words: &[&str]) -> Result<MacroDistribution, BiponErro
 /// Return the Macro with the highest word count.
 pub fn dominant_macro(words: &[&str]) -> Result<Macro, BiponError> {
     let distribution = macro_distribution(words)?;
-    Ok(distribution
-        .counts
-        .into_iter()
-        .max_by_key(|(macro_, count)| (*count, usize::MAX - macro_.index_range().0))
-        .map(|(macro_, _)| macro_)
-        .unwrap_or(Macro::Esu))
+    Ok(dominant_macro_from_distribution(&distribution))
 }
 
 /// Entries for a Macro.
 pub fn entries_for(macro_: Macro) -> Vec<&'static crate::wordlist::WordlistEntry> {
     entries_for_macro(macro_.name())
+}
+
+/// Compute an elemental signature from a whitespace-separated mnemonic.
+///
+/// Unknown tokens are ignored to match the permissive TypeScript reference
+/// helper. Use [`personality_profile`] when invalid tokens should return an
+/// error instead.
+pub fn elemental_signature(mnemonic: &str) -> ElementalVector {
+    let mut signature = ElementalVector::default();
+    for word in mnemonic.split_whitespace() {
+        if let Ok(entry) = entry_by_encoding(word) {
+            signature.add_element(&entry.meta.element);
+        }
+    }
+    signature
+}
+
+/// Build a complete Ifáscript personality profile for a mnemonic phrase.
+pub fn personality_profile(mnemonic: &str) -> Result<PersonalityProfile, BiponError> {
+    let words = mnemonic.split_whitespace().collect::<Vec<_>>();
+    let macro_distribution = macro_distribution(&words)?;
+    let elemental_signature = elemental_signature_for_words(&words)?;
+    let dominant_orisha = dominant_macro_from_distribution(&macro_distribution);
+
+    Ok(PersonalityProfile {
+        macro_distribution,
+        elemental_signature,
+        dominant_orisha,
+    })
+}
+
+fn elemental_signature_for_words(words: &[&str]) -> Result<ElementalVector, BiponError> {
+    let mut signature = ElementalVector::default();
+    for word in words {
+        let entry = entry_by_encoding(word)?;
+        signature.add_element(&entry.meta.element);
+    }
+    Ok(signature)
+}
+
+fn dominant_macro_from_distribution(distribution: &MacroDistribution) -> Macro {
+    if distribution.total == 0 {
+        return Macro::Esu;
+    }
+
+    distribution
+        .counts
+        .into_iter()
+        .max_by(|(left_macro, left_count), (right_macro, right_count)| {
+            left_count
+                .cmp(right_count)
+                .then_with(|| right_macro.count().cmp(&left_macro.count()))
+                .then_with(|| right_macro.index_range().0.cmp(&left_macro.index_range().0))
+        })
+        .map(|(macro_, _)| macro_)
+        .unwrap_or(Macro::Esu)
 }
