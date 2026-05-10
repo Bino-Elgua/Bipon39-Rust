@@ -33,7 +33,7 @@ pub fn entropy_to_mnemonic(entropy: &[u8]) -> Result<Vec<String>, BiponError> {
 
 /// Convert mnemonic words back to entropy bytes.
 pub fn mnemonic_to_entropy(words: &[&str]) -> Result<Zeroizing<Vec<u8>>, BiponError> {
-    let (entropy_bits, _, checksum_bits, _) = params_for_word_count(words.len())?;
+    let (entropy_bits, _, checksum_bits, pad_bits) = params_for_word_count(words.len())?;
     let mut bits = Vec::with_capacity(words.len() * 8);
 
     for (position, word) in words.iter().enumerate() {
@@ -65,6 +65,14 @@ pub fn mnemonic_to_entropy(words: &[&str]) -> Result<Zeroizing<Vec<u8>>, BiponEr
     let expected = hash[0] & (0xFFu8 << (8 - checksum_bits));
     if !ct_eq(&[stream_checksum], &[expected]) {
         return Err(BiponError::ChecksumMismatch);
+    }
+
+    if pad_bits > 0
+        && bits[checksum_end..checksum_end + pad_bits]
+            .iter()
+            .any(|bit| *bit)
+    {
+        return Err(BiponError::NonZeroPadding);
     }
 
     Ok(Zeroizing::new(entropy))

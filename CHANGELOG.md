@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.1 — 2026-05-10
+
+- Regenerated pinned mnemonic/seed/master-key test vectors from the current canonical implementation.
+- Added `examples/regenerate_vectors.rs` so vectors can be reproduced with a single Cargo command.
+- Added explicit zero-padding validation when decoding 256-mode mnemonics.
+- Stored PBKDF2 salt constants in NFKD form and documented the runtime normalization contract.
+- Added regression coverage for non-zero padding rejection.
+
 ## v0.1.0 — 2026-05-09
 
 - Initial production-ready BIPỌ̀N39 Rust library.

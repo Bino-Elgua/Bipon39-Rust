@@ -1,6 +1,6 @@
 [package]
 name        = "bipon39"
-version     = "0.1.0"
+version     = "0.1.1"
 edition     = "2021"
 description = "BIPỌ̀N39 — Sovereign Base-256 mnemonic library for the Ọmọ Kọ́dà ecosystem"
 license     = "MIT"

@@ -1,5 +1,8 @@
 use bipon39::{entropy_to_mnemonic, mnemonic_to_seed};
 use serde::Deserialize;
+use unicode_normalization::UnicodeNormalization;
+
+use bipon39::{PBKDF2_PASSPHRASE_PREFIX, PBKDF2_SALT_BASE};
 
 #[derive(Debug, Deserialize)]
 struct TestVectors {
@@ -68,6 +71,18 @@ fn nfkd_normalization_applied() {
     let precomposed = mnemonic_to_seed(&words, "á").unwrap();
     let decomposed = mnemonic_to_seed(&words, "a\u{0301}").unwrap();
     assert_eq!(&precomposed[..], &decomposed[..]);
+}
+
+#[test]
+fn salt_constants_are_stored_in_nfkd_form() {
+    assert_eq!(
+        PBKDF2_SALT_BASE,
+        PBKDF2_SALT_BASE.nfkd().collect::<String>()
+    );
+    assert_eq!(
+        PBKDF2_PASSPHRASE_PREFIX,
+        PBKDF2_PASSPHRASE_PREFIX.nfkd().collect::<String>()
+    );
 }
 
 #[test]

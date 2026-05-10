@@ -56,7 +56,8 @@ Checksum bits are the most-significant `entropy_bits / 32` bits of `SHA-256(entr
 4. Extract entropy bytes and checksum bits.
 5. Recompute the expected checksum from the entropy.
 6. Compare only the relevant checksum bits using constant-time equality.
-7. Return entropy in `Zeroizing<Vec<u8>>`.
+7. Verify every pad bit after the checksum is zero.
+8. Return entropy in `Zeroizing<Vec<u8>>`.
 
 ## Dual 2048-mode conversion
 
@@ -80,6 +81,8 @@ Seed derivation uses PBKDF2-HMAC-SHA512 with:
 - PBKDF2 password input: NFKD-normalized mnemonic phrase joined by single spaces
 - salt without passphrase: NFKD(`"BIPỌ̀N39 seed"`)
 - salt with passphrase: NFKD(`"BIPỌ̀N39 seed Ọ̀RÍ:<passphrase>"`), where passphrase is NFKD-normalized before insertion
+
+The Rust salt constants are stored in NFKD form and normalized again at runtime before PBKDF2. This preserves the displayed salt contract while avoiding platform/editor dependence on precomposed Unicode literals.
 
 The returned seed is `Zeroizing<Vec<u8>>`.
 

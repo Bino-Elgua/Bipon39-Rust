@@ -33,6 +33,10 @@ pub enum BiponError {
     #[error("Checksum mismatch")]
     ChecksumMismatch,
 
+    /// Padding bits after the checksum were not all zero.
+    #[error("Non-zero mnemonic padding bits")]
+    NonZeroPadding,
+
     /// Entropy length was not one of 128, 160, 192, 224, or 256 bits.
     #[error("Invalid entropy length: {bits} bits (valid: 128, 160, 192, 224, 256)")]
     InvalidEntropyLength { bits: usize },

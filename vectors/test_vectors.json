@@ -1,14 +1,15 @@
 {
-  "schema_version": "1.0",
   "description": "BIPỌ̀N39 pinned test vectors — generated from canonical implementation",
-  "generated_at": "2026-05-05",
+  "generated_at": "2026-05-10",
+  "generator": "cargo run --example regenerate_vectors > vectors/test_vectors.json",
+  "generator_commit": "008322e47015c5d804aa4eb0f51abbdbcfd37767",
+  "schema_version": "1.1",
   "vectors": [
     {
-      "id": "v001",
       "description": "all-zero 128-bit entropy, no passphrase",
-      "entropy_hex": "00000000000000000000000000000000",
       "entropy_bits": 128,
-      "passphrase": "",
+      "entropy_hex": "00000000000000000000000000000000",
+      "id": "v001",
       "mnemonic": [
         "esu-elegbara",
         "esu-elegbara",
@@ -29,15 +30,15 @@
         "esu-enu-ona"
       ],
       "mnemonic_phrase": "esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-enu-ona",
-      "word_count": 17,
-      "seed_hex": "f7c5147fb566dbc6b7c24817cfb9279e26e3eda33f4951e54d2cfb4da63353d4f6c2a2516072716855f8be4a5ad5a29770993eea42c83766ec79f66c4ed5181a"
+      "passphrase": "",
+      "seed_hex": "f7c5147fb566dbc6b7c24817cfb9279e26e3eda33f4951e54d2cfb4da63353d4f6c2a2516072716855f8be4a5ad5a29770993eea42c83766ec79f66c4ed5181a",
+      "word_count": 17
     },
     {
-      "id": "v002",
       "description": "all-zero 160-bit entropy, no passphrase",
-      "entropy_hex": "0000000000000000000000000000000000000000",
       "entropy_bits": 160,
-      "passphrase": "",
+      "entropy_hex": "0000000000000000000000000000000000000000",
+      "id": "v002",
       "mnemonic": [
         "esu-elegbara",
         "esu-elegbara",
@@ -62,15 +63,15 @@
         "ogun-alade-irin"
       ],
       "mnemonic_phrase": "esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara ogun-alade-irin",
-      "word_count": 21,
-      "seed_hex": "02b4793b69a8ee53c290d27023347b046717caf86efe81b2678ccb59c7cf845e2492b9c00fc97ab16b598985fb7f6d9912896079c54a0dfcc798250e24072a87"
+      "passphrase": "",
+      "seed_hex": "02b4793b69a8ee53c290d27023347b046717caf86efe81b2678ccb59c7cf845e2492b9c00fc97ab16b598985fb7f6d9912896079c54a0dfcc798250e24072a87",
+      "word_count": 21
     },
     {
-      "id": "v003",
       "description": "all-zero 192-bit entropy, no passphrase",
-      "entropy_hex": "000000000000000000000000000000000000000000000000",
       "entropy_bits": 192,
-      "passphrase": "",
+      "entropy_hex": "000000000000000000000000000000000000000000000000",
+      "id": "v003",
       "mnemonic": [
         "esu-elegbara",
         "esu-elegbara",
@@ -99,15 +100,15 @@
         "yemoja-jinle"
       ],
       "mnemonic_phrase": "esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara yemoja-jinle",
-      "word_count": 25,
-      "seed_hex": "fb5bacbcc3e89e8620029e69fe1c4cca33999ff88fc00477ffe0ff3805ef19aba2797e57803a7d8fb4e0bfe2098d6c680c67dc948feadb04d98115d7b680409b"
+      "passphrase": "",
+      "seed_hex": "fb5bacbcc3e89e8620029e69fe1c4cca33999ff88fc00477ffe0ff3805ef19aba2797e57803a7d8fb4e0bfe2098d6c680c67dc948feadb04d98115d7b680409b",
+      "word_count": 25
     },
     {
-      "id": "v004",
       "description": "all-zero 224-bit entropy, no passphrase",
-      "entropy_hex": "00000000000000000000000000000000000000000000000000000000",
       "entropy_bits": 224,
-      "passphrase": "",
+      "entropy_hex": "00000000000000000000000000000000000000000000000000000000",
+      "id": "v004",
       "mnemonic": [
         "esu-elegbara",
         "esu-elegbara",
@@ -140,64 +141,19 @@
         "esu-irin-ajo"
       ],
       "mnemonic_phrase": "esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-irin-ajo",
-      "word_count": 29,
-      "seed_hex": "1c31830924f5f5e95521f740e42a2744fc8e97d6217290b523826b958c9fa1bbfd0319ea179d9f9066ec4d108b44e0d944f89bca543a4902441a226938bab3c2"
+      "passphrase": "",
+      "seed_hex": "1c31830924f5f5e95521f740e42a2744fc8e97d6217290b523826b958c9fa1bbfd0319ea179d9f9066ec4d108b44e0d944f89bca543a4902441a226938bab3c2",
+      "word_count": 29
     },
     {
-      "id": "v005",
       "description": "all-zero 256-bit entropy, no passphrase",
-      "entropy_hex": "0000000000000000000000000000000000000000000000000000000000000000",
       "entropy_bits": 256,
-      "passphrase": "",
-      "mnemonic": [
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "esu-elegbara",
-        "sango-monamona"
-      ],
-      "mnemonic_phrase": "esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara sango-monamona",
-      "word_count": 33,
-      "seed_hex": "68b11e76147d7d3436015103d3a4f6fd5aa87834d4139e57e91d6467391ada62a489201ed50cae2260e39d0ba813600a6dbfa75cac9f31653f15ae739c202f1e",
-      "master_key_native_hex": "40bb680889ff48502cbaa48b51c9ccf52093c64b8dcaaeff0ddf41f73a2e21a3",
+      "entropy_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "id": "v005",
+      "master_chain_bip32_hex": "b24d5dc8d8eff1d9e8c4a4ed532b9aab2bf59ccf0f07a5cc87031cac21042001",
       "master_chain_native_hex": "26c95b72e8383c9f29ac8c1d85e352b4c7fedcc649e0dd80bde03b69e75fb3ec",
       "master_key_bip32_hex": "87bfc605e8dc617be38e9499d50bd1c870ddb46dbe7f0e194357fb08333dbe0b",
-      "master_chain_bip32_hex": "b24d5dc8d8eff1d9e8c4a4ed532b9aab2bf59ccf0f07a5cc87031cac21042001"
-    },
-    {
-      "id": "v006",
-      "description": "all-zero 256-bit entropy, passphrase: àṣẹ (precomposed unicode)",
-      "entropy_hex": "0000000000000000000000000000000000000000000000000000000000000000",
-      "entropy_bits": 256,
-      "passphrase": "àṣẹ",
+      "master_key_native_hex": "40bb680889ff48502cbaa48b51c9ccf52093c64b8dcaaeff0ddf41f73a2e21a3",
       "mnemonic": [
         "esu-elegbara",
         "esu-elegbara",
@@ -234,8 +190,54 @@
         "sango-monamona"
       ],
       "mnemonic_phrase": "esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara sango-monamona",
-      "word_count": 33,
-      "seed_hex": "7f03113995d7bf2de644a09b72d76d6d0de0a0bac1ee1de7b51a53c40459ab48d928b6acde75a7553e6dbe310df9bcbce195f2ca53231c6bab710960c25a2bd3"
+      "passphrase": "",
+      "seed_hex": "68b11e76147d7d3436015103d3a4f6fd5aa87834d4139e57e91d6467391ada62a489201ed50cae2260e39d0ba813600a6dbfa75cac9f31653f15ae739c202f1e",
+      "word_count": 33
+    },
+    {
+      "description": "all-zero 256-bit entropy, passphrase: àṣẹ (precomposed unicode)",
+      "entropy_bits": 256,
+      "entropy_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "id": "v006",
+      "mnemonic": [
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "esu-elegbara",
+        "sango-monamona"
+      ],
+      "mnemonic_phrase": "esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara esu-elegbara sango-monamona",
+      "passphrase": "àṣẹ",
+      "seed_hex": "7f03113995d7bf2de644a09b72d76d6d0de0a0bac1ee1de7b51a53c40459ab48d928b6acde75a7553e6dbe310df9bcbce195f2ca53231c6bab710960c25a2bd3",
+      "word_count": 33
     }
   ]
 }

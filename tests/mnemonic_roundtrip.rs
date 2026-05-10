@@ -109,6 +109,20 @@ fn corrupted_checksum_err() {
 }
 
 #[test]
+fn nonzero_pad_bits_err() {
+    let mut mnemonic = entropy_to_mnemonic(&[0u8; 20]).unwrap();
+    let last = mnemonic.last_mut().unwrap();
+    let index = index_of_encoding(last).unwrap();
+    *last = entry_by_index(index + 2).unwrap().encoding.to_string();
+
+    let words = mnemonic.iter().map(String::as_str).collect::<Vec<_>>();
+    assert_eq!(
+        mnemonic_to_entropy(&words).unwrap_err(),
+        BiponError::NonZeroPadding
+    );
+}
+
+#[test]
 fn validate_mnemonic_passes_for_valid() {
     let mnemonic = entropy_to_mnemonic(&deterministic_entropy(32)).unwrap();
     let words = mnemonic.iter().map(String::as_str).collect::<Vec<_>>();

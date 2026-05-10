@@ -20,10 +20,15 @@ pub const PBKDF2_ITERATIONS: u32 = 2048;
 pub const PBKDF2_OUTPUT_BYTES: usize = 64;
 
 /// Base salt string for seed derivation (no passphrase case).
-pub const PBKDF2_SALT_BASE: &str = "BIPỌ̀N39 seed";
+///
+/// Stored in NFKD form (`Ọ̀` = `O` + dot-below + grave) and normalized again
+/// at runtime before PBKDF2 to keep cross-platform behavior deterministic.
+pub const PBKDF2_SALT_BASE: &str = "BIPO\u{0323}\u{0300}N39 seed";
 
 /// Separator inserted between the base salt and the passphrase.
-pub const PBKDF2_PASSPHRASE_PREFIX: &str = " Ọ̀RÍ:";
+///
+/// Stored in NFKD form (`Ọ̀RÍ` = `O` + dot-below + grave, `I` + acute).
+pub const PBKDF2_PASSPHRASE_PREFIX: &str = " O\u{0323}\u{0300}RI\u{0301}:";
 
 /// HMAC-SHA512 key string for native BIPỌ̀N39 master key derivation.
 pub const MASTER_KEY_NATIVE: &str = "BIPỌ̀N39 master";

@@ -195,6 +195,11 @@ fd49f820efba401dc2f53a17411517476e20ba2494c5207cbaf1960369e43d14
 | v006 | 256-bit all-zero | `àṣẹ` | 33 | yes | no |
 
 The full machine-readable vectors live in [`vectors/test_vectors.json`](vectors/test_vectors.json).
+Regenerate them from the current library implementation with:
+
+```bash
+cargo run --example regenerate_vectors > vectors/test_vectors.json
+```
 
 ## Examples
 
@@ -204,6 +209,7 @@ Runnable examples live in [`examples/`](examples/):
 - `ifascript_demo.rs`
 - `full_roundtrip.rs`
 - `metadata_demo.rs`
+- `regenerate_vectors.rs`
 
 Run one with:
 
